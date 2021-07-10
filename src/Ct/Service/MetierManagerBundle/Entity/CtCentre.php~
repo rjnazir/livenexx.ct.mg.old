@@ -1,0 +1,64 @@
+<?php
+
+namespace Ct\Service\MetierManagerBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * CtCentre
+ *
+ * @ORM\Table(name="ct_centre", indexes={@ORM\Index(name="fk_ct_centre_ct_province1_idx", columns={"ct_province_id"})})
+ * @ORM\Entity
+ */
+class CtCentre
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ctr_nom", type="string", length=255, nullable=true)
+     */
+    private $ctrNom;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ctr_code", type="string", length=255, nullable=true)
+     */
+    private $ctrCode;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="ctr_created_at", type="datetime", nullable=true)
+     */
+    private $ctrCreatedAt;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="ctr_updated_at", type="datetime", nullable=true)
+     */
+    private $ctrUpdatedAt;
+
+    /**
+     * @var \CtProvince
+     *
+     * @ORM\ManyToOne(targetEntity="CtProvince")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="ct_province_id", referencedColumnName="id")
+     * })
+     */
+    private $ctProvince;
+
+
+}
+

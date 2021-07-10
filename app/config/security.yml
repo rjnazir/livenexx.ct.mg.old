@@ -1,0 +1,83 @@
+# To get started with security, check out the documentation:
+# https://symfony.com/doc/current/security.html
+security:
+    encoders:
+        FOS\UserBundle\Model\UserInterface: bcrypt
+
+    role_hierarchy:
+        ROLE_RECEPTION: ROLE_USER
+        ROLE_VISITE: ROLE_USER
+        ROLE_STAFF: ROLE_USER
+        ROLE_ADMIN: ROLE_USER
+        ROLE_SUPERADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
+    providers:
+        fos_userbundle:
+            id: fos_user.user_provider.username_email
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            pattern: ^/
+            provider: fos_userbundle
+            anonymous: true
+            form_login:
+                provider: fos_userbundle
+                csrf_token_generator: security.csrf.token_manager
+                login_path: /
+                check_path: /login_check
+                always_use_default_target_path: false
+                default_target_path: /admin/
+            logout:
+                path: /logout
+                target: /
+            anonymous: true
+            remember_me:
+                secret:   '%secret%'
+                lifetime: 604800 # 1 week in seconds
+                path: /
+
+    access_control:
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+
+        - { path: ^/admin/carosserie*, role: ROLE_SUPERADMIN }
+        - { path: ^/admin/genre*, role: ROLE_SUPERADMIN }
+        - { path: ^/admin/role*, role: ROLE_SUPERADMIN }
+        - { path: ^/admin/anomalie*, role: ROLE_SUPERADMIN }
+        - { path: ^/admin/motif*, role: ROLE_SUPERADMIN }
+        - { path: ^/admin/marque*, role: ROLE_SUPERADMIN }
+        - { path: ^/admin/centre*, role: ROLE_SUPERADMIN }
+        - { path: ^/admin/province*, role: ROLE_SUPERADMIN }
+        - { path: ^/admin/energie*, role: ROLE_SUPERADMIN }
+        - { path: ^/admin/usage*, role: ROLE_SUPERADMIN }
+        - { path: ^/admin/type-anomalie*, role: ROLE_SUPERADMIN }
+        - { path: ^/admin/utilisation*, role: ROLE_SUPERADMIN }
+        - { path: ^/admin/type-usage*, role: ROLE_SUPERADMIN }
+        - { path: ^/admin/proces-verbal*, role: ROLE_SUPERADMIN }
+        - { path: ^/admin/droit-ptac*, role: ROLE_SUPERADMIN }
+        - { path: ^/historique*, role: [ROLE_SUPERADMIN, ROLE_STAFF, ROLE_VISITE] }
+        - { path: ^/admin/type-reception*, role: ROLE_SUPERADMIN }
+        - { path: ^/admin/type-constatation-avant-dedouanement*, role: ROLE_SUPERADMIN }
+        - { path: ^/admin/visite-extra*, role: ROLE_SUPERADMIN }
+        - { path: ^/admin/type-visite*, role: ROLE_SUPERADMIN }
+
+        - { path: ^/admin/user/*/edit$, role: ROLE_USER }
+        - { path: ^/admin/user/new$, role: [ROLE_SUPERADMIN, ROLE_ADMIN] }
+        - { path: ^/admin/constatation-avant-dedouanement*, role: [ROLE_ADMIN, ROLE_RECEPTION] }
+        - { path: ^/admin/constatation-avant-dedouanement-carac*, role: [ROLE_ADMIN, ROLE_RECEPTION] }
+
+        - { path: ^/admin/reception*, role: [ROLE_ADMIN, ROLE_RECEPTION] }
+
+        - { path: ^/admin/visite*, role: [ROLE_ADMIN, ROLE_VISITE] }
+        - { path: ^/admin/contre-visite*, role: [ROLE_ADMIN, ROLE_VISITE] }
+        - { path: ^/admin/carte-grise*, role: [ROLE_ADMIN, ROLE_VISITE, ROLE_STAFF] }
+        - { path: ^/admin/statistique-visite*, role: [ROLE_ADMIN, ROLE_VISITE, ROLE_STAFF] }
+        - { path: ^/admin/statistique-reception*, role: [ROLE_ADMIN, ROLE_RECEPTION, ROLE_STAFF] }
+        - { path: ^/admin/vehicule*, role: [ROLE_ADMIN, ROLE_VISITE, ROLE_STAFF] }
+
+        - { path: ^/admin, role: ROLE_USER }

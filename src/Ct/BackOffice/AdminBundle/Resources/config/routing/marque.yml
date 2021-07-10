@@ -1,0 +1,29 @@
+marque_index:
+    path:     /
+    defaults: { _controller: "AdminBundle:CtMarque:index" }
+    methods:  GET
+
+marque_new:
+    path:     /new
+    defaults: { _controller: "AdminBundle:CtMarque:new" }
+    methods:  [GET, POST]
+
+marque_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AdminBundle:CtMarque:edit" }
+    methods:  [GET, POST]
+
+marque_update:
+    path:     /{id}/update
+    defaults: { _controller: "AdminBundle:CtMarque:update" }
+    methods:  [POST, PUT]
+
+marque_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AdminBundle:CtMarque:delete" }
+    methods:  [GET, DELETE]
+
+marque_delete_group:
+    path:     /delete-group
+    defaults: { _controller: "AdminBundle:CtMarque:deleteGroup" }
+    methods:  POST

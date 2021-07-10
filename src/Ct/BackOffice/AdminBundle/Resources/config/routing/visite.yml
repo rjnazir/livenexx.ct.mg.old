@@ -1,0 +1,74 @@
+visite_index:
+    path:     /
+    defaults: { _controller: "AdminBundle:CtVisite:index" }
+    methods:  GET
+
+visite_new:
+    path:     /new
+    defaults: { _controller: "AdminBundle:CtVisite:new" }
+    methods:  [GET, POST]
+
+visite_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AdminBundle:CtVisite:edit" }
+    methods:  [GET, POST]
+
+visite_update:
+    path:     /{id}/update
+    defaults: { _controller: "AdminBundle:CtVisite:update" }
+    methods:  [POST, PUT]
+
+visite_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AdminBundle:CtVisite:delete" }
+    methods:  [GET, DELETE]
+
+visite_delete_group:
+    path:     /delete-group
+    defaults: { _controller: "AdminBundle:CtVisite:deleteGroup" }
+    methods:  POST
+
+visite_generate_reporting_ajax:
+    path:     /generate-reporting-ajax
+    defaults: { _controller: "AdminBundle:CtVisite:generateReportingAjax" }
+    methods:  POST
+
+visite_generate_pv_visite_ajax:
+    path:     /generate-pv-visite-ajax
+    defaults: { _controller: "AdminBundle:CtVisite:generatePvVisiteAjax" }
+    methods:  POST
+
+visite_generate_liste_anomalies_ajax:
+    path:     /generate-liste-anomalies-ajax
+    defaults: { _controller: "AdminBundle:CtVisite:generateReportingFicheAnomalieAjax" }
+    methods:  POST
+
+visite_generate_reporting_feuille_caisse_ajax:
+    path:     /generate-reporting-feuille-caisse-ajax
+    defaults: { _controller: "AdminBundle:CtVisite:generateReportingFeuilleCaisseAjax" }
+    methods:  [GET, POST]
+
+visite_generate_reporting_fiche_controle_ajax:
+    path:     /generate-reporting-fiche-controle-ajax
+    defaults: { _controller: "AdminBundle:CtVisite:generateReportingFicheControleAjax" }
+    methods:  [GET, POST]
+
+visite_select_verificateur_by_centre_ajax:
+    path:     /select-verif-by-centre-ajax
+    defaults: { _controller: "AdminBundle:CtVisite:selectVerifByCentreAjax" }
+    methods:  [GET, POST]
+
+visite_select_usage_by_type_visite_ajax:
+    path:     /select-usage-by-type-visite-ajax
+    defaults: { _controller: "AdminBundle:CtVisite:selectUsageByTypeVisiteAjax" }
+    methods:  [GET, POST]
+
+visite_select_expiration_by_usage_ajax:
+    path:     /select-expiration-by-usage-ajax
+    defaults: { _controller: "AdminBundle:CtVisite:selectExpirationByUsageAjax" }
+    methods:  [GET, POST]
+
+visite_search:
+    path:     /search
+    defaults: { _controller: "AdminBundle:CtVisite:search" }
+    methods:  [GET, POST]

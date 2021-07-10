@@ -1,0 +1,118 @@
+{% form_theme form ':form:fields.html.twig' %}
+
+{{ form_start(form) }}
+    <div class="row">
+        {# Formulaire propriétaire #}
+        <div class="col-md-6">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">Informations carte grise</h3>
+                </div>
+
+                <div class="box-body">
+                    <div class="{% if app.user.ctRole.id != constant('Ct\\Service\\MetierManagerBundle\\Utils\\RoleName::ID_ROLE_SUPERADMIN') %}hidden{% endif %}">
+                        {{ form_row(form.ctCentre) }}
+                    </div>
+                    {{ form_row(form.cgDateEmission) }}
+                    <hr>
+                    {{ form_row(form.cgImmatriculation) }}
+                    {{ form_row(form.cgNumIdentification) }}
+                    <hr>
+                    {{ form_row(form.cgNom) }}
+                    {#{{ form_row(form.cgPrenom) }}#}
+                    {{ form_row(form.cgProfession) }}
+                    {{ form_row(form.cgAdresse) }}
+                    {{ form_row(form.cgPhone) }}
+                    {{ form_row(form.cgCommune) }}
+                    <hr>
+                    {{ form_row(form.cgIsTransport) }}
+                    <div id="form-transport" class="{% if carte_grise.cgIsTransport == 0 %}hidden{% endif %}">
+                        {{ form_row(form.cgNomCooperative) }}
+                        {{ form_row(form.cgItineraire) }}
+                        {{ form_row(form.cgNumVignette) }}
+                        {{ form_row(form.ctZoneDeserte) }}
+                    </div>
+                    <hr>
+                    {{ form_row(form.cgNumCarteViolette) }}
+                    {{ form_row(form.cgLieuCarteViolette) }}
+                    {{ form_row(form.cgDateCarteViolette, {
+                        'attr': {
+                            'class': ' datepicker-partial'
+                        }}) }}
+                    <hr>
+                    {{ form_row(form.cgPatente) }}
+                    {{ form_row(form.cgAni) }}
+                </div>
+            </div>
+        </div>
+
+        {# Formulaire véhicule #}
+        <div class="col-md-6">
+            <div class="box box-success">
+                <div class="box-header">
+                    <h3 class="box-title">Informations véhicule</h3>
+                </div>
+
+                <div class="box-body">
+                    {{ form_row(form.ctVehicule.ctGenre) }}
+                    {{ form_row(form.ctVehicule.vhcType) }}
+                    {{ form_row(form.ctVehicule.ctMarque) }}
+                    {{ form_row(form.ctVehicule.vhcNumSerie) }}
+                    {{ form_row(form.ctCarosserie) }}
+                    {{ form_row(form.ctVehicule.vhcNumMoteur) }}
+                    {{ form_row(form.ctSourceEnergie) }}
+                    {{ form_row(form.cgPuissanceAdmin) }}
+                    {{ form_row(form.cgNbrAssis) }}
+                    {{ form_row(form.ctVehicule.vhcPoidsVide) }}
+                    {{ form_row(form.ctVehicule.vhcChargeUtile) }}
+                    {{ form_row(form.ctVehicule.vhcPoidsTotalCharge) }}
+                    {{ form_row(form.cgMiseEnService, {
+                        'attr': {
+                            'class': ' datepicker-partial'
+                        }}) }}
+                </div>
+
+                {# Champs cachés #}
+                <div class="hidden">
+                    {{ form_row(form.ctVehicule.vhcPuissance) }}
+                    {{ form_row(form.ctVehicule.vhcCylindre) }}
+                    {{ form_row(form.ctVehicule.vhcHauteur) }}
+                    {{ form_row(form.ctVehicule.vhcLongueur) }}
+                    {{ form_row(form.ctVehicule.vhcLargeur) }}
+                    {{ form_row(form.ctVehicule.vhcProvenance) }}
+                    {{ form_row(form.cgNbrDebout) }}
+                    <hr>
+                    {{ form_row(form.cgRta) }}
+                    {#{{ form_row(form.cgPatente) }}#}
+                    {#{{ form_row(form.cgAni) }}#}
+                    <hr>
+                    {#{{ form_row(form.cgNumCarteViolette) }}#}
+                    {#{{ form_row(form.cgLieuCarteViolette) }}#}
+                    {#{{ form_row(form.cgDateCarteViolette) }}#}
+                    <hr>
+                    {{ form_row(form.cgNumVignette) }}
+                    {{ form_row(form.cgDateVignette) }}
+                    {{ form_row(form.cgLieuVignette) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Formulaire enregistrement #}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-success">
+                <div class="box-body">
+                    <a href="{{ path('carte_grise_edit', {'id' : carte_grise.id}) }}"
+                       class="btn btn-primary" >
+                        Modifier
+                    </a>
+                    <a href="{{ path('carte_grise_new') }}"
+                       class="btn btn-default pull-left btn-mini-rectif" >
+                        Retour à l'ajout
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{{ form_end(form) }}

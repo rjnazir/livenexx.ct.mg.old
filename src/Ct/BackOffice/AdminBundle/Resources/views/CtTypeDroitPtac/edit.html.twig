@@ -1,0 +1,45 @@
+{% extends 'backoffice/base_admin.html.twig' %}
+
+{% form_theme edit_form ':form:custom_fields.html.twig' %}
+
+{% block title %}{{ parent() }} Modification Type de droit PTAC {% endblock %}
+
+{% set menu_type_droit_ptac        = true %}
+{% set menu_type_droit_ptac_create = true %}
+
+{% block body %}
+    {% for flashMessage in app.session.flashbag.get('success') %}
+        <div class="callout callout-success">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        <div class="callout callout-danger">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                {{ form_start(edit_form) }}
+                    <div class="box-header">
+                        <h3 class="box-title">Editer une type de droit PTAC</h3>
+                    </div>
+
+                    <div class="box-body">
+                        {{ form_row(edit_form.tpDpLibelle) }}
+                    </div>
+
+                    <div class="box-footer">
+                        <input type="submit" class="btn btn-primary" value="Modifier" name="update_type_droit_ptac"/>
+                        <a href="{{ path('type_droit_ptac_index') }}"
+                           class="btn btn-default pull-left btn-mini-rectif" >
+                            Retour à la liste
+                        </a>
+                    </div>
+                {{ form_end(edit_form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

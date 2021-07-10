@@ -1,0 +1,149 @@
+# Learn more about services, parameters and containers at
+# https://symfony.com/doc/current/service_container.html
+parameters:
+#    parameter_name: value
+
+services:
+    ct.service.metier.carosserie:
+        class: Ct\Service\MetierManagerBundle\Metier\CtCarosserie\ServiceMetierCtCarosserie
+        arguments: [ "@doctrine.orm.entity_manager", "@service_container", "%kernel.root_dir%" ]
+
+    ct.service.metier.genre:
+        class: Ct\Service\MetierManagerBundle\Metier\CtGenre\ServiceMetierCtGenre
+        arguments: [ "@doctrine.orm.entity_manager", "@service_container", "%kernel.root_dir%" ]
+
+    ct.service.metier.genre_tarif:
+        class: Ct\Service\MetierManagerBundle\Metier\CtGenreTarif\ServiceMetierCtGenreTarif
+        arguments: [ "@doctrine.orm.entity_manager", "@service_container", "%kernel.root_dir%" ]
+
+    ct.service.metier.role:
+        class: Ct\Service\MetierManagerBundle\Metier\CtRole\ServiceMetierCtRole
+        arguments: [ "@doctrine.orm.entity_manager", "@service_container", "%kernel.root_dir%" ]
+
+    ct.service.metier.anomalie:
+        class: Ct\Service\MetierManagerBundle\Metier\CtAnomalie\ServiceMetierCtAnomalie
+        arguments: [ "@doctrine.orm.entity_manager", "@service_container", "%kernel.root_dir%" ]
+
+    ct.service.metier.motif:
+        class: Ct\Service\MetierManagerBundle\Metier\CtMotif\ServiceMetierCtMotif
+        arguments: [ "@doctrine.orm.entity_manager", "@service_container", "%kernel.root_dir%" ]
+
+    ct.service.metier.motif_tarif:
+        class: Ct\Service\MetierManagerBundle\Metier\CtMotifTarif\ServiceMetierCtMotifTarif
+        arguments: [ "@doctrine.orm.entity_manager", "@service_container", "%kernel.root_dir%" ]
+
+    ct.service.metier.marque:
+        class: Ct\Service\MetierManagerBundle\Metier\CtMarque\ServiceMetierCtMarque
+        arguments: [ "@doctrine.orm.entity_manager", "@service_container", "%kernel.root_dir%" ]
+
+    ct.service.metier.centre:
+        class: Ct\Service\MetierManagerBundle\Metier\CtCentre\ServiceMetierCtCentre
+        arguments: [ "@doctrine.orm.entity_manager", "@service_container", "%kernel.root_dir%" ]
+
+    ct.service.metier.province:
+        class: Ct\Service\MetierManagerBundle\Metier\CtProvince\ServiceMetierCtProvince
+        arguments: [ "@doctrine.orm.entity_manager", "@service_container", "%kernel.root_dir%" ]
+
+    ct.service.metier.energie:
+        class: Ct\Service\MetierManagerBundle\Metier\CtSourceEnergie\ServiceMetierCtSourceEnergie
+        arguments: [ "@doctrine.orm.entity_manager", "@service_container", "%kernel.root_dir%" ]
+
+    ct.service.metier.usage:
+        class: Ct\Service\MetierManagerBundle\Metier\CtUsage\ServiceMetierCtUsage
+        arguments: [ "@doctrine.orm.entity_manager", "@service_container", "%kernel.root_dir%" ]
+
+    ct.service.metier.usage_tarif:
+        class: Ct\Service\MetierManagerBundle\Metier\CtUsageTarif\ServiceMetierCtUsageTarif
+        arguments: [ "@doctrine.orm.entity_manager", "@service_container", "%kernel.root_dir%" ]
+
+    ct.service.metier.type_anomalie:
+        class: Ct\Service\MetierManagerBundle\Metier\CtTypeAnomalie\ServiceMetierCtTypeAnomalie
+        arguments: [ "@doctrine.orm.entity_manager", "@service_container", "%kernel.root_dir%" ]
+
+    ct.service.metier.visite:
+        class: Ct\Service\MetierManagerBundle\Metier\CtVisite\ServiceMetierCtVisite
+        arguments: [ "@doctrine.orm.entity_manager", "@service_container", "%kernel.root_dir%" ]
+
+    ct.service.metier.reception:
+        class: Ct\Service\MetierManagerBundle\Metier\CtReception\ServiceMetierCtReception
+        arguments: [ "@doctrine.orm.entity_manager", "@service_container", "%kernel.root_dir%" ]
+
+    ct.service.metier.type_reception:
+        class: Ct\Service\MetierManagerBundle\Metier\CtTypeReception\ServiceMetierCtTypeReception
+        arguments: [ "@doctrine.orm.entity_manager", "@service_container", "%kernel.root_dir%" ]
+
+    ct.service.metier.utilisation:
+        class: Ct\Service\MetierManagerBundle\Metier\CtUtilisation\ServiceMetierCtUtilisation
+        arguments: [ "@doctrine.orm.entity_manager", "@service_container", "%kernel.root_dir%" ]
+
+    ct.service.metier.carte_grise:
+        class: Ct\Service\MetierManagerBundle\Metier\CtCarteGrise\ServiceMetierCtCarteGrise
+        arguments: [ "@doctrine.orm.entity_manager", "@service_container", "%kernel.root_dir%" ]
+
+    ct.service.metier.vehicule:
+        class: Ct\Service\MetierManagerBundle\Metier\CtVehicule\ServiceMetierCtVehicule
+        arguments: [ "@doctrine.orm.entity_manager", "@service_container", "%kernel.root_dir%" ]
+
+    ct.service.metier.visite_extra:
+        class: Ct\Service\MetierManagerBundle\Metier\CtVisiteExtra\ServiceMetierCtVisiteExtra
+        arguments: [ "@doctrine.orm.entity_manager", "@service_container", "%kernel.root_dir%" ]
+
+    ct.service.metier.visite_extra_tarif:
+        class: Ct\Service\MetierManagerBundle\Metier\CtVisiteExtraTarif\ServiceMetierCtVisiteExtraTarif
+        arguments: [ "@doctrine.orm.entity_manager", "@service_container", "%kernel.root_dir%" ]
+
+    ct.service.metier.constatation_av_ded_type:
+        class: Ct\Service\MetierManagerBundle\Metier\CtTypeConstatationAvDedouanement\ServiceMetierCtTypeConstatationAvDedouanement
+        arguments: [ "@doctrine.orm.entity_manager", "@service_container", "%kernel.root_dir%" ]
+
+    ct.service.metier.type_visite:
+        class: Ct\Service\MetierManagerBundle\Metier\CtTypeVisite\ServiceMetierCtTypeVisite
+        arguments: [ "@doctrine.orm.entity_manager", "@service_container", "%kernel.root_dir%" ]
+
+    ct.service.metier.constatation_av_ded:
+        class: Ct\Service\MetierManagerBundle\Metier\CtConstatationAvDedouanement\ServiceMetierCtConstatationAvDedouanement
+        arguments: [ "@doctrine.orm.entity_manager", "@service_container", "%kernel.root_dir%" ]
+
+    ct.service.metier.constatation_av_ded_carac:
+          class: Ct\Service\MetierManagerBundle\Metier\CtConstatationAvDedouanementCarac\ServiceMetierCtConstatationAvDedouanementCarac
+          arguments: [ "@doctrine.orm.entity_manager", "@service_container", "%kernel.root_dir%" ]
+
+    ct.service.metier.proces_verbal:
+        class: Ct\Service\MetierManagerBundle\Metier\CtProcesVerbal\ServiceMetierCtProcesVerbal
+        arguments: [ "@doctrine.orm.entity_manager", "@service_container", "%kernel.root_dir%" ]
+        
+    ct.service.metier.droit_ptac:
+        class: Ct\Service\MetierManagerBundle\Metier\CtDroitPtac\ServiceMetierCtDroitPtac
+        arguments: [ "@doctrine.orm.entity_manager", "@service_container", "%kernel.root_dir%" ]
+
+    ct.service.metier.type_usage:
+        class: Ct\Service\MetierManagerBundle\Metier\CtTypeUsage\ServiceMetierCtTypeUsage
+        arguments: [ "@doctrine.orm.entity_manager", "@service_container", "%kernel.root_dir%" ]
+        
+    ct.service.metier.genre_categorie:
+        class: Ct\Service\MetierManagerBundle\Metier\CtGenreCategorie\ServiceMetierCtGenreCategorie
+        arguments: [ "@doctrine.orm.entity_manager", "@service_container", "%kernel.root_dir%" ]
+
+    ct.service.metier.statistique_visite:
+        class: Ct\Service\MetierManagerBundle\Metier\CtStatistiqueVisite\ServiceMetierCtStatistiqueVisite
+        arguments: [ "@doctrine.orm.entity_manager", "@service_container", "%kernel.root_dir%" ]
+
+    ct.service.metier.statistique_reception:
+        class: Ct\Service\MetierManagerBundle\Metier\CtStatistiqueReception\ServiceMetierCtStatistiqueReception
+        arguments: [ "@doctrine.orm.entity_manager", "@service_container", "%kernel.root_dir%" ]
+
+    ct.service.metier.historique:
+        class: Ct\Service\MetierManagerBundle\Metier\CtHistorique\ServiceMetierCtHistorique
+        arguments: [ "@doctrine.orm.entity_manager", "@service_container", "%kernel.root_dir%" ]
+
+    ct.service.metier.type_droit_ptac:
+        class: Ct\Service\MetierManagerBundle\Metier\CtTypeDroitPtac\ServiceMetierCtTypeDroitPtac
+        arguments: [ "@doctrine.orm.entity_manager", "@service_container", "%kernel.root_dir%" ]
+
+    ct.service.metier.statistique_constatation:
+        class: Ct\Service\MetierManagerBundle\Metier\CtStatistiqueConstatation\ServiceMetierCtStatistiqueConstatation
+        arguments: [ "@doctrine.orm.entity_manager", "@service_container", "%kernel.root_dir%" ]
+
+    ct.service.metier.zone_deserte:
+        class: Ct\Service\MetierManagerBundle\Metier\CtZoneDeserte\ServiceMetierCtZoneDeserte
+        arguments: [ "@doctrine.orm.entity_manager", "@service_container", "%kernel.root_dir%" ]

@@ -1,0 +1,9 @@
+statistique_reception_index:
+    path:     /
+    defaults: { _controller: "AdminBundle:CtStatistiqueReception:index" }
+    methods:  GET
+
+statistique_reception_generate_reporting_annuel_ajax:
+    path:     /generate-reporting-annuel-ajax
+    defaults: { _controller: "AdminBundle:CtStatistiqueReception:generateReportingAnnuelAjax" }
+    methods:  [GET, POST]

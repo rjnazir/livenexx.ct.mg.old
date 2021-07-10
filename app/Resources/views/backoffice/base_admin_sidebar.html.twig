@@ -1,0 +1,873 @@
+{% set active = 'active' %}
+
+<aside class="main-sidebar">
+    <section class="sidebar">
+        <ul class="sidebar-menu">
+            <li class="{% if menu_dashboard is defined %}active{% endif %} treeview">
+                <a href="{{ path('dashboard_index') }}">
+                    <i class="fa fa-dashboard"></i> <span>Tableau de bord</span>
+                </a>
+            </li>
+
+            {% if is_granted('ROLE_ADMIN') %}
+                {# Utilisateur #}
+                <li class="treeview {% if menu_user is defined or menu_role is defined %}{{ active }}{% endif %}">
+                    <a href="#">
+                        <i class="fa fa-users"></i>
+                        <span>Administrateur</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        {# Utilisateur #}
+                        <li class="treeview {% if menu_user is defined %}{{ active }}{% endif %}">
+                            <a href="#">
+                                <i class="fa fa-user"></i>
+                                <span>Utilisateur</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li class="{% if menu_user_list is defined %}{{ active }}{% endif %}">
+                                    <a href="{{ path('user_index') }}"><i class="fa fa-circle-o"></i> Liste</a>
+                                </li>
+                                <li class="{% if menu_user_create is defined %}{{ active }}{% endif %}">
+                                    <a href="{{ path('user_new') }}"><i class="fa fa-circle-o"></i> Créer</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        {% if is_granted('ROLE_SUPERADMIN') %}
+                            {# Rôle #}
+                            <li class="treeview {% if menu_role is defined %}{{ active }}{% endif %}">
+                                <a href="#">
+                                    <i class="fa fa-balance-scale"></i>
+                                    <span>Rôle</span>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li class="{% if menu_role_list is defined %}{{ active }}{% endif %}">
+                                        <a href="{{ path('role_index') }}"><i class="fa fa-circle-o"></i> Liste</a>
+                                    </li>
+                                    <li class="{% if menu_role_create is defined %}{{ active }}{% endif %}">
+                                        <a href="{{ path('role_new') }}"><i class="fa fa-circle-o"></i> Créer</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </li>
+            {% endif %}
+
+            {% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_STAFF') %}
+                {# Historique #}
+                <li class="treeview {% if menu_historique is defined %}{{ active }}{% endif %}">
+                    <a href="#">
+                        <i class="fa fa-archive"></i>
+                        <span>Historique</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="{% if menu_historique_list is defined %}{{ active }}{% endif %}">
+                            <a href="{{ path('historique_index') }}"><i class="fa fa-circle-o"></i> Voir</a>
+                        </li>
+                    </ul>
+                </li>
+            {% endif %}
+
+            {% if (is_granted('ROLE_RECEPTION') or is_granted('ROLE_ADMIN')) or is_granted('ROLE_VISITE') %}
+                {# Réception #}
+                <li class="treeview {% if menu_reception is defined %}{{ active }}{% endif %}">
+                    <a href="#">
+                        <i class="fa fa-download"></i>
+                        <span>Réception</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        {% if is_granted('ROLE_SUPERADMIN') %}
+                            {# Type #}
+                            <li class="treeview {% if menu_type_reception is defined %}{{ active }}{% endif %}">
+                                <a href="#">
+                                    <i class="fa fa-tasks"></i>
+                                    <span>Type</span>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li class="{% if menu_type_reception_list is defined %}{{ active }}{% endif %}">
+                                        <a href="{{ path('type_reception_index') }}"><i class="fa fa-circle-o"></i> Liste</a>
+                                    </li>
+                                    <li class="{% if menu_type_reception_create is defined %}{{ active }}{% endif %}">
+                                        <a href="{{ path('type_reception_new') }}"><i class="fa fa-circle-o"></i> Créer</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        {% endif %}
+
+                        {# Réception #}
+                        <li class="treeview {% if menu_reception is defined %}{{ active }}{% endif %}">
+                            <a href="#">
+                                <i class="fa fa-caret-square-o-down"></i>
+                                <span>Réception</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li class="{% if menu_reception_create_create is defined %}{{ active }}{% endif %}">
+                                    <a href="{{ path('reception_new') }}"><i class="fa fa-circle-o"></i> Créer</a>
+                                </li>
+                                <li class="{% if menu_reception_duplicata is defined %}{{ active }}{% endif %}">
+                                    <a href="{{ path('reception_duplicata') }}"><i class="fa fa-circle-o"></i> Duplicata</a>
+                                </li>
+                                <li class="{% if menu_reception_search is defined %}{{ active }}{% endif %}">
+                                    <a href="{{ path('reception_search') }}"><i class="fa fa-circle-o"></i> Rechercher</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            {% endif %}
+
+            {% if (is_granted('ROLE_RECEPTION') or is_granted('ROLE_ADMIN') or is_granted('ROLE_STAFF')) %}
+                {# Statistique réception #}
+                <li class="treeview {% if menu_statistique_reception is defined %}{{ active }}{% endif %}">
+                    <a href="#">
+                        <i class="fa fa-bar-chart"></i>
+                        <span>Statistique réception</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="{% if menu_statistique_reception_voir is defined %}{{ active }}{% endif %}">
+                            <a href="{{ path('statistique_reception_index') }}"><i class="fa fa-circle-o"></i> Voir</a>
+                        </li>
+                    </ul>
+                </li>
+            {% endif %}
+
+            {% if (is_granted('ROLE_VISITE') or is_granted('ROLE_ADMIN')) %}
+                {# Visite #}
+                <li class="treeview {% if menu_carte_grise is defined or menu_visite is defined or menu_contre_visite is defined %}{{ active }}{% endif %}">
+                    <a href="#">
+                        <i class="fa fa-stethoscope"></i>
+                        <span>Visite technique</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        {% if is_granted('ROLE_SUPERADMIN') %}
+                            {# Type de visite #}
+                            <li class="treeview {% if menu_type_visite is defined %}{{ active }}{% endif %}">
+                                <a href="#">
+                                    <i class="fa fa-tasks"></i>
+                                    <span>Type</span>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li class="{% if menu_type_visite_list is defined %}{{ active }}{% endif %}">
+                                        <a href="{{ path('type_visite_index') }}"><i class="fa fa-circle-o"></i> Liste</a>
+                                    </li>
+                                    <li class="{% if menu_type_visite_create is defined %}{{ active }}{% endif %}">
+                                        <a href="{{ path('type_visite_new') }}"><i class="fa fa-circle-o"></i> Créer</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        {% endif %}
+
+                        {# Carte grise #}
+                        <li class="treeview {% if menu_carte_grise is defined %}{{ active }}{% endif %}">
+                            <a href="#">
+                                <i class="fa fa-address-card-o"></i>
+                                <span>Renseignements véhicule</span>
+                                <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                {#<li class="{% if menu_carte_grise_list is defined %}{{ active }}{% endif %}">#}
+                                {#<a href="{{ path('carte_grise_index') }}"><i class="fa fa-circle-o"></i> Liste</a>#}
+                                {#</li>#}
+                                <li class="{% if menu_carte_grise_create is defined %}{{ active }}{% endif %}">
+                                    <a href="{{ path('carte_grise_new') }}"><i class="fa fa-circle-o"></i> Créer</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        {# Visite #}
+                        <li class="treeview {% if menu_visite is defined %}{{ active }}{% endif %}">
+                            <a href="#">
+                                <i class="fa fa-address-card"></i>
+                                <span>Visite</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                {#<li class="{% if menu_visite_list is defined %}{{ active }}{% endif %}">#}
+                                {#<a href="{{ path('visite_index') }}"><i class="fa fa-circle-o"></i> Liste</a>#}
+                                {#</li>#}
+                                <li class="{% if menu_visite_create is defined %}{{ active }}{% endif %}">
+                                    <a href="{{ path('visite_new') }}"><i class="fa fa-circle-o"></i> Créer</a>
+                                </li>
+                                <li class="{% if menu_visite_search is defined %}{{ active }}{% endif %}">
+                                    <a href="{{ path('visite_search') }}"><i class="fa fa-circle-o"></i> Rechercher</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        {# Contre visite #}
+                        <li class="treeview {% if menu_contre_visite is defined %}{{ active }}{% endif %}">
+                            <a href="#">
+                                <i class="fa fa-times-rectangle"></i>
+                                <span>Contre visite</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                {#<li class="{% if menu_visite_list is defined %}{{ active }}{% endif %}">#}
+                                {#<a href="{{ path('visite_index') }}"><i class="fa fa-circle-o"></i> Liste</a>#}
+                                {#</li>#}
+                                <li class="{% if menu_contre_visite_create is defined %}{{ active }}{% endif %}">
+                                    <a href="{{ path('contre_visite_new') }}"><i class="fa fa-circle-o"></i> Créer</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            {% endif %}
+
+            {% if (is_granted('ROLE_VISITE') or is_granted('ROLE_ADMIN') or is_granted('ROLE_STAFF')) %}
+                {# Statistique visite #}
+                <li class="treeview {% if menu_statistique_visite is defined %}{{ active }}{% endif %}">
+                    <a href="#">
+                        <i class="fa fa-bar-chart"></i>
+                        <span>Statistique visite</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="{% if menu_statistique_visite_create is defined %}{{ active }}{% endif %}">
+                            <a href="{{ path('statistique_visite_index') }}"><i class="fa fa-circle-o"></i> Voir</a>
+                        </li>
+                    </ul>
+                </li>
+            {% endif %}
+
+            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_RECEPTION') %}
+                {# Constatation #}
+                <li class="treeview {% if menu_const_av_ded is defined or menu_const_av_ded_type is defined %}{{ active }}{% endif %}">
+                    <a href="#">
+                        <i class="fa fa-credit-card"></i>
+                        <span>Constatation</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        {% if is_granted('ROLE_SUPERADMIN') %}
+                            {# Type #}
+                            <li class="treeview {% if menu_const_av_ded_type is defined %}{{ active }}{% endif %}">
+                                <a href="#">
+                                    <i class="fa fa-tasks"></i>
+                                    <span>Type</span>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li class="{% if menu_const_av_ded_type_list is defined %}{{ active }}{% endif %}">
+                                        <a href="{{ path('type_const_av_ded_index') }}"><i class="fa fa-circle-o"></i> Liste</a>
+                                    </li>
+                                    <li class="{% if menu_const_av_ded_type_create is defined %}{{ active }}{% endif %}">
+                                        <a href="{{ path('type_const_av_ded_new') }}"><i class="fa fa-circle-o"></i> Créer</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        {% endif %}
+
+                        {# Constatation #}
+                        <li class="treeview {% if menu_const_av_ded is defined %}{{ active }}{% endif %}">
+                            <a href="#">
+                                <i class="fa fa-credit-card-alt"></i>
+                                <span>Constatation</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li class="{% if menu_const_av_ded_list is defined %}{{ active }}{% endif %}">
+                                    <a href="{{ path('const_av_ded_index') }}"><i class="fa fa-circle-o"></i> Liste</a>
+                                </li>
+                                <li class="{% if menu_const_av_ded_create is defined %}{{ active }}{% endif %}">
+                                    <a href="{{ path('const_av_ded_new') }}"><i class="fa fa-circle-o"></i> Créer</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            {% endif %}
+
+            {% if (is_granted('ROLE_RECEPTION') or is_granted('ROLE_ADMIN') or is_granted('ROLE_STAFF')) %}
+                {# Statistique constatation #}
+                <li class="treeview {% if menu_statistique_constatation is defined %}{{ active }}{% endif %}">
+                    <a href="#">
+                        <i class="fa fa-bar-chart"></i>
+                        <span>Statistique constatation</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="{% if menu_statistique_constatation_voir is defined %}{{ active }}{% endif %}">
+                            <a href="{{ path('statistique_constatation_index') }}"><i class="fa fa-circle-o"></i> Voir</a>
+                        </li>
+                    </ul>
+                </li>
+            {% endif %}
+
+            {% if is_granted('ROLE_SUPERADMIN') %}
+                {# Données de base #}
+                <li class="treeview
+                    {% if menu_marque is defined or menu_centre is defined or menu_province is defined
+                        or menu_motif is defined or menu_genre is defined or menu_carosserie is defined
+                        or menu_energie is defined or  menu_verificateur is defined or menu_utilisation is defined
+                        or menu_anomalie is defined or menu_proces_verbal is defined or menu_droit_ptac is defined
+                        or menu_type_droit_ptac is defined
+                        or menu_usage is defined or menu_type_usage is defined or menu_usage_tarif is defined
+                        or menu_genre_categorie is defined or menu_visite_extra is defined
+                        or menu_visite_extra_type is defined or menu_zone_deserte is defined
+                    %}{{ active }}{% endif %}">
+                    <a href="#">
+                        <i class="fa fa-database"></i>
+                        <span>Données de base</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        {# Lieux #}
+                        <li class="treeview {% if menu_centre is defined or menu_province is defined %}{{ active }}{% endif %}">
+                            <a href="#">
+                                <i class="fa fa-map"></i>
+                                <span>Lieux</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                {# Province  #}
+                                <li class="treeview {% if menu_province is defined %}{{ active }}{% endif %}">
+                                    <a href="#">
+                                        <i class="fa fa-map-pin"></i>
+                                        <span>Province</span>
+                                        <span class="pull-right-container">
+                                            <i class="fa fa-angle-left pull-right"></i>
+                                        </span>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li class="{% if menu_province_list is defined %}{{ active }}{% endif %}">
+                                            <a href="{{ path('province_index') }}"><i class="fa fa-circle-o"></i> Liste</a>
+                                        </li>
+                                        <li class="{% if menu_province_create is defined %}{{ active }}{% endif %}">
+                                            <a href="{{ path('province_new') }}"><i class="fa fa-circle-o"></i> Créer</a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                {# Centre  #}
+                                <li class="treeview {% if menu_centre is defined %}{{ active }}{% endif %}">
+                                    <a href="#">
+                                        <i class="fa fa-map-o"></i>
+                                        <span>Centre</span>
+                                        <span class="pull-right-container">
+                                            <i class="fa fa-angle-left pull-right"></i>
+                                        </span>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li class="{% if menu_centre_list is defined %}{{ active }}{% endif %}">
+                                            <a href="{{ path('centre_index') }}"><i class="fa fa-circle-o"></i> Liste</a>
+                                        </li>
+                                        <li class="{% if menu_centre_create is defined %}{{ active }}{% endif %}">
+                                            <a href="{{ path('centre_new') }}"><i class="fa fa-circle-o"></i> Créer</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+
+                        {# Vérificateur #}
+                        <li class="treeview {% if menu_verificateur is defined %}{{ active }}{% endif %}">
+                            <a href="#">
+                                <i class="fa fa-users"></i>
+                                <span>Vérificateur</span>
+                                <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li class="{% if menu_verificateur_list is defined %}{{ active }}{% endif %}">
+                                    <a href="{{ path('verificateur_index')}}">
+                                        <i class="fa fa-circle-o"></i> Liste
+                                    </a>
+                                </li>
+                                <li class="{% if menu_verificateur_create is defined %}{{ active }}{% endif %}">
+                                    <a href="{{ path('verificateur_new') }}">
+                                        <i class="fa fa-circle-o"></i> Créer
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        {# Marque #}
+                        <li class="treeview {% if menu_marque is defined %}{{ active }}{% endif %}">
+                            <a href="#">
+                                <i class="fa fa-header"></i>
+                                <span>Marque</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li class="{% if menu_marque_list is defined %}{{ active }}{% endif %}">
+                                    <a href="{{ path('marque_index') }}"><i class="fa fa-circle-o"></i> Liste</a>
+                                </li>
+                                <li class="{% if menu_marque_create is defined %}{{ active }}{% endif %}">
+                                    <a href="{{ path('marque_new') }}"><i class="fa fa-circle-o"></i> Créer</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        {# Carrosserie #}
+                        <li class="treeview {% if menu_carosserie is defined %}{{ active }}{% endif %}">
+                            <a href="#">
+                                <i class="fa fa-cog"></i>
+                                <span>Carrosserie</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li class="{% if menu_carosserie_list is defined %}{{ active }}{% endif %}">
+                                    <a href="{{ path('carosserie_index') }}"><i class="fa fa-circle-o"></i> Liste</a>
+                                </li>
+                                <li class="{% if menu_carosserie_create is defined %}{{ active }}{% endif %}">
+                                    <a href="{{ path('carosserie_new') }}"><i class="fa fa-circle-o"></i> Créer</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        {# Source Energie #}
+                        <li class="treeview {% if menu_energie is defined %}{{ active }}{% endif %}">
+                            <a href="#">
+                                <i class="fa fa-battery"></i>
+                                <span>Source énergie</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li class="{% if menu_energie_list is defined %}{{ active }}{% endif %}">
+                                    <a href="{{ path('energie_index') }}"><i class="fa fa-circle-o"></i> Liste</a>
+                                </li>
+                                <li class="{% if menu_energie_create is defined %}{{ active }}{% endif %}">
+                                    <a href="{{ path('energie_new') }}"><i class="fa fa-circle-o"></i> Créer</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        {# Utilisation  #}
+                        <li class="treeview {% if menu_utilisation is defined %}{{ active }}{% endif %}">
+                            <a href="#">
+                                <i class="fa fa-hand-rock-o"></i>
+                                <span>Utilisation</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li class="{% if menu_utilisation_list is defined %}{{ active }}{% endif %}">
+                                    <a href="{{ path('utilisation_index') }}"><i class="fa fa-circle-o"></i> Liste</a>
+                                </li>
+                                <li class="{% if menu_utilisation_create is defined %}{{ active }}{% endif %}">
+                                    <a href="{{ path('utilisation_new') }}"><i class="fa fa-circle-o"></i> Créer</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        {# Genre #}
+                        <li class="treeview {% if menu_genre is defined %}{{ active }}{% endif %}">
+                            <a href="#">
+                                <i class="fa fa-clipboard"></i>
+                                <span>Genre</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                {# Type #}
+                                <li class="treeview {% if menu_genre_type is defined %}{{ active }}{% endif %}">
+                                    <a href="#">
+                                        <i class="fa fa-tasks"></i>
+                                        <span>Type</span>
+                                        <span class="pull-right-container">
+                                            <i class="fa fa-angle-left pull-right"></i>
+                                        </span>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li class="{% if menu_genre_type_list is defined %}{{ active }}{% endif %}">
+                                            <a href="{{ path('genre_index') }}"><i class="fa fa-circle-o"></i> Liste</a>
+                                        </li>
+                                        <li class="{% if menu_genre_type_create is defined %}{{ active }}{% endif %}">
+                                            <a href="{{ path('genre_new') }}"><i class="fa fa-circle-o"></i> Créer</a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                {# Categorie #}
+                                <li class="treeview {% if menu_genre_categorie is defined %}{{ active }}{% endif %}">
+                                    <a href="#">
+                                        <i class="fa fa-money"></i>
+                                        <span>Categorie</span>
+                                        <span class="pull-right-container">
+                                            <i class="fa fa-angle-left pull-right"></i>
+                                        </span>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li class="{% if menu_genre_categorie_list is defined %}{{ active }}{% endif %}">
+                                            <a href="{{ path('genre_categorie_index') }}"><i class="fa fa-circle-o"></i> Liste</a>
+                                        </li>
+                                        <li class="{% if menu_genre_categorie_create is defined %}{{ active }}{% endif %}">
+                                            <a href="{{ path('genre_categorie_new') }}"><i class="fa fa-circle-o"></i> Créer</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        {# VisiteExtra #}
+                        <li class="treeview {% if menu_visite_extra is defined %}{{ active }}{% endif %}">
+                            <a href="#">
+                                <i class="fa fa-server"></i>
+                                <span>Visite extra</span>
+                                <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                {# Type #}
+                                <li class="treeview {% if menu_visite_extra_type is defined %}{{ active }}{% endif %}">
+                                    <a href="#">
+                                        <i class="fa fa-tasks"></i>
+                                        <span>Type</span>
+                                        <span class="pull-right-container">
+                                                <i class="fa fa-angle-left pull-right"></i>
+                                            </span>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li class="{% if menu_visite_extra_type_list is defined %}{{ active }}{% endif %}">
+                                            <a href="{{ path('visite_extra_index') }}"><i class="fa fa-circle-o"></i> Liste</a>
+                                        </li>
+                                        <li class="{% if menu_visite_extra_type_create is defined %}{{ active }}{% endif %}">
+                                            <a href="{{ path('visite_extra_new') }}"><i class="fa fa-circle-o"></i> Créer</a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                {# Tarif #}
+                                <li class="treeview {% if menu_visite_extra_tarif is defined %}{{ active }}{% endif %}">
+                                    <a href="#">
+                                        <i class="fa fa-money"></i>
+                                        <span>Tarif</span>
+                                        <span class="pull-right-container">
+                                                <i class="fa fa-angle-left pull-right"></i>
+                                            </span>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li class="{% if menu_visite_extra_tarif_list is defined %}{{ active }}{% endif %}">
+                                            <a href="{{ path('visite_extra_tarif_index') }}"><i class="fa fa-circle-o"></i> Liste</a>
+                                        </li>
+                                        <li class="{% if menu_visite_extra_tarif_create is defined %}{{ active }}{% endif %}">
+                                            <a href="{{ path('visite_extra_tarif_new') }}"><i class="fa fa-circle-o"></i> Créer</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+
+                        {# Motif #}
+                        <li class="treeview {% if menu_motif is defined %}{{ active }}{% endif %}">
+                            <a href="#">
+                                <i class="fa fa-newspaper-o"></i>
+                                <span>Motif</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                {# Type #}
+                                <li class="treeview {% if menu_motif_type is defined %}{{ active }}{% endif %}">
+                                    <a href="#">
+                                        <i class="fa fa-tasks"></i>
+                                        <span>Type</span>
+                                        <span class="pull-right-container">
+                                            <i class="fa fa-angle-left pull-right"></i>
+                                        </span>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li class="{% if menu_motif_type_list is defined %}{{ active }}{% endif %}">
+                                            <a href="{{ path('motif_index') }}"><i class="fa fa-circle-o"></i> Liste</a>
+                                        </li>
+                                        <li class="{% if menu_motif_type_create is defined %}{{ active }}{% endif %}">
+                                            <a href="{{ path('motif_new') }}"><i class="fa fa-circle-o"></i> Créer</a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                {# Tarif #}
+                                <li class="treeview {% if menu_motif_tarif is defined %}{{ active }}{% endif %}">
+                                    <a href="#">
+                                        <i class="fa fa-money"></i>
+                                        <span>Tarif</span>
+                                        <span class="pull-right-container">
+                                            <i class="fa fa-angle-left pull-right"></i>
+                                        </span>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li class="{% if menu_motif_tarif_list is defined %}{{ active }}{% endif %}">
+                                            <a href="{{ path('motif_tarif_index') }}"><i class="fa fa-circle-o"></i> Liste</a>
+                                        </li>
+                                        <li class="{% if menu_motif_tarif_create is defined %}{{ active }}{% endif %}">
+                                            <a href="{{ path('motif_tarif_new') }}"><i class="fa fa-circle-o"></i> Créer</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+
+                        {# Usage #}
+                        <li class="treeview {% if menu_type_usage is defined or menu_usage is defined or menu_usage_tarif is defined %}{{ active }}{% endif %}">
+                            <a href="#">
+                                <i class="fa fa-hand-lizard-o"></i>
+                                <span>Usage</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                {# Type #}
+                                <li class="treeview {% if menu_type_usage is defined %}{{ active }}{% endif %}">
+                                    <a href="#">
+                                        <i class="fa fa-tasks"></i>
+                                        <span>Type</span>
+                                        <span class="pull-right-container">
+                                            <i class="fa fa-angle-left pull-right"></i>
+                                        </span>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li class="{% if menu_type_usage_list is defined %}{{ active }}{% endif %}">
+                                            <a href="{{ path('type_usage_index') }}"><i class="fa fa-circle-o"></i> Liste</a>
+                                        </li>
+                                        <li class="{% if menu_type_usage_create is defined %}{{ active }}{% endif %}">
+                                            <a href="{{ path('type_usage_new') }}"><i class="fa fa-circle-o"></i> Créer</a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                {# Usage #}
+                                <li class="treeview {% if menu_usage is defined %}{{ active }}{% endif %}">
+                                    <a href="#">
+                                        <i class="fa fa-hand-paper-o"></i>
+                                        <span>Usage</span>
+                                        <span class="pull-right-container">
+                                            <i class="fa fa-angle-left pull-right"></i>
+                                        </span>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li class="{% if menu_usage_list is defined %}{{ active }}{% endif %}">
+                                            <a href="{{ path('usage_index') }}"><i class="fa fa-circle-o"></i> Liste</a>
+                                        </li>
+                                        <li class="{% if menu_usage_create is defined %}{{ active }}{% endif %}">
+                                            <a href="{{ path('usage_new') }}"><i class="fa fa-circle-o"></i> Créer</a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                {# Tarif #}
+                                <li class="treeview {% if menu_usage_tarif is defined %}{{ active }}{% endif %}">
+                                    <a href="#">
+                                        <i class="fa fa-money"></i>
+                                        <span>Tarif</span>
+                                        <span class="pull-right-container">
+                                            <i class="fa fa-angle-left pull-right"></i>
+                                        </span>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li class="{% if menu_usage_tarif_list is defined %}{{ active }}{% endif %}">
+                                            <a href="{{ path('usage_tarif_index') }}"><i class="fa fa-circle-o"></i> Liste</a>
+                                        </li>
+                                        <li class="{% if menu_usage_tarif_create is defined %}{{ active }}{% endif %}">
+                                            <a href="{{ path('usage_tarif_new') }}"><i class="fa fa-circle-o"></i> Créer</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+
+                        {# Anomalie #}
+                        <li class="treeview {% if menu_anomalie is defined %}{{ active }}{% endif %}">
+                            <a href="#">
+                                <i class="fa fa-ambulance"></i>
+                                <span>Anomalie</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                {# Type #}
+                                <li class="treeview {% if menu_type_anomalie is defined %}{{ active }}{% endif %}">
+                                    <a href="#">
+                                        <i class="fa fa-tasks"></i>
+                                        <span>Type</span>
+                                        <span class="pull-right-container">
+                                            <i class="fa fa-angle-left pull-right"></i>
+                                        </span>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li class="{% if menu_type_anomalie_list is defined %}{{ active }}{% endif %}">
+                                            <a href="{{ path('type_anomalie_index') }}"><i class="fa fa-circle-o"></i> Liste</a>
+                                        </li>
+                                        <li class="{% if menu_type_anomalie_create is defined %}{{ active }}{% endif %}">
+                                            <a href="{{ path('type_anomalie_new') }}"><i class="fa fa-circle-o"></i> Créer</a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                {# Anomalie #}
+                                <li class="treeview {% if menu_anomalie is defined %}{{ active }}{% endif %}">
+                                    <a href="#">
+                                        <i class="fa fa-wrench"></i>
+                                        <span>Anomalie</span>
+                                        <span class="pull-right-container">
+                                            <i class="fa fa-angle-left pull-right"></i>
+                                        </span>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li class="{% if menu_anomalie_list is defined %}{{ active }}{% endif %}">
+                                            <a href="{{ path('anomalie_index') }}"><i class="fa fa-circle-o"></i> Liste</a>
+                                        </li>
+                                        <li class="{% if menu_anomalie_create is defined %}{{ active }}{% endif %}">
+                                            <a href="{{ path('anomalie_new') }}"><i class="fa fa-circle-o"></i> Créer</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+
+                        {# Proces Verbal #}
+                        <li class="treeview {% if menu_proces_verbal is defined %}{{ active }}{% endif %}">
+                            <a href="#">
+                                <i class="fa fa-bank"></i>
+                                <span>Proces Verbal</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li class="{% if menu_proces_verbal_list is defined %}{{ active }}{% endif %}">
+                                    <a href="{{ path('proces_verbal_index') }}"><i class="fa fa-circle-o"></i> Liste</a>
+                                </li>
+                                <li class="{% if menu_proces_verbal_create is defined %}{{ active }}{% endif %}">
+                                    <a href="{{ path('proces_verbal_new') }}"><i class="fa fa-circle-o"></i> Créer</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        {# Droit Ptac #}
+                        <li class="treeview {% if menu_droit_ptac is defined or menu_type_droit_ptac is defined %}{{ active }}{% endif %}">
+                            <a href="#">
+                                <i class="fa fa-balance-scale"></i>
+                                <span>Droit Ptac</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                {# Type #}
+                                <li class="treeview {% if menu_type_droit_ptac is defined %}{{ active }}{% endif %}">
+                                    <a href="#">
+                                        <i class="fa fa-tasks"></i>
+                                        <span>Type</span>
+                                        <span class="pull-right-container">
+                                            <i class="fa fa-angle-left pull-right"></i>
+                                        </span>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li class="{% if menu_type_droit_ptac_list is defined %}{{ active }}{% endif %}">
+                                            <a href="{{ path('type_droit_ptac_index') }}"><i class="fa fa-circle-o"></i> Liste</a>
+                                        </li>
+                                        <li class="{% if menu_type_droit_ptac_create is defined %}{{ active }}{% endif %}">
+                                            <a href="{{ path('type_droit_ptac_new') }}"><i class="fa fa-circle-o"></i> Créer</a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                {# Droit #}
+                                <li class="treeview {% if menu_droit_ptac is defined %}{{ active }}{% endif %}">
+                                    <a href="#">
+                                        <i class="fa fa-wrench"></i>
+                                        <span>Droit</span>
+                                        <span class="pull-right-container">
+                                            <i class="fa fa-angle-left pull-right"></i>
+                                        </span>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li class="{% if menu_droit_ptac_list is defined %}{{ active }}{% endif %}">
+                                            <a href="{{ path('droit_ptac_index') }}"><i class="fa fa-circle-o"></i> Liste</a>
+                                        </li>
+                                        <li class="{% if menu_droit_ptac_create is defined %}{{ active }}{% endif %}">
+                                            <a href="{{ path('droit_ptac_new') }}"><i class="fa fa-circle-o"></i> Créer</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+
+                        {# Zone de déserte #}
+                        <li class="treeview {% if menu_zone_deserte is defined %}{{ active }}{% endif %}">
+                            <a href="#">
+                                <i class="fa fa-map-signs"></i>
+                                <span>Zone de déserte</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li class="{% if menu_zone_deserte_list is defined %}{{ active }}{% endif %}">
+                                    <a href="{{ path('zone_deserte_index') }}"><i class="fa fa-circle-o"></i> Liste</a>
+                                </li>
+                                <li class="{% if menu_zone_deserte_create is defined %}{{ active }}{% endif %}">
+                                    <a href="{{ path('zone_deserte_new') }}"><i class="fa fa-circle-o"></i> Créer</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            {% endif %}
+        </ul>
+    </section>
+</aside>

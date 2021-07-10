@@ -1,0 +1,29 @@
+motif_index:
+    path:     /
+    defaults: { _controller: "AdminBundle:CtMotif:index" }
+    methods:  GET
+
+motif_new:
+    path:     /new
+    defaults: { _controller: "AdminBundle:CtMotif:new" }
+    methods:  [GET, POST]
+
+motif_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AdminBundle:CtMotif:edit" }
+    methods:  [GET, POST]
+
+motif_update:
+    path:     /{id}/update
+    defaults: { _controller: "AdminBundle:CtMotif:update" }
+    methods:  [POST, PUT]
+
+motif_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AdminBundle:CtMotif:delete" }
+    methods:  [GET, DELETE]
+
+motif_delete_group:
+    path:     /delete-group
+    defaults: { _controller: "AdminBundle:CtMotif:deleteGroup" }
+    methods:  POST

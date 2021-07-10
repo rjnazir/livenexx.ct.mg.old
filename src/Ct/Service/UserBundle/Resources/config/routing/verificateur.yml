@@ -1,0 +1,30 @@
+verificateur_index:
+    path:     /
+    defaults: { _controller: "UserBundle:Verificateur:index" }
+    methods:  [GET, POST]
+
+verificateur_new:
+    path:     /new
+    defaults: { _controller: "UserBundle:Verificateur:new" }
+    methods:  [GET, POST]
+
+verificateur_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "UserBundle:Verificateur:edit" }
+    methods:  [GET, POST]
+
+verificateur_update:
+    path:     /{id}/update
+    defaults: { _controller: "UserBundle:Verificateur:update" }
+    methods:  [POST, PUT]
+
+verificateur_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "UserBundle:Verificateur:delete" }
+    methods:  [GET, DELETE]
+    
+verificateur_delete_group:
+    path:     /delete-group
+    defaults: { _controller: "UserBundle:Verificateur:deleteGroup" }
+    methods:  POST
+

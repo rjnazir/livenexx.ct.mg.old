@@ -1,0 +1,29 @@
+visite_extra_tarif_index:
+    path:     /
+    defaults: { _controller: "AdminBundle:CtVisiteExtraTarif:index" }
+    methods:  GET
+
+visite_extra_tarif_new:
+    path:     /new
+    defaults: { _controller: "AdminBundle:CtVisiteExtraTarif:new" }
+    methods:  [GET, POST]
+
+visite_extra_tarif_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AdminBundle:CtVisiteExtraTarif:edit" }
+    methods:  [GET, POST]
+
+visite_extra_tarif_update:
+    path:     /{id}/update
+    defaults: { _controller: "AdminBundle:CtVisiteExtraTarif:update" }
+    methods:  [POST, PUT]
+
+visite_extra_tarif_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AdminBundle:CtVisiteExtraTarif:delete" }
+    methods:  [GET, DELETE]
+
+visite_extra_tarif_delete_group:
+    path:     /delete-group
+    defaults: { _controller: "AdminBundle:CtVisiteExtraTarif:deleteGroup" }
+    methods:  POST

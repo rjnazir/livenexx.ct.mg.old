@@ -1,0 +1,19 @@
+historique_index:
+    path:     /
+    defaults: { _controller: "AdminBundle:CtHistorique:index" }
+    methods:  [GET, POST]
+
+historique_get_notification_ajax:
+    path:     /get-notification-ajax
+    defaults: { _controller: "AdminBundle:CtHistorique:getLogByCentreAjax" }
+    methods:  [GET, POST]
+
+historique_get_detail_notification_ajax:
+    path:     /get-detail-notification-ajax
+    defaults: { _controller: "AdminBundle:CtHistorique:getDetailLogAjax" }
+    methods:  [GET, POST]
+
+historique_get_detail_all_notifications_ajax:
+    path:     /get-detail-all-notifications-ajax
+    defaults: { _controller: "AdminBundle:CtHistorique:getDetailAllLogAjax" }
+    methods:  [GET, POST]

@@ -1,0 +1,29 @@
+centre_index:
+    path:     /
+    defaults: { _controller: "AdminBundle:CtCentre:index" }
+    methods:  GET
+
+centre_new:
+    path:     /new
+    defaults: { _controller: "AdminBundle:CtCentre:new" }
+    methods:  [GET, POST]
+
+centre_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AdminBundle:CtCentre:edit" }
+    methods:  [GET, POST]
+
+centre_update:
+    path:     /{id}/update
+    defaults: { _controller: "AdminBundle:CtCentre:update" }
+    methods:  [POST, PUT]
+
+centre_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AdminBundle:CtCentre:delete" }
+    methods:  [GET, DELETE]
+
+centre_delete_group:
+    path:     /delete-group
+    defaults: { _controller: "AdminBundle:CtCentre:deleteGroup" }
+    methods:  POST

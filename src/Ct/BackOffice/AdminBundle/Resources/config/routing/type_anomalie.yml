@@ -1,0 +1,29 @@
+type_anomalie_index:
+    path:     /
+    defaults: { _controller: "AdminBundle:CtTypeAnomalie:index" }
+    methods:  GET
+
+type_anomalie_new:
+    path:     /new
+    defaults: { _controller: "AdminBundle:CtTypeAnomalie:new" }
+    methods:  [GET, POST]
+
+type_anomalie_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AdminBundle:CtTypeAnomalie:edit" }
+    methods:  [GET, POST]
+
+type_anomalie_update:
+    path:     /{id}/update
+    defaults: { _controller: "AdminBundle:CtTypeAnomalie:update" }
+    methods:  [POST, PUT]
+
+type_anomalie_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AdminBundle:CtTypeAnomalie:delete" }
+    methods:  [GET, DELETE]
+
+type_anomalie_delete_group:
+    path:     /delete-group
+    defaults: { _controller: "AdminBundle:CtTypeAnomalie:deleteGroup" }
+    methods:  POST

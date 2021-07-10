@@ -1,0 +1,29 @@
+zone_deserte_index:
+    path:     /
+    defaults: { _controller: "AdminBundle:CtZoneDeserte:index" }
+    methods:  GET
+
+zone_deserte_new:
+    path:     /new
+    defaults: { _controller: "AdminBundle:CtZoneDeserte:new" }
+    methods:  [GET, POST]
+
+zone_deserte_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AdminBundle:CtZoneDeserte:edit" }
+    methods:  [GET, POST]
+
+zone_deserte_update:
+    path:     /{id}/update
+    defaults: { _controller: "AdminBundle:CtZoneDeserte:update" }
+    methods:  [POST, PUT]
+
+zone_deserte_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AdminBundle:CtZoneDeserte:delete" }
+    methods:  [GET, DELETE]
+
+zone_deserte_delete_group:
+    path:     /delete-group
+    defaults: { _controller: "AdminBundle:CtZoneDeserte:deleteGroup" }
+    methods:  POST

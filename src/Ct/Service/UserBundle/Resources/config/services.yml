@@ -1,0 +1,4 @@
+services:
+    ct.manager.user:
+        class: Ct\Service\UserBundle\Manager\UserManager
+        arguments: [ "@doctrine.orm.entity_manager","@service_container" ]

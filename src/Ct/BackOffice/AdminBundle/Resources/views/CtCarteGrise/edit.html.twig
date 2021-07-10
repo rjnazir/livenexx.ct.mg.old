@@ -1,0 +1,175 @@
+{% extends 'backoffice/base_admin.html.twig' %}
+
+{% form_theme edit_form ':form:fields.html.twig' %}
+
+{% form_theme edit_form.ctVehicule.ctMarque _self %}
+{% form_theme edit_form.ctVehicule.ctGenre _self %}
+{% form_theme edit_form.ctCarosserie _self %}
+{% form_theme edit_form.ctCentre _self %}
+
+{%- block choice_widget_collapsed -%}
+    {%- if required and placeholder is none and not placeholder_in_choices and not multiple -%}
+        {% set required = false %}
+    {%- endif -%}
+    <span>
+        <select class="select2" data-placeholder="Choisir" style="width: 100%;" oninvalid="setErrorClass($(this));"
+                {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
+            {%- if placeholder is not none -%}
+                <option value=""{% if required and value is empty %} selected="selected"{% endif %}>
+                    {{ placeholder != '' ? placeholder|trans({}, translation_domain) }}
+                </option>
+            {%- endif -%}
+            {%- if preferred_choices|length > 0 -%}
+                {% set options = preferred_choices %}
+                {{- block('choice_widget_options') -}}
+                {%- if choices|length > 0 and separator is not none -%}
+                    <option disabled="disabled">{{ separator }}</option>
+                {%- endif -%}
+            {%- endif -%}
+            {%- set options = choices -%}
+            {{- block('choice_widget_options') -}}
+        </select>
+    </span>
+{%- endblock choice_widget_collapsed -%}
+
+{% block title %}{{ parent() }} Modification Carte grise {% endblock %}
+
+{% set menu_carte_grise        = true %}
+{% set menu_carte_grise_create = true %}
+
+{% block body %}
+    {% for flashMessage in app.session.flashbag.get('success') %}
+        <div class="callout callout-success">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        <div class="callout callout-danger">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+
+    {{ form_start(edit_form) }}
+        <div class="row">
+            {# Formulaire propriétaire #}
+            <div class="col-md-6">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h3 class="box-title">Informations carte grise</h3>
+                    </div>
+
+                    <div class="box-body">
+                        <div class="{% if app.user.ctRole.id != constant('Ct\\Service\\MetierManagerBundle\\Utils\\RoleName::ID_ROLE_SUPERADMIN') %}hidden{% endif %}">
+                            {{ form_row(edit_form.ctCentre) }}
+                        </div>
+                        {{ form_row(edit_form.cgDateEmission, {
+                            'attr': {
+                                'class': ' datepicker-edit'
+                            }}) }}
+                        <hr>
+                        {{ form_row(edit_form.cgImmatriculation) }}
+                        {{ form_row(edit_form.cgNumIdentification) }}
+                        <hr>
+                        {{ form_row(edit_form.cgNom) }}
+                        {#{{ form_row(edit_form.cgPrenom) }}#}
+                        {{ form_row(edit_form.cgProfession) }}
+                        {{ form_row(edit_form.cgAdresse) }}
+                        {{ form_row(edit_form.cgPhone) }}
+                        {{ form_row(edit_form.cgCommune) }}
+                        <hr>
+                        {{ form_row(edit_form.cgIsTransport) }}
+                        <div id="form-transport" class="{% if carte_grise.cgIsTransport == 0 %}hidden{% endif %}">
+                            {{ form_row(edit_form.cgNomCooperative) }}
+                            {{ form_row(edit_form.cgItineraire) }}
+                            {{ form_row(edit_form.cgNumVignette) }}
+                            {{ form_row(edit_form.ctZoneDeserte) }}
+                        </div>
+                        <hr>
+                        {{ form_row(edit_form.cgNumCarteViolette) }}
+                        {{ form_row(edit_form.cgLieuCarteViolette) }}
+                        {{ form_row(edit_form.cgDateCarteViolette, {
+                            'attr': {
+                                'class': ' datepicker-edit'
+                            }}) }}
+                        <hr>
+                        {{ form_row(edit_form.cgPatente) }}
+                        {{ form_row(edit_form.cgAni) }}
+                    </div>
+                </div>
+            </div>
+
+            {# Formulaire véhicule #}
+            <div class="col-md-6">
+                <div class="box box-success">
+                    <div class="box-header">
+                        <h3 class="box-title">Informations véhicule</h3>
+                    </div>
+
+                    <div class="box-body">
+                        {{ form_row(edit_form.ctVehicule.ctGenre) }}
+                        {{ form_row(edit_form.ctVehicule.vhcType) }}
+                        {{ form_row(edit_form.ctVehicule.ctMarque) }}
+                        {{ form_row(edit_form.ctVehicule.vhcNumSerie) }}
+                        {{ form_row(edit_form.ctCarosserie) }}
+                        {{ form_row(edit_form.ctVehicule.vhcNumMoteur) }}
+                        {{ form_row(edit_form.ctSourceEnergie) }}
+                        {{ form_row(edit_form.cgPuissanceAdmin) }}
+                        {{ form_row(edit_form.cgNbrAssis) }}
+                        {{ form_row(edit_form.ctVehicule.vhcPoidsVide) }}
+                        {{ form_row(edit_form.ctVehicule.vhcChargeUtile) }}
+                        {{ form_row(edit_form.ctVehicule.vhcPoidsTotalCharge) }}
+                        <hr>
+                        {{ form_row(edit_form.cgMiseEnService, {
+                            'attr': {
+                                'class': ' datepicker-edit'
+                            }})
+                        }}
+                    </div>
+
+                    {# Champs cachés #}
+                    <div class="hidden">
+                        {{ form_row(edit_form.ctVehicule.vhcPuissance) }}
+                        {{ form_row(edit_form.ctVehicule.vhcCylindre) }}
+                        {{ form_row(edit_form.ctVehicule.vhcHauteur) }}
+                        {{ form_row(edit_form.ctVehicule.vhcLongueur) }}
+                        {{ form_row(edit_form.ctVehicule.vhcLargeur) }}
+                        {{ form_row(edit_form.ctVehicule.vhcProvenance) }}
+                        {{ form_row(edit_form.cgNbrDebout) }}
+                        <hr>
+                        {{ form_row(edit_form.cgRta) }}
+                        {#{{ form_row(edit_form.cgPatente) }}#}
+                        {#{{ form_row(edit_form.cgAni) }}#}
+                        <hr>
+                        {#{{ form_row(edit_form.cgNumCarteViolette) }}#}
+                        {#{{ form_row(edit_form.cgLieuCarteViolette) }}#}
+                        {#{{ form_row(edit_form.cgDateCarteViolette) }}#}
+                        <hr>
+                        {{ form_row(edit_form.cgDateVignette) }}
+                        {{ form_row(edit_form.cgLieuVignette) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            {# Formulaire enregistrement #}
+            <div class="col-md-12">
+                <div class="box box-success">
+                    <div class="box-body">
+                        <input type="submit" class="btn btn-success" value="Enregistrer" name="update_carte_grise"/>
+                        <a href="{{ path('carte_grise_new') }}"
+                           class="btn btn-default pull-left btn-mini-rectif" >
+                            Retour à l'ajout
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{ form_end(edit_form) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset('backoffice/js/add.carte.grise.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,239 @@
+/* 
+    Created on : 27 déc. 2016, 09:44:32
+    Author     : Niaina
+*/
+
+.list-count {
+    font-size: 2.1em;
+    font-weight: bold;
+    text-align: center;
+}
+
+.add-btn-top-list {
+    left: 25px;
+    position: relative;
+}
+
+.btn-mini-rectif{
+    margin-right: 5px;
+}
+
+.custom-checkbox-list {
+    margin-right: 20px;
+}
+
+.delete-btn-custom {
+    bottom: 40px;
+    position: relative;
+    right: 10px;
+}
+
+.checkbox-custom-style {
+    margin-left: 5px !important;
+}
+
+.logo-mini > img {
+    width: 45px;
+}
+
+.img-vignette {
+    max-width: 150px;
+}
+
+/* Personnalisation thème AdminLTE */
+.skin-blue .main-header .logo {
+    background-color: white;
+}
+
+.skin-blue .main-header .navbar {
+    background-color: #1faccb;
+}
+
+.skin-blue .sidebar-menu > li:hover > a, .skin-blue .sidebar-menu > li.active > a {
+    border-left-color: #1fb5ad;
+}
+
+.skin-blue .main-header li.user-header {
+    background-color: #1fb5ad;
+}
+
+.skin-blue .main-header .logo:hover {
+    background-color: white;
+}
+.kl-number-right{
+    text-align: right;
+}
+.kl-oui-non{
+    text-align: center;
+}
+
+/* Tableaux pour toutes les pages */
+table{
+    margin: 0 auto;
+    clear: both;
+    border-collapse: collapse;
+    table-layout: fixed;
+    word-wrap:break-word;
+    word-break: break-all;
+}
+
+/* Autocomplete */
+.ui-autocomplete-loading {
+    background: white url("../images/ui-anim_basic_16x16.gif") right center no-repeat;
+}
+
+#id-choix-reception {
+    /*width: 100%;*/
+}
+
+/* Constatation avant dedouanement */
+.kl-select-cadt {
+    font-size: 22px;
+    height: 53px;
+}
+
+.kl-cav {
+    margin: auto;
+    width: 55%;
+}
+
+.kl-cav label + .col-sm-10 {
+    float: none;
+    display: inline-block;
+    width: 250px;
+}
+
+.kl-cav .col-md-6 label {
+    width: 225px;
+}
+
+.kl-cav .col-md-12 .form-group .row .col-sm-6.col-md-6.col-lg-4 {
+    width: 100% !important;
+    float: none !important;
+}
+
+.kl-cav .col-md-6 .col-sm-10 label {
+    width: initial;
+}
+
+.kl-cav input[type=radio] {
+    margin-right: 5px;
+    margin-left: 5px;
+}
+.kl-fdc {
+    text-align: center;
+}
+
+.kl-fdc .form-group {
+    width: 50% !important;
+    margin: 16px auto !important;
+    text-align: center !important;
+}
+
+#select-type-bilan {
+    /*width: 50% !important;*/
+    margin: auto !important;
+    text-align: center !important;
+}
+
+#ct_date_generer {
+    /*width: 50%;*/
+    margin: auto;
+    text-align: center;
+}
+
+#ct_link_generer_fiche_controle {
+    margin-left: 44px;
+}
+
+#nb_vehicule .form-group:first-child {
+    margin-top: 15px;
+}
+
+#ct_creer_recep {
+    font-size: 18px;
+    padding: 10px 16px;
+    line-height: 1.33333333;
+    height: 46px;
+}
+
+.visibility-hidden {
+    visibility: hidden;
+}
+
+.table td.fit,
+.table th.fit {
+    white-space: nowrap !important;
+    width: 5% !important;
+}
+
+header .logo{ padding:0px !important;}
+header .logo img{ width:100%; max-width:100% !important; vertical-align: inherit;}
+.main-header .logo, header.main-header, .main-header .navbar{ height: 42px !important; min-height: 42px !important;}
+.main-header .sidebar-toggle, .main-header .navbar-nav > li > a{ padding:11px 15px;}
+.table-reception tr td{ color:#212529;}
+.table-reception tr td.text-success{ color:#1faccb;}
+.kl-bloc-stat .box-header{ text-align:center; background:#1faccb; color:#fff;}
+.kl-bloc-stat .box{ border-top:0px;}
+.kl-bloc-stat .box-footer{ text-align:center; background:#073f79;}
+.kl-bloc-stat .btn{ background:#073f79; transition:0.5s;}
+.kl-bloc-stat .btn:hover{ background:#fff; color:#073f79;}
+#nb_vehicule .col-sm-6.col-md-6.col-lg-4{ width:100%;}
+#nb_vehicule .col-sm-6.col-md-6.col-lg-4 select{ width:45%; margin:auto;}
+#nb_vehicule .col-sm-6.col-md-6.col-lg-4 button{ width:45%; margin:auto;}
+#ct_nb_total_vehicule { width:45%; margin:auto;}
+#link-download.kl-edit-link-download{ margin-top:7px; margin-right: 15px;}
+#link-download.kl-edit-link-download-cv{ margin-top:0px; margin-right: 15px;}
+#link-download.kl-edit-link-download a .fa-li{top: 10px; left: -10px;}
+#list-user thead tr th.kl-checkbox-col{ width:15px !important;}
+#list-user thead tr th.kl-action-col{ width:54px !important;}
+#list-user thead tr th.kl-prof-col{ width:77px !important;}
+#list-user thead tr th.kl-role-col{ width:132.6px !important;}
+#list-user tr td.kl-action-button-bloc a{ padding:8px !important;}
+
+/*.bootstrap-datetimepicker-widget { left: 150px !important;}*/
+
+/*Page création visite*/
+.fa-spin.kl-spin {
+    -webkit-animation: fa-spin 2s infinite linear;
+    animation: fa-spin 2s infinite linear;
+    position: absolute;
+    left: 25%;
+}
+
+.btn-success.kl-download {
+    background-color: #00a65a;
+    border-color: #008d4c;
+    position: relative;
+    left: 20%;
+    /*font-size: 11px;*/
+}
+.kl-download-omavet{
+    font-size: 11px;
+    position: relative;
+    left: -10%;
+
+}
+.kl-download-anomalie{
+    position: relative;
+    left: 25%;
+}
+
+.kl-bloc-visite{
+    border-top-color: #3c8dbc;
+    height: 350px;
+}
+
+.error-message{ color: red; }
+
+.kl_notif_type {
+    font-weight: bold;
+}
+
+.kl_notif_date {
+    font-size: smaller;
+}
+
+.kl-padding-top {
+    padding-top: 34px;
+}

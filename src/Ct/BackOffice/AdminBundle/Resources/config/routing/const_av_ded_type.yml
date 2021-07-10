@@ -1,0 +1,29 @@
+type_const_av_ded_index:
+    path:     /
+    defaults: { _controller: "AdminBundle:CtTypeConstatationAvDedouanement:index" }
+    methods:  GET
+
+type_const_av_ded_new:
+    path:     /new
+    defaults: { _controller: "AdminBundle:CtTypeConstatationAvDedouanement:new" }
+    methods:  [GET, POST]
+
+type_const_av_ded_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AdminBundle:CtTypeConstatationAvDedouanement:edit" }
+    methods:  [GET, POST]
+
+type_const_av_ded_update:
+    path:     /{id}/update
+    defaults: { _controller: "AdminBundle:CtTypeConstatationAvDedouanement:update" }
+    methods:  [POST, PUT]
+
+type_const_av_ded_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AdminBundle:CtTypeConstatationAvDedouanement:delete" }
+    methods:  [GET, DELETE]
+
+type_const_av_ded_delete_group:
+    path:     /delete-group
+    defaults: { _controller: "AdminBundle:CtTypeConstatationAvDedouanement:deleteGroup" }
+    methods:  POST

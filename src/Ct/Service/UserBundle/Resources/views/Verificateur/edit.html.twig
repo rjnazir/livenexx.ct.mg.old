@@ -1,0 +1,96 @@
+{% set current_route = app.request.attributes.get('_route') %}
+{% extends 'backoffice/base_admin.html.twig' %}
+
+{% form_theme edit_form ':form:custom_fields.html.twig' %}
+
+{% form_theme edit_form.ctCentre _self %}
+{%- block choice_widget_collapsed -%}
+    {%- if required and placeholder is none and not placeholder_in_choices and not multiple -%}
+        {% set required = false %}
+    {%- endif -%}
+    <span>
+        <select class="select2" data-placeholder="Choisir" style="width: 100%;" oninvalid="setErrorClass($(this));"
+                {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
+            {%- if placeholder is not none -%}
+                <option value=""{% if required and value is empty %} selected="selected"{% endif %}>
+                    {{ placeholder != '' ? placeholder|trans({}, translation_domain) }}
+                </option>
+            {%- endif -%}
+            {%- if preferred_choices|length > 0 -%}
+                {% set options = preferred_choices %}
+                {{- block('choice_widget_options') -}}
+                {%- if choices|length > 0 and separator is not none -%}
+                    <option disabled="disabled">{{ separator }}</option>
+                {%- endif -%}
+            {%- endif -%}
+            {%- set options = choices -%}
+            {{- block('choice_widget_options') -}}
+        </select>
+    </span>
+{%- endblock choice_widget_collapsed -%}
+
+{% block title %}{{ parent() }} Modification Vérificateur {% endblock %}
+
+{% set menu_verificateur        = true %}
+{% set menu_verificateur_create = true %}
+
+{% block body %}
+    {% for flashMessage in app.session.flashbag.get('success') %}
+        <div class="callout callout-success">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        <div class="callout callout-danger">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                {{ form_start(edit_form) }}
+                    <div class="box-header">
+                        <h3 class="box-title">Editer un vérificateur</h3>
+                    </div>
+
+                    <div class="box-body">
+                        <div class="{% if app.user.ctRole.id != constant('Ct\\Service\\MetierManagerBundle\\Utils\\RoleName::ID_ROLE_SUPERADMIN') %}hidden{% endif %}">
+                            {{ form_row(edit_form.ctCentre) }}
+                        </div>
+                        {{ form_row(edit_form.usrName) }}
+                        {{ form_row(edit_form.usrAdresse) }}
+                        {{ form_row(edit_form.usrProfession) }}
+                        {{ form_row(edit_form.usrTelephone) }}
+                        {{ form_row(edit_form.email) }}
+                        {{ form_row(edit_form.usrPresence) }}
+                        <div class="hide">
+                            {{ form_row(edit_form.username) }}
+                            {{ form_row(edit_form.plainPassword.first) }}
+                            {{ form_row(edit_form.plainPassword.second) }}
+                        </div>
+                    </div>
+
+                    <div class="box-footer">
+                        <input type="submit" class="btn btn-primary" value="Modifier" name="update_verificateur"/>
+                        <a href="{{ path('verificateur_index') }}"
+                           class="btn btn-default pull-left btn-mini-rectif" >
+                            Retour à la liste
+                        </a>
+                    </div>
+                {{ form_end(edit_form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        $(function () {
+            // Enlever l'obligation du champ mot de passe
+            $('#ct_userbundle_user_plainPassword_first, #ct_userbundle_user_plainPassword_second').removeAttr('required');
+        });
+    </script>
+{% endblock %}

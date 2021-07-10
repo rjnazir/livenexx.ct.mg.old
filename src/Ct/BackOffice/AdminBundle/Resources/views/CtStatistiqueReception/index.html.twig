@@ -1,0 +1,253 @@
+{% extends 'backoffice/base_admin.html.twig' %}
+
+{% block title %}{{ parent() }} Statistique des receptions {% endblock %}
+
+{% set menu_statistique_reception       = true %}
+{% set menu_statistique_reception_voir  = true %}
+
+{% block body %}
+    {% for flashMessage in app.session.flashbag.get('success') %}
+        <div class="callout callout-success">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        <div class="callout callout-danger">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    
+    {% for key, messages in app.session.flashbag.all() %}
+        <div class="callout callout-{{ key }}">
+            {{ messages }} <br />
+        </div>
+    {% endfor %}
+
+    <!-- Modal séléction centre et année -->
+    <div id="modal-generate" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Génération statististique reception <span id="title-type"></span></h4>
+                </div>
+
+                <form>
+                    <div class="modal-body">
+                        <input type="hidden" name="type-bilan" id="type-bilan" />
+
+                        <!-- Centre -->
+                        <div class="{% if app.user.ctRole.id != constant('Ct\\Service\\MetierManagerBundle\\Utils\\RoleName::ID_ROLE_SUPERADMIN') %}hidden{% endif %}">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="ct-centre">Séléctionner le centre</label>
+                                        <select required id="ct-centre" name="ct-centre" class="form-control select2"
+                                                style="width: 100%;" data-placeholder="Alarobia">
+                                            {% for province in provinces %}
+                                                <optgroup label="{{ province.prvNom }}">
+                                                    {% for centre in centres %}
+                                                        {% if province.id == centre.ctProvince.id %}
+                                                            <option value="{{ centre.id }}">
+                                                                {{ centre.ctrNom }}
+                                                            </option>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </optgroup>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Type rec -->
+                        <div class="">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="ct-centre">Séléctionner le type de reception</label>
+                                        <select class="form-control select2" data-placeholder="Choisir" id="ct-rec-type"
+                                                style="width: 100%;">
+                                            <option value="all" selected="selected">
+                                                Tous
+                                            </option>
+                                            {% if types_rec %}
+                                                {% for rcpt in types_rec %}
+                                                    <option value="{{ rcpt.tprcpLibelle }}">
+                                                        {{ rcpt.tprcpLibelle }}
+                                                    </option>
+                                                {% endfor %}
+                                            {% endif %}
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Année -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="ct-annee">Séléctionner l'année</label>
+                                    <input required id="ct-annee" name="ct-annee" class="form-control yearpicker"
+                                           placeholder="2017" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Semestre  -->
+                        <div class="row kl-semestriel hide">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="ct-semestre">Séléctionner Semestre</label>
+                                    <select id="id-semestre" name="ct-semestre" class="form-control select2" style="width: 100%;">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Trimestre  -->
+                        <div class="row kl-trimestriel hide">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="ct-trimestre">Séléctionner trimestre</label>
+                                    <select id="id-trimestre" name="ct-trimestre" class="form-control select2" style="width: 100%;">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mois  -->
+                        <div class="row kl-mensuel hide">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="ct-mois">Séléctionner Mois</label>
+                                    <select id="id-mois" name="ct-mois" class="form-control select2" style="width: 100%;">
+                                        <option value="1">Janvier</option>
+                                        <option value="2">Février</option>
+                                        <option value="3">Mars</option>
+                                        <option value="4">Avril</option>
+                                        <option value="5">Mai</option>
+                                        <option value="6">Juin</option>
+                                        <option value="7">Juillet</option>
+                                        <option value="8">Août</option>
+                                        <option value="9">Septembre</option>
+                                        <option value="10">Octobre</option>
+                                        <option value="11">Novembre</option>
+                                        <option value="12">Décembre</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <div class="col-md-4">
+                            <button type="submit" class="pull-right btn btn-primary" id="btn-generate">
+                                Valider
+                            </button>
+                        </div>
+                        <div class="col-md-offset-2 col-md-6">
+                            <span class="pull-left" id="link-download"></span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        {# Annuel #}
+        <div class="col-md-3 kl-bloc-stat">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">Annuel</h3>
+                </div>
+
+                <div class="box-body">
+                    <i class="fa fa-file-word-o"></i> Cliquer sur le boutton pour générer
+                </div>
+
+                <div class="box-footer">
+                    <input data-toggle="modal" data-target="#modal-generate" type="button"
+                           onclick="setTypeBilan('annuel');" class="btn btn-primary"
+                           value="Générer" name="generate_statistique_reception"/>
+                </div>
+            </div>
+        </div>
+
+        {# Mensuel #}
+        <div class="col-md-3 kl-bloc-stat">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">Semestriel</h3>
+                </div>
+
+                <div class="box-body">
+                    <i class="fa fa-file-word-o"></i> Cliquer sur le boutton pour générer
+                </div>
+
+                <div class="box-footer">
+                    <input data-toggle="modal" data-target="#modal-generate" type="button"
+                           onclick="setTypeBilan('semestriel');" class="btn btn-primary"
+                           value="Générer" name="generate_statistique_reception"/>
+                </div>
+            </div>
+        </div>
+
+        {# Trimestriel #}
+        <div class="col-md-3 kl-bloc-stat">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">Trimestriel</h3>
+                </div>
+
+                <div class="box-body">
+                    <i class="fa fa-file-word-o"></i> Cliquer sur le boutton pour générer
+                </div>
+
+                <div class="box-footer">
+                    <input data-toggle="modal" data-target="#modal-generate" type="button"
+                           onclick="setTypeBilan('trimestriel');" class="btn btn-primary"
+                           value="Générer" name="generate_statistique_reception"/>
+                </div>
+            </div>
+        </div>
+
+        {# Mensuel #}
+        <div class="col-md-3 kl-bloc-stat">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">Mensuel</h3>
+                </div>
+
+                <div class="box-body">
+                    <i class="fa fa-file-word-o"></i> Cliquer sur le boutton pour générer
+                </div>
+
+                <div class="box-footer">
+                    <input data-toggle="modal" data-target="#modal-generate" type="button"
+                           onclick="setTypeBilan('mensuel');" class="btn btn-primary"
+                           value="Générer" name="generate_statistique_visite"/>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        var _generate_reporting_ajax_uri = "{{ path('statistique_reception_generate_reporting_annuel_ajax') }}";
+    </script>
+    <script src="{{ asset('backoffice/js/statistique.reception.js') }}"></script>
+{% endblock %}

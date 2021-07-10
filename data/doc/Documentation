@@ -1,0 +1,23 @@
+Documentation à compléter pour l'installation et le paramétrage du projet
+
+- - - - - - - -- - - - - - - -- - - - - - - -- - - - - - - -- - - - - - - -
+Remarques générales :
+- Base de données initiale
+    C'est la base de données initiale à exécuter lors du paramétrage du projet (partie création base de données).
+        . Initiale dans data/dump/ct-database.sql
+        . Données rôles utilisateurs dans data/dump/ct-role.sql
+        . Données comptes utilisateurs (avec rôle admin et superadmin) dans data/ct-user.sql
+
+- Patch à exécuter (dans le répertoire data/patch/)
+    C'est une script sql à exécuter pour mettre à jour la table (trié par date d'ajout).
+
+- - - - - - - -- - - - - - - -- - - - - - - -- - - - - - - -- - - - - - - -
+Listes commandes utiles :
+- Commande pour créer un utilisateur
+    php bin/console fos:user:create
+
+- Commande pour créer un rôle
+    php bin/console fos:user:promote
+
+- Commande pour mettre à jour les dépendances du projet
+    composer update

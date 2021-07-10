@@ -1,0 +1,417 @@
+{% extends 'backoffice/base_admin.html.twig' %}
+
+{% block title %}{{ parent() }} Liste des historiques {% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <!-- JQuery UI -->
+    <link href="{{ asset('plugins/jquery-ui-1.12.1/jquery-ui.css') }}" rel="Stylesheet"></link>
+{% endblock %}
+
+{% set menu_historique      = true %}
+{% set menu_historique_list = true %}
+
+{% block body %}
+    {% for flashMessage in app.session.flashbag.get('success') %}
+        <div class="callout callout-success">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        <div class="callout callout-danger">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    
+    {% for key, messages in app.session.flashbag.all() %}
+        <div class="callout callout-{{ key }}">
+            {{ messages }} <br />
+        </div>
+    {% endfor %}
+
+    {# Formulaire recherche #}
+    <div class="row">
+        <div class="col-md-6">
+            <div class="box box-default">
+                <div class="box-header">
+                    <h3 class="box-title">Recherche par véhicule</h3>
+                </div>
+
+                <div class="box-body">
+                    <form action="{{ path('historique_index') }}" method="POST">
+                        <div class="form-group">
+                            <label for="ct_numero_serie">Par numéro dans la série du type</label>
+                            <input required id="ct_numero_serie" value="{{ numero_serie_search }}" name="ct_numero_serie" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-primary" value="Rechercher" name="search_visite"/>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="box box-default">
+                <div class="box-header">
+                    <h3 class="box-title"></h3>
+                </div>
+
+                <div class="box-body">
+                    <form action="{{ path('historique_index') }}" method="POST">
+                        <div class="form-group">
+                            <label for="ct_numero_serie">Par immatriculation du vehicule</label>
+                            <input required id="ct_numero_immatriculation" value="{{ numero_serie_search }}" name="ct_numero_immatriculation" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-primary" value="Rechercher" name="search_visite"/>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+<div id="to-print">
+    <div class="row">
+        {# Réception #}
+        <div class="col-md-12 kl-bloc-stat">
+            <div class="box box-default">
+                <div class="box-header">
+                    <h3 class="box-title">Réception</h3>
+                </div>
+
+                <div class="box-body">
+                    <div class="box-body table-responsive">
+                        <div class="box-body table-responsive">
+                            <table id="list-reception" class="table table-bordered table-striped table-condensed">
+                                <thead>
+                                <tr>
+                                    <th>Centre</th>
+                                    <th>Nom propriétaire</th>
+                                    <th>Marque</th>
+                                    <th>Motif</th>
+                                    <th>Date de création</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for reception in receptions %}
+                                    <tr>
+                                        <td>
+                                            {% if reception.ctCentre %}
+                                                {{ reception.ctCentre.ctrNom }}
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {{ reception.rcpProprietaire }}
+                                        </td>
+                                        <td>
+                                            {% if reception.ctVehicule.ctMarque %}
+                                                {{ reception.ctVehicule.ctMarque.mrqLibelle }}
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if reception.ctMotif %}
+                                                {{ reception.ctMotif.mtfLibelle }}
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ reception.rcpCreated|date('d/m/Y') }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        {# Carte grise #}
+        <div class="col-md-12 kl-bloc-stat">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">Carte grise</h3>
+                </div>
+
+                <div class="box-body">
+                    <div class="box-body table-responsive">
+                        <div class="box-body table-responsive">
+                            <table id="list-carte-grise" class="table table-bordered table-striped table-condensed">
+                                <thead>
+                                <tr>
+                                    <th>Centre</th>
+                                    <th>Nom propriétaire</th>
+                                    <th>Marque</th>
+                                    <th>Date de création</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for carte_grise in cartes_grise %}
+                                    <tr>
+                                        <td>
+                                            {% if carte_grise.ctCentre %}
+                                                {{ carte_grise.ctCentre.ctrNom }}
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {{ carte_grise.cgNom }}
+                                        </td>
+                                        <td>
+                                            {% if carte_grise.ctVehicule.ctMarque %}
+                                                {{ carte_grise.ctVehicule.ctMarque.mrqLibelle }}
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ carte_grise.cgCreated|date('d/m/Y') }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        {# Visite technique #}
+        <div class="col-md-12 kl-bloc-stat">
+            <div class="box box-success">
+                <div class="box-header">
+                    <h3 class="box-title">Visite technique</h3>
+                </div>
+
+                <div class="box-body">
+                    <div class="box-body table-responsive">
+                        <div class="box-body table-responsive">
+                            <table id="list-visite" class="table table-bordered table-striped table-condensed">
+                                <thead>
+                                <tr>
+                                    <th>Centre</th>
+                                    <th>Vérificateur</th>
+                                    <th>Nom propriétaire</th>
+                                    <th>Marque</th>
+                                    <th>Aptitude</th>
+                                    <th>Date de création</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for visite in visites %}
+                                    <tr>
+                                        <td>
+                                            {% if visite.ctCentre %}
+                                                {{ visite.ctCentre.ctrNom }}
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if visite.ctVerificateur %}
+                                                {{ visite.ctVerificateur.usrName }}
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if visite.ctCarteGrise %}
+                                                {{ visite.ctCarteGrise.cgNom }}
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if visite.ctCarteGrise.ctVehicule.ctMarque %}
+                                                {{ visite.ctCarteGrise.ctVehicule.ctMarque.mrqLibelle }}
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if visite.vstIsApte == 1 %}
+                                                Apte
+                                            {% else %}
+                                                Inapte
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ visite.vstCreated|date('d/m/Y') }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+
+        {# Contre visite #}
+        <div class="col-md-12 kl-bloc-stat">
+            <div class="box box-success">
+                <div class="box-header">
+                    <h3 class="box-title">Contre visite</h3>
+                </div>
+
+                <div class="box-body">
+                    <div class="box-body table-responsive">
+                        <div class="box-body table-responsive">
+                            <table id="list-contre-visite" class="table table-bordered table-striped table-condensed">
+                                <thead>
+                                <tr>
+                                    <th>Centre</th>
+                                    <th>Vérificateur</th>
+                                    <th>Nom propriétaire</th>
+                                    <th>Marque</th>
+                                    <th>Aptitude</th>
+                                    <th>Date de création</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for contre_visite in contre_visites %}
+                                    <tr>
+                                        <td>
+                                            {% if contre_visite.ctCentre %}
+                                                {{ contre_visite.ctCentre.ctrNom }}
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if contre_visite.ctVerificateur %}
+                                                {{ contre_visite.ctVerificateur.usrName }}
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if contre_visite.ctCarteGrise %}
+                                                {{ contre_visite.ctCarteGrise.cgNom }}
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if contre_visite.ctCarteGrise.ctVehicule.ctMarque %}
+                                                {{ contre_visite.ctCarteGrise.ctVehicule.ctMarque.mrqLibelle }}
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if contre_visite.vstIsApte == 1 %}
+                                                Apte
+                                            {% else %}
+                                                Inapte
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ contre_visite.vstCreated|date('d/m/Y') }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <div><center>
+            <button id="print" class="btn btn-primary hidden-print"><span class="glyphicon glyphicon-print" aria-hidden="true"></span> Print</button>
+        </center></div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        $(function () {
+            $('#list-reception').DataTable(
+                {
+                    "responsive":true,
+                    "order": [[ 0, "desc" ]],
+                    "bProcessing": true,
+                    "bFilter": true,
+                    "oLanguage": {
+                        "sProcessing": "Traitement...",
+                        "oPaginate": {
+                            "sPrevious": "Précédente", // This is the link to the previous page
+                            "sNext": "Suivante", // This is the link to the next page
+                        },
+                        "sSearch": "Filtrer: ",
+                        "sLengthMenu": "Afficher _MENU_ enregistrement par page",
+                        "sEmptyTable": "Aucune réception trouvée",
+                        "sInfo": "Voir _TOTAL_ de _PAGE_ pour _PAGES_ entrées",
+                    },
+                    "footerCallback": function ( row, data, start, end, display ) {
+                        $('.title-count').html(display.length);
+                    }
+                }
+            );
+
+            $('#list-carte-grise').DataTable(
+                {
+                    "responsive":true,
+                    "order": [[ 0, "desc" ]],
+                    "bProcessing": true,
+                    "bFilter": true,
+                    "oLanguage": {
+                        "sProcessing": "Traitement...",
+                        "oPaginate": {
+                            "sPrevious": "Précédente", // This is the link to the previous page
+                            "sNext": "Suivante", // This is the link to the next page
+                        },
+                        "sSearch": "Filtrer: ",
+                        "sLengthMenu": "Afficher _MENU_ enregistrement par page",
+                        "sEmptyTable": "Aucune carte grise trouvée",
+                        "sInfo": "Voir _TOTAL_ de _PAGE_ pour _PAGES_ entrées",
+                    },
+                    "footerCallback": function ( row, data, start, end, display ) {
+                        $('.title-count').html(display.length);
+                    }
+                }
+            );
+
+            $('#list-visite').DataTable(
+                {
+                    "order": [[ 0, "desc" ]],
+                    "bProcessing": true,
+                    "bFilter": true,
+                    "oLanguage": {
+                        "sProcessing": "Traitement...",
+                        "oPaginate": {
+                            "sPrevious": "Précédente", // This is the link to the previous page
+                            "sNext": "Suivante", // This is the link to the next page
+                        },
+                        "sSearch": "Filtrer: ",
+                        "sLengthMenu": "Afficher _MENU_ enregistrement par page",
+                        "sEmptyTable": "Aucun visite trouvé",
+                        "sInfo": "Voir _TOTAL_ de _PAGE_ pour _PAGES_ entrées",
+                    },
+                    "footerCallback": function ( row, data, start, end, display ) {
+                        $('.title-count').html(display.length);
+                    }
+                }
+            );
+
+            $('#list-contre-visite').DataTable(
+                {
+                    "order": [[ 0, "desc" ]],
+                    "bProcessing": true,
+                    "bFilter": true,
+                    "oLanguage": {
+                        "sProcessing": "Traitement...",
+                        "oPaginate": {
+                            "sPrevious": "Précédente", // This is the link to the previous page
+                            "sNext": "Suivante", // This is the link to the next page
+                        },
+                        "sSearch": "Filtrer: ",
+                        "sLengthMenu": "Afficher _MENU_ enregistrement par page",
+                        "sEmptyTable": "Aucun contre visite trouvé",
+                        "sInfo": "Voir _TOTAL_ de _PAGE_ pour _PAGES_ entrées",
+                    },
+                    "footerCallback": function ( row, data, start, end, display ) {
+                        $('.title-count').html(display.length);
+                    }
+                }
+            );
+        });
+    </script>
+
+    <!-- Vérification existence carte grise -->
+    <!-- JQuery UI -->
+    <script src="{{ asset('plugins/jquery-ui-1.12.1/jquery-ui.js') }}" ></script>
+    <script>
+        var _autocomplete_numero_serie_ajax_uri = "{{ path('vehicule_show_numero_serie_ajax') }}";
+        var _autocomplete_numero_immatriculation_ajax_uri = "{{ path('carte_grise_show_numero_immatriculation_ajax') }}";
+    </script>
+    <script src="{{ asset('backoffice/js/jquery.jqprint-0.3.js') }}"></script>
+    <script src="{{ asset('backoffice/js/historique.js') }}"></script>
+{% endblock %}

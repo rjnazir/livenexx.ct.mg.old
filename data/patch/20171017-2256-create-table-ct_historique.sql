@@ -1,0 +1,5 @@
+CREATE TABLE ct_historique (
+id INT AUTO_INCREMENT NOT NULL,
+hst_description LONGTEXT NOT NULL,
+hst_date_create DATETIME NOT NULL, PRIMARY KEY(id))
+DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;

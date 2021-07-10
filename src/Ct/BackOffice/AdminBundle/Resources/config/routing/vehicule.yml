@@ -1,0 +1,4 @@
+vehicule_show_numero_serie_ajax:
+    path:     /show-numero-serie-ajax
+    defaults: { _controller: "AdminBundle:CtVehicule:showNumeroSerieAjax" }
+    methods:  POST

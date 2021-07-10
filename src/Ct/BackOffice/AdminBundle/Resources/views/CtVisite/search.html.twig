@@ -1,0 +1,59 @@
+{% extends 'backoffice/base_admin.html.twig' %}
+
+{% block title %}{{ parent() }} Recherche Visite technique {% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <!-- JQuery UI -->
+    <link href="{{ asset('plugins/jquery-ui-1.12.1/jquery-ui.css') }}" rel="Stylesheet"></link>
+{% endblock %}
+
+{% set menu_visite        = true %}
+{% set menu_visite_search = true %}
+
+{% block body %}
+    {# Formulaire recherche #}
+    <div class="row" id="search-form">
+        <div class="col-md-12">
+            <div class="box box-default">
+                <div class="box-header">
+                    <h3 class="box-title">Recherche</h3>
+                </div>
+
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="ct_numero_immatriculation">Par numéro d'immatriculation</label>
+                                <input id="ct_numero_immatriculation" name="ct_numero_immatriculation"
+                                       class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="ct_numero_serie">Par numéro dans la série du type</label>
+                                <input id="ct_numero_serie" name="ct_numero_serie" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <!-- Vérification existence carte grise -->
+    <!-- JQuery UI -->
+    <script src="{{ asset('plugins/jquery-ui-1.12.1/jquery-ui.js') }}" ></script>
+    <script>
+        var _fill_form_carte_grise_ajax_uri = "{{ path('carte_grise_fill_info_by_immatriculation_ajax') }}";
+        var _autocomplete_numero_serie_ajax_uri = "{{ path('carte_grise_show_numero_serie_ajax') }}";
+        var _autocomplete_numero_immatriculation_ajax_uri = "{{ path('carte_grise_show_numero_immatriculation_ajax') }}";
+        var _visite_search_ajax_uri = "{{ path('visite_search') }}";
+    </script>
+    <script src="{{ asset('backoffice/js/search.visite.js') }}"></script>
+{% endblock %}

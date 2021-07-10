@@ -1,0 +1,29 @@
+type_visite_index:
+    path:     /
+    defaults: { _controller: "AdminBundle:CtTypeVisite:index" }
+    methods:  GET
+
+type_visite_new:
+    path:     /new
+    defaults: { _controller: "AdminBundle:CtTypeVisite:new" }
+    methods:  [GET, POST]
+
+type_visite_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AdminBundle:CtTypeVisite:edit" }
+    methods:  [GET, POST]
+
+type_visite_update:
+    path:     /{id}/update
+    defaults: { _controller: "AdminBundle:CtTypeVisite:update" }
+    methods:  [POST, PUT]
+
+type_visite_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AdminBundle:CtTypeVisite:delete" }
+    methods:  [GET, DELETE]
+
+type_visite_delete_group:
+    path:     /delete-group
+    defaults: { _controller: "AdminBundle:CtTypeVisite:deleteGroup" }
+    methods:  POST

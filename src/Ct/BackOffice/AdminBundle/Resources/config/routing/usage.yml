@@ -1,0 +1,29 @@
+usage_index:
+    path:     /
+    defaults: { _controller: "AdminBundle:CtUsage:index" }
+    methods:  GET
+
+usage_new:
+    path:     /new
+    defaults: { _controller: "AdminBundle:CtUsage:new" }
+    methods:  [GET, POST]
+
+usage_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AdminBundle:CtUsage:edit" }
+    methods:  [GET, POST]
+
+usage_update:
+    path:     /{id}/update
+    defaults: { _controller: "AdminBundle:CtUsage:update" }
+    methods:  [POST, PUT]
+
+usage_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AdminBundle:CtUsage:delete" }
+    methods:  [GET, DELETE]
+
+usage_delete_group:
+    path:     /delete-group
+    defaults: { _controller: "AdminBundle:CtUsage:deleteGroup" }
+    methods:  POST

@@ -1,0 +1,1 @@
+ALTER TABLE `ct_genre_tarif` CHANGE `grt_prix` `grt_prix` FLOAT(25) NULL DEFAULT NULL;

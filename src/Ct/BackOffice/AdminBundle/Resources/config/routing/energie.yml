@@ -1,0 +1,29 @@
+energie_index:
+    path:     /
+    defaults: { _controller: "AdminBundle:CtSourceEnergie:index" }
+    methods:  GET
+
+energie_new:
+    path:     /new
+    defaults: { _controller: "AdminBundle:CtSourceEnergie:new" }
+    methods:  [GET, POST]
+
+energie_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AdminBundle:CtSourceEnergie:edit" }
+    methods:  [GET, POST]
+
+energie_update:
+    path:     /{id}/update
+    defaults: { _controller: "AdminBundle:CtSourceEnergie:update" }
+    methods:  [POST, PUT]
+
+energie_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AdminBundle:CtSourceEnergie:delete" }
+    methods:  [GET, DELETE]
+
+energie_delete_group:
+    path:     /delete-group
+    defaults: { _controller: "AdminBundle:CtSourceEnergie:deleteGroup" }
+    methods:  POST

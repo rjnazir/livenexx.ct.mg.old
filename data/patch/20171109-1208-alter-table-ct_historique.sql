@@ -1,0 +1,1 @@
+ALTER TABLE ct_historique ADD hist_type VARCHAR(20) DEFAULT NULL;

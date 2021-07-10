@@ -1,0 +1,29 @@
+genre_categorie_index:
+    path:     /
+    defaults: { _controller: "AdminBundle:CtGenreCategorie:index" }
+    methods:  GET
+
+genre_categorie_new:
+    path:     /new
+    defaults: { _controller: "AdminBundle:CtGenreCategorie:new" }
+    methods:  [GET, POST]
+
+genre_categorie_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AdminBundle:CtGenreCategorie:edit" }
+    methods:  [GET, POST]
+
+genre_categorie_update:
+    path:     /{id}/update
+    defaults: { _controller: "AdminBundle:CtGenreCategorie:update" }
+    methods:  [POST, PUT]
+
+genre_categorie_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AdminBundle:CtGenreCategorie:delete" }
+    methods:  [GET, DELETE]
+
+genre_categorie_delete_group:
+    path:     /delete-group
+    defaults: { _controller: "AdminBundle:CtGenreCategorie:deleteGroup" }
+    methods:  POST

@@ -1,0 +1,47 @@
+{% extends 'backoffice/base_admin.html.twig' %}
+
+{% form_theme form ':form:custom_fields.html.twig' %}
+
+{% block title %}{{ parent() }} Ajout Tarif Visite Extra {% endblock %}
+
+{% set menu_visite_extra = true %}
+{% set menu_visite_extra_tarif = true %}
+{% set menu_visite_extra_tarif_create = true %}
+
+{% block body %}
+    {% for flashMessage in app.session.flashbag.get('success') %}
+        <div class="callout callout-success">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        <div class="callout callout-danger">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                {{ form_start(form) }}
+                    <div class="box-header">
+                        <h3 class="box-title">Ajouter tarif visite extra</h3>
+                    </div>
+                    
+                    <div class="box-body">
+                        {{ form_row(form.ctVisiteExtra) }}
+                        {{ form_row(form.vetPrix) }}
+                    </div>
+
+                    <div class="box-footer">
+                        <input type="submit" class="btn btn-primary" value="Enregistrer" name="new_visite_extra"/>
+                        <a href="{{ path('visite_extra_tarif_index') }}"
+                           class="btn btn-default pull-left btn-mini-rectif" >
+                            Retour à la liste
+                        </a>
+                    </div>                    
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

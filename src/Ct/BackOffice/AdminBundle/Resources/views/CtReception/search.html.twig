@@ -1,0 +1,58 @@
+{% extends 'backoffice/base_admin.html.twig' %}
+
+{% block title %}{{ parent() }} Recherche Réception {% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <!-- JQuery UI -->
+    <link href="{{ asset('plugins/jquery-ui-1.12.1/jquery-ui.css') }}" rel="Stylesheet"></link>
+{% endblock %}
+
+{% set menu_reception        = true %}
+{% set menu_reception_search = true %}
+
+{% block body %}
+    {# Formulaire recherche #}
+    <div class="row" id="search-form">
+        <div class="col-md-12">
+            <div class="box box-default">
+                <div class="box-header">
+                    <h3 class="box-title">Recherche</h3>
+                </div>
+
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="ct_numero_immatriculation">Par numéro d'immatriculation</label>
+                                <input id="ct_numero_immatriculation" name="ct_numero_immatriculation"
+                                       class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="ct_numero_serie">Par numéro dans la série du type</label>
+                                <input id="ct_numero_serie" name="ct_numero_serie" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <!-- JQuery UI -->
+    <script src="{{ asset('plugins/jquery-ui-1.12.1/jquery-ui.js') }}" ></script>
+    <script>
+        var _get_reception_ajax_uri = "{{ path('reception_get_info_ajax') }}";
+        var _autocomplete_numero_serie_ajax_uri = "{{ path('reception_show_numero_serie_ajax') }}";
+        var _autocomplete_numero_immatriculation_ajax_uri = "{{ path('reception_show_numero_immatriculation_ajax') }}";
+        var _reception_search_ajax_uri = "{{ path('reception_search') }}";
+    </script>
+    <script src="{{ asset('backoffice/js/search.reception.js') }}"></script>
+{% endblock %}

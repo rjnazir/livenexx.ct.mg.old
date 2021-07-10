@@ -1,0 +1,29 @@
+genre_tarif_index:
+    path:     /
+    defaults: { _controller: "AdminBundle:CtGenreTarif:index" }
+    methods:  GET
+
+genre_tarif_new:
+    path:     /new
+    defaults: { _controller: "AdminBundle:CtGenreTarif:new" }
+    methods:  [GET, POST]
+
+genre_tarif_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AdminBundle:CtGenreTarif:edit" }
+    methods:  [GET, POST]
+
+genre_tarif_update:
+    path:     /{id}/update
+    defaults: { _controller: "AdminBundle:CtGenreTarif:update" }
+    methods:  [POST, PUT]
+
+genre_tarif_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AdminBundle:CtGenreTarif:delete" }
+    methods:  [GET, DELETE]
+
+genre_tarif_delete_group:
+    path:     /delete-group
+    defaults: { _controller: "AdminBundle:CtGenreTarif:deleteGroup" }
+    methods:  POST

@@ -1,0 +1,2 @@
+ALTER TABLE ct_vehicule
+ADD vhc_type VARCHAR(45) DEFAULT NULL;

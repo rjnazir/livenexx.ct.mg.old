@@ -1,0 +1,118 @@
+{% extends 'backoffice/base_admin.html.twig' %}
+
+{% block title %}{{ parent() }} Liste des energies {% endblock %}
+
+{% set menu_energie      = true %}
+{% set menu_energie_list = true %}
+
+{% block body %}
+    {% for flashMessage in app.session.flashbag.get('success') %}
+        <div class="callout callout-success">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        <div class="callout callout-danger">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+
+    {% for key, messages in app.session.flashbag.all() %}
+        <div class="callout callout-{{ key }}">
+            {{ messages }} <br />
+        </div>
+    {% endfor %}
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <div class="list-count">
+                        <span class="title-count-text"> TOTAL: </span><span class="title-count"></span>
+                    </div>
+                </div>
+
+                {# Bouton création #}
+                <div class="row add-btn-top-list">
+                    <a href="{{ path('energie_new') }}" onclick=";">
+                        <button class="btn btn-primary">
+                            <i class="fa fa-plus"></i>
+                            Créer une energie
+                        </button>
+                    </a>
+                </div>
+
+                <form action="{{ path('energie_delete_group') }}" method="POST" class="form-search">
+                    <div class="box-body table-responsive">
+                        <table id="list-energie" class="table table-bordered table-striped table-condensed">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>Libellé</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for energie in energies %}
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" value="{{ energie.id }}" name="delete[]" />
+                                    </td>
+                                    <td>{{ energie.sreLibelle }}</td>
+                                    <td>
+                                        <a class="btn btn-primary" title="Modifier"
+                                           href="{{ path('energie_edit', { 'id': energie.id }) }}">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                        <a class="btn btn-danger remove-elt" title="Supprimer"
+                                           href="{{ path('energie_delete', { 'id': energie.id }) }}">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+
+                        {# Bouton suppression #}
+                        <a href="#">
+                            <button type="submit" name="_group_delete" class="btn btn-danger delete-btn">
+                                <i class="fa fa-trash"></i>
+                                Supprimer la sélection
+                            </button>
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        $(function () {
+            $('#list-energie').DataTable(
+            {
+                "order": [[ 0, "desc" ]],
+                "bProcessing": true,
+                "bFilter": true,
+                "oLanguage": {
+                    "sProcessing": "Traitement...",
+                    "oPaginate": {
+                        "sPrevious": "Précédente", // This is the link to the previous page
+                        "sNext": "Suivante", // This is the link to the next page
+                    },
+                    "sSearch": "Filtrer: ",
+                    "sLengthMenu": "Afficher _MENU_ enregistrement par page",
+                    "sEmptyTable": "Aucune energie trouvée",
+                    "sInfo": "Voir _TOTAL_ de _PAGE_ pour _PAGES_ entrées",
+                },
+                "footerCallback": function ( row, data, start, end, display ) {
+                    $('.title-count').html(display.length);
+                }
+            });
+        });
+    </script>
+{% endblock %}

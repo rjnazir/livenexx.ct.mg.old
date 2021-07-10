@@ -1,0 +1,69 @@
+carte_grise_index:
+    path:     /
+    defaults: { _controller: "AdminBundle:CtCarteGrise:index" }
+    methods:  GET
+
+carte_grise_new:
+    path:     /new
+    defaults: { _controller: "AdminBundle:CtCarteGrise:new" }
+    methods:  [GET, POST]
+
+carte_grise_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AdminBundle:CtCarteGrise:edit" }
+    methods:  [GET, POST]
+
+carte_grise_update:
+    path:     /{id}/update
+    defaults: { _controller: "AdminBundle:CtCarteGrise:update" }
+    methods:  [POST, PUT]
+
+carte_grise_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AdminBundle:CtCarteGrise:delete" }
+    methods:  [GET, DELETE]
+
+carte_grise_delete_group:
+    path:     /delete-group
+    defaults: { _controller: "AdminBundle:CtCarteGrise:deleteGroup" }
+    methods:  POST
+
+carte_grise_fill_form_ajax:
+    path:     /show-ajax
+    defaults: { _controller: "AdminBundle:CtCarteGrise:fillFormAjax" }
+    methods:  POST
+
+carte_grise_fill_form_by_numero_identification_ajax:
+    path:     /show-ajax-by-numero-identification
+    defaults: { _controller: "AdminBundle:CtCarteGrise:fillFormAjaxByNumeroIdentification" }
+    methods:  POST
+
+carte_grise_show_numero_immatriculation_ajax:
+    path:     /show-numero-immatriculation-ajax
+    defaults: { _controller: "AdminBundle:CtCarteGrise:showNumeroImmatriculationAjax" }
+    methods:  POST
+
+carte_grise_check_carte_grise_ajax:
+    path:     /check-carte-grise-ajax
+    defaults: { _controller: "AdminBundle:CtCarteGrise:checkCarteGriseAjax" }
+    methods:  POST
+
+carte_grise_show_numero_serie_ajax:
+    path:     /show-numero-serie-ajax
+    defaults: { _controller: "AdminBundle:CtCarteGrise:showNumeroSerieAjax" }
+    methods:  POST
+
+carte_grise_show_numero_identification_ajax:
+    path:     /show-numero-identification-ajax
+    defaults: { _controller: "AdminBundle:CtCarteGrise:showNumeroIdentificationAjax" }
+    methods:  POST
+
+carte_grise_fill_info_by_immatriculation_ajax:
+    path:     /fill-info-by-immatriculation-ajax
+    defaults: { _controller: "AdminBundle:CtCarteGrise:fillInfoByImmatriculationAjax" }
+    methods:  POST
+
+carte_grise_fill_info_by_numero_identification_ajax:
+    path:     /fill-info-by-numero-identification-ajax
+    defaults: { _controller: "AdminBundle:CtCarteGrise:fillInfoByNumeroIdentificationAjax" }
+    methods:  POST

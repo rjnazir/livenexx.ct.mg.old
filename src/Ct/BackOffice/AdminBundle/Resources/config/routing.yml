@@ -1,0 +1,151 @@
+ct_dashboard:
+    resource: "@AdminBundle/Resources/config/routing/dashboard.yml"
+    prefix:   /
+
+ct_carosserie:
+    resource: "@AdminBundle/Resources/config/routing/carosserie.yml"
+    prefix:   /carosserie
+    
+ct_genre:
+    resource: "@AdminBundle/Resources/config/routing/genre.yml"
+    prefix:   /genre
+
+ct_genre_tarif:
+    resource: "@AdminBundle/Resources/config/routing/genre_tarif.yml"
+    prefix:   /genre-tarif
+
+ct_role:
+    resource: "@AdminBundle/Resources/config/routing/role.yml"
+    prefix:   /role
+
+ct_anomalie:
+    resource: "@AdminBundle/Resources/config/routing/anomalie.yml"
+    prefix:   /anomalie
+    
+ct_motif:
+    resource: "@AdminBundle/Resources/config/routing/motif.yml"
+    prefix:   /motif
+
+ct_motif_tarif:
+    resource: "@AdminBundle/Resources/config/routing/motif_tarif.yml"
+    prefix:   /motif-tarif
+
+ct_marque:
+    resource: "@AdminBundle/Resources/config/routing/marque.yml"
+    prefix:   /marque
+
+ct_centre:
+    resource: "@AdminBundle/Resources/config/routing/centre.yml"
+    prefix:   /centre
+
+ct_province:
+    resource: "@AdminBundle/Resources/config/routing/province.yml"
+    prefix:   /province
+
+ct_energie:
+    resource: "@AdminBundle/Resources/config/routing/energie.yml"
+    prefix:   /energie
+    
+ct_usage:
+    resource: "@AdminBundle/Resources/config/routing/usage.yml"
+    prefix:   /usage
+
+ct_usage_tarif:
+    resource: "@AdminBundle/Resources/config/routing/usage_tarif.yml"
+    prefix:   /usage-tarif
+
+ct_type_anomalie:
+    resource: "@AdminBundle/Resources/config/routing/type_anomalie.yml"
+    prefix:   /type-anomalie
+
+ct_visite:
+    resource: "@AdminBundle/Resources/config/routing/visite.yml"
+    prefix:   /visite
+
+ct_contre_visite:
+    resource: "@AdminBundle/Resources/config/routing/contre_visite.yml"
+    prefix:   /contre-visite
+    
+ct_type_reception:
+    resource: "@AdminBundle/Resources/config/routing/type_reception.yml"
+    prefix:   /type-reception
+
+ct_reception:
+    resource: "@AdminBundle/Resources/config/routing/reception.yml"
+    prefix:   /reception
+
+ct_utilisation:
+    resource: "@AdminBundle/Resources/config/routing/utilisation.yml"
+    prefix:   /utilisation
+
+ct_carte_grise:
+    resource: "@AdminBundle/Resources/config/routing/carte_grise.yml"
+    prefix:   /carte-grise
+
+ct_vehicule:
+    resource: "@AdminBundle/Resources/config/routing/vehicule.yml"
+    prefix:   /vehicule
+
+ct_const_av_ded:
+    resource: "@AdminBundle/Resources/config/routing/const_av_ded.yml"
+    prefix:   /constatation-avant-dedouanement
+
+ct_const_av_ded_type:
+    resource: "@AdminBundle/Resources/config/routing/const_av_ded_type.yml"
+    prefix:   /type-constatation-avant-dedouanement
+
+ct_const_av_ded_carac:
+    resource: "@AdminBundle/Resources/config/routing/const_av_ded_carac.yml"
+    prefix:   /constatation-avant-dedouanement-carac
+
+ct_visite_extra:
+    resource: "@AdminBundle/Resources/config/routing/visite_extra.yml"
+    prefix:   /visite-extra
+    
+ct_visite_extra_tarif:
+    resource: "@AdminBundle/Resources/config/routing/visite_extra_tarif.yml"
+    prefix:   /visite-extra-tarif
+
+ct_type_visite:
+    resource: "@AdminBundle/Resources/config/routing/type_visite.yml"
+    prefix:   /type-visite
+    
+ct_proces_verbal:
+    resource: "@AdminBundle/Resources/config/routing/proces_verbal.yml"
+    prefix:   /proces-verbal
+
+ct_droit_ptac:
+    resource: "@AdminBundle/Resources/config/routing/droit_ptac.yml"
+    prefix:   /droit-ptac
+
+ct_type_usage:
+    resource: "@AdminBundle/Resources/config/routing/type_usage.yml"
+    prefix:   /type-usage
+
+ct_genre_categorie:
+    resource: "@AdminBundle/Resources/config/routing/genre_categorie.yml"
+    prefix:   /genre-categorie
+
+ct_statistique_visite:
+    resource: "@AdminBundle/Resources/config/routing/statistique_visite.yml"
+    prefix:   /statistique-visite
+
+ct_historique:
+    resource: "@AdminBundle/Resources/config/routing/historique.yml"
+    prefix:   /historique
+
+ct_statistique_reception:
+    resource: "@AdminBundle/Resources/config/routing/statistique_reception.yml"
+    prefix:   /statistique-reception
+
+ct_type_droit_ptac:
+    resource: "@AdminBundle/Resources/config/routing/type_droit_ptac.yml"
+    prefix:   /type-droit-ptac
+
+ct_statistique_constatation:
+    resource: "@AdminBundle/Resources/config/routing/statistique_constatation.yml"
+    prefix:   /statistique-constatation
+
+ct_zone_deserte:
+    resource: "@AdminBundle/Resources/config/routing/zone_deserte.yml"
+    prefix:   /zone-deserte

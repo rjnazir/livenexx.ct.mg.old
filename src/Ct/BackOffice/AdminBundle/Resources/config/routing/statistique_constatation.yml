@@ -1,0 +1,9 @@
+statistique_constatation_index:
+    path:     /
+    defaults: { _controller: "AdminBundle:CtStatistiqueConstatation:index" }
+    methods:  GET
+
+statistique_constatation_generate_reporting_ajax:
+    path:     /generate-reporting-constatation-ajax
+    defaults: { _controller: "AdminBundle:CtStatistiqueConstatation:generateReportingConstatationAjax" }
+    methods:  [GET, POST]

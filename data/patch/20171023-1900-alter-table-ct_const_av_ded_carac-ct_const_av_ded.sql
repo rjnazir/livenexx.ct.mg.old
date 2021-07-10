@@ -1,0 +1,12 @@
+ALTER TABLE ct_const_av_ded_carac ADD cad_premiere_circule VARCHAR(100) DEFAULT NULL, DROP cad_provenance;
+ALTER TABLE ct_const_av_ded ADD cad_immatriculation VARCHAR(45) DEFAULT NULL, ADD cad_date_embarquement DATETIME DEFAULT NULL, ADD cad_lieu_embarquement VARCHAR(45) DEFAULT NULL, ADD cad_created DATETIME DEFAULT NULL;
+CREATE TABLE ct_const_av_deds_const_av_ded_caracs (const_av_ded_id INT NOT NULL, const_av_ded_carac_id INT NOT NULL, INDEX IDX_58B3C67AE4B53355 (const_av_ded_id), UNIQUE INDEX UNIQ_58B3C67A1E94B9F2 (const_av_ded_carac_id), PRIMARY KEY(const_av_ded_id, const_av_ded_carac_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;
+ALTER TABLE ct_const_av_deds_const_av_ded_caracs ADD CONSTRAINT FK_58B3C67AE4B53355 FOREIGN KEY (const_av_ded_id) REFERENCES ct_const_av_ded (id);
+ALTER TABLE ct_const_av_deds_const_av_ded_caracs ADD CONSTRAINT FK_58B3C67A1E94B9F2 FOREIGN KEY (const_av_ded_carac_id) REFERENCES ct_const_av_ded_carac (id);
+ALTER TABLE ct_const_av_ded_carac DROP FOREIGN KEY FK_FAC238B683FAC2F;
+DROP INDEX fk_ct_const_av_ded_carac_ct_const_av_ded1_idx ON ct_const_av_ded_carac;
+ALTER TABLE ct_const_av_ded_carac DROP ct_const_av_ded_id;
+ALTER TABLE ct_const_av_ded_carac CHANGE cad_cylindre cad_cylindre DOUBLE PRECISION DEFAULT NULL;
+ALTER TABLE ct_const_av_ded_carac ADD cad_nbr_assis INT DEFAULT NULL;
+ALTER TABLE ct_const_av_ded ADD cad_conforme TINYINT(1) DEFAULT NULL;
+ALTER TABLE ct_const_av_ded CHANGE cad_protec_env cad_protec_env TINYINT(1) DEFAULT NULL;

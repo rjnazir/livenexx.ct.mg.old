@@ -1,0 +1,174 @@
+{% extends 'backoffice/base_admin.html.twig' %}
+
+{% form_theme edit_form ':form:fields.html.twig' %}
+
+{% form_theme edit_form.ctCarteGrise.ctVehicule.ctMarque _self %}
+{% form_theme edit_form.ctCarteGrise.ctVehicule.ctGenre _self %}
+{% form_theme edit_form.ctCarteGrise.ctCentre _self %}
+{% form_theme edit_form.ctCarteGrise.ctCarosserie _self %}
+{% form_theme edit_form.ctUsage _self %}
+{% form_theme edit_form.ctVerificateur _self %}
+{% form_theme edit_form.ctCentre _self %}
+{% form_theme edit_form.ctVisiteExtra _self %}
+{% form_theme edit_form.ctAnomalie _self %}
+
+{%- block choice_widget_collapsed -%}
+    {%- if required and placeholder is none and not placeholder_in_choices and not multiple -%}
+        {% set required = false %}
+    {%- endif -%}
+    <span>
+        <select class="select2" data-placeholder="Choisir" style="width: 100%;" oninvalid="setErrorClass($(this));"
+                {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
+            {%- if placeholder is not none -%}
+                <option value=""{% if required and value is empty %} selected="selected"{% endif %}>
+                    {{ placeholder != '' ? placeholder|trans({}, translation_domain) }}
+                </option>
+            {%- endif -%}
+            {%- if preferred_choices|length > 0 -%}
+                {% set options = preferred_choices %}
+                {{- block('choice_widget_options') -}}
+                {%- if choices|length > 0 and separator is not none -%}
+                    <option disabled="disabled">{{ separator }}</option>
+                {%- endif -%}
+            {%- endif -%}
+            {%- set options = choices -%}
+            {{- block('choice_widget_options') -}}
+        </select>
+    </span>
+{%- endblock choice_widget_collapsed -%}
+
+{% block title %}{{ parent() }} Modification Visite technique {% endblock %}
+
+{% set menu_visite        = true %}
+{% set menu_visite_create = true %}
+
+{% block body %}
+    {% for flashMessage in app.session.flashbag.get('success') %}
+        <div class="callout callout-success">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        <div class="callout callout-danger">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+
+    {{ form_start(edit_form) }}
+        <div class="row">
+            <div class="col-md-6">
+                {# Formulaire carte grise #}
+                <div class="box box-success">
+                    <div class="box-header">
+                        <h3 class="box-title">Informations carte grise</h3>
+                    </div>
+    
+                    <div class="box-body" id="form-carte-grise">
+                        <div class="{% if app.user.ctRole.id != constant('Ct\\Service\\MetierManagerBundle\\Utils\\RoleName::ID_ROLE_SUPERADMIN') %}hidden{% endif %}">
+                            {{ form_row(edit_form.ctCarteGrise.ctCentre) }}
+                        </div>
+                        {{ form_row(edit_form.ctCarteGrise.cgDateEmission) }}
+                        <hr>
+                        {{ form_row(edit_form.ctCarteGrise.cgImmatriculation) }}
+                        <hr>
+                        {{ form_row(edit_form.ctCarteGrise.cgNom) }}
+                        {#{{ form_row(edit_form.ctCarteGrise.cgPrenom) }}#}
+                        {{ form_row(edit_form.ctCarteGrise.cgProfession) }}
+                        {{ form_row(edit_form.ctCarteGrise.cgAdresse) }}
+                        {{ form_row(edit_form.ctCarteGrise.cgCommune) }}
+                    </div>
+                </div>
+    
+                {# Formulaire véhicule #}
+                <div class="box box-success">
+                    <div class="box-header">
+                        <h3 class="box-title">Informations véhicule</h3>
+                    </div>
+    
+                    <div class="box-body" id="form-vehicule">
+                        {{ form_row(edit_form.ctCarteGrise.ctVehicule.ctGenre) }}
+                        {{ form_row(edit_form.ctCarteGrise.ctVehicule.vhcType) }}
+                        {{ form_row(edit_form.ctCarteGrise.ctVehicule.ctMarque) }}
+                        {{ form_row(edit_form.ctCarteGrise.ctVehicule.vhcNumSerie) }}
+                        {{ form_row(edit_form.ctCarteGrise.ctCarosserie) }}
+                        {{ form_row(edit_form.ctCarteGrise.ctVehicule.vhcNumMoteur) }}
+                        {{ form_row(edit_form.ctCarteGrise.ctSourceEnergie) }}
+                        {{ form_row(edit_form.ctCarteGrise.cgPuissanceAdmin) }}
+                        {{ form_row(edit_form.ctCarteGrise.cgNbrAssis) }}
+                        {{ form_row(edit_form.ctCarteGrise.ctVehicule.vhcPoidsTotalCharge) }}
+                        {{ form_row(edit_form.ctCarteGrise.ctVehicule.vhcPoidsVide) }}
+                        {{ form_row(edit_form.ctCarteGrise.ctVehicule.vhcChargeUtile) }}
+                        {{ form_row(edit_form.ctCarteGrise.cgMiseEnService) }}
+                    </div>
+    
+                    {# Champs cachés #}
+                    <div class="hidden">
+                        {{ form_row(edit_form.ctCarteGrise.ctVehicule.vhcPuissance) }}
+                        {{ form_row(edit_form.ctCarteGrise.ctVehicule.vhcCylindre) }}
+                        {{ form_row(edit_form.ctCarteGrise.ctVehicule.vhcHauteur) }}
+                        {{ form_row(edit_form.ctCarteGrise.ctVehicule.vhcLongueur) }}
+                        {{ form_row(edit_form.ctCarteGrise.ctVehicule.vhcLargeur) }}
+                        {{ form_row(edit_form.ctCarteGrise.ctVehicule.vhcProvenance) }}
+                        {{ form_row(edit_form.ctCarteGrise.cgNbrDebout) }}
+                        <hr>
+                        {{ form_row(edit_form.ctCarteGrise.cgRta) }}
+                        {{ form_row(edit_form.ctCarteGrise.cgPatente) }}
+                        {{ form_row(edit_form.ctCarteGrise.cgAni) }}
+                        <hr>
+                        {{ form_row(edit_form.ctCarteGrise.cgNumCarteViolette) }}
+                        {{ form_row(edit_form.ctCarteGrise.cgLieuCarteViolette) }}
+                        {{ form_row(edit_form.ctCarteGrise.cgDateCarteViolette) }}
+                        <hr>
+                        {{ form_row(edit_form.ctCarteGrise.cgNumVignette) }}
+                        {{ form_row(edit_form.ctCarteGrise.cgDateVignette) }}
+                        {{ form_row(edit_form.ctCarteGrise.cgLieuVignette) }}
+                    </div>
+                </div>
+            </div>
+    
+            {# Formulaire visite #}
+            <div class="col-md-6">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h3 class="box-title">Informations visite technique</h3>
+                    </div>
+    
+                    <div class="box-body">
+                        <div class="{% if app.user.ctRole.id != constant('Ct\\Service\\MetierManagerBundle\\Utils\\RoleName::ID_ROLE_SUPERADMIN') %}hidden{% endif %}">
+                            {{ form_row(edit_form.ctCentre) }}
+                        </div>
+                        {{ form_row(edit_form.ctTypeVisite) }}
+                        <hr>
+                        {{ form_row(edit_form.ctUsage) }}
+                        {{ form_row(edit_form.ctUtilisation) }}
+                        {{ form_row(edit_form.ctAnomalie) }}
+                        {{ form_row(edit_form.vstDateExpiration) }}
+                        {{ form_row(edit_form.ctVerificateur) }}
+                        {{ form_row(edit_form.ctVisiteExtra) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        {# Formulaire enregistrement #}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-success">
+                    <div class="box-body">
+                        <input type="submit" class="btn btn-primary" value="Modifier" name="update_visite"/>
+                        <a href="{{ path('visite_index') }}"
+                           class="btn btn-default pull-left btn-mini-rectif" >
+                            Retour à la liste
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{ form_end(edit_form) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset('backoffice/js/add.visite.js') }}"></script>
+{% endblock %}

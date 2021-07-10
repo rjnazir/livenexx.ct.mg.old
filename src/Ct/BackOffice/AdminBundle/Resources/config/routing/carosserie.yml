@@ -1,0 +1,29 @@
+carosserie_index:
+    path:     /
+    defaults: { _controller: "AdminBundle:CtCarosserie:index" }
+    methods:  GET
+
+carosserie_new:
+    path:     /new
+    defaults: { _controller: "AdminBundle:CtCarosserie:new" }
+    methods:  [GET, POST]
+
+carosserie_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AdminBundle:CtCarosserie:edit" }
+    methods:  [GET, POST]
+
+carosserie_update:
+    path:     /{id}/update
+    defaults: { _controller: "AdminBundle:CtCarosserie:update" }
+    methods:  [POST, PUT]
+
+carosserie_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AdminBundle:CtCarosserie:delete" }
+    methods:  [GET, DELETE]
+
+carosserie_delete_group:
+    path:     /delete-group
+    defaults: { _controller: "AdminBundle:CtCarosserie:deleteGroup" }
+    methods:  POST

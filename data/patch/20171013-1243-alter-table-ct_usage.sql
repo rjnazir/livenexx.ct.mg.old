@@ -1,0 +1,1 @@
+ALTER TABLE `ct_usage` CHANGE `usg_validite` `usg_validite` INT(10) NULL DEFAULT NULL;

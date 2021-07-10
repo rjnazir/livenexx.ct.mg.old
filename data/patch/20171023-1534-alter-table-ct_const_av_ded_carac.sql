@@ -1,0 +1,1 @@
+ALTER TABLE ct_const_av_ded_carac ADD cad_poids_total_charge DOUBLE PRECISION DEFAULT NULL;

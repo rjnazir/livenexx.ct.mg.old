@@ -1,0 +1,216 @@
+{% extends 'backoffice/base_admin.html.twig' %}
+
+{% form_theme form ':form:fields.html.twig' %}
+
+{% form_theme form.ctVehicule.ctMarque _self %}
+{% form_theme form.ctVehicule.ctGenre _self %}
+{% form_theme form.ctCarosserie _self %}
+{% form_theme form.ctCentre _self %}
+
+{%- block choice_widget_collapsed -%}
+    {%- if required and placeholder is none and not placeholder_in_choices and not multiple -%}
+        {% set required = false %}
+    {%- endif -%}
+    <span>
+        <select class="select2" data-placeholder="Choisir" style="width: 100%;" oninvalid="setErrorClass($(this));"
+                {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
+            {%- if placeholder is not none -%}
+                <option value=""{% if required and value is empty %} selected="selected"{% endif %}>
+                    {{ placeholder != '' ? placeholder|trans({}, translation_domain) }}
+                </option>
+            {%- endif -%}
+            {%- if preferred_choices|length > 0 -%}
+                {% set options = preferred_choices %}
+                {{- block('choice_widget_options') -}}
+                {%- if choices|length > 0 and separator is not none -%}
+                    <option disabled="disabled">{{ separator }}</option>
+                {%- endif -%}
+            {%- endif -%}
+            {%- set options = choices -%}
+            {{- block('choice_widget_options') -}}
+        </select>
+    </span>
+{%- endblock choice_widget_collapsed -%}
+
+{% block title %}{{ parent() }} Ajout Carte grise {% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <!-- JQuery UI -->
+    <link href="{{ asset('plugins/jquery-ui-1.12.1/jquery-ui.css') }}" rel="Stylesheet"></link>
+{% endblock %}
+
+{% set menu_carte_grise        = true %}
+{% set menu_carte_grise_create = true %}
+
+{% block body %}
+    {% for flashMessage in app.session.flashbag.get('success') %}
+        <div class="callout callout-success">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        <div class="callout callout-danger">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+
+    {# Formulaire recherche #}
+    <div class="row" id="search-form">
+        <div class="col-md-12">
+            <div class="box box-default">
+                <div class="box-header">
+                    <h3 class="box-title">Recherche</h3>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="ct_numero_immatriculation">Par numéro d'immatriculation</label>
+                                <input id="ct_numero_immatriculation" name="ct_numero_immatriculation"
+                                       class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="ct_numero_serie">Par numéro dans la série du type</label>
+                                <input id="ct_numero_serie" name="ct_numero_serie" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="ct_numero_identification">Par numéro d'identification</label>
+                                <input id="ct_numero_identification" name="ct_numero_identification" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="carte-grise-form">
+        {{ form_start(form) }}
+            <div class="row">
+                {# Formulaire propriétaire #}
+                <div class="col-md-6">
+                    <div class="box box-primary">
+                        <div class="box-header">
+                            <h3 class="box-title">Informations carte grise</h3>
+                        </div>
+
+                        <div class="box-body">
+                            <div class="{% if app.user.ctRole.id != constant('Ct\\Service\\MetierManagerBundle\\Utils\\RoleName::ID_ROLE_SUPERADMIN') %}hidden{% endif %}">
+                                {{ form_row(form.ctCentre) }}
+                            </div>
+                            {{ form_row(form.cgDateEmission) }}
+                            <hr>
+                            {{ form_row(form.cgImmatriculation) }}
+                            {{ form_row(form.cgNumIdentification) }}
+                            <hr>
+                            {{ form_row(form.cgNom) }}
+                            {#{{ form_row(form.cgPrenom) }}#}
+                            {{ form_row(form.cgProfession) }}
+                            {{ form_row(form.cgAdresse) }}
+                            {{ form_row(form.cgPhone) }}
+                            {{ form_row(form.cgCommune) }}
+                            <hr>
+                            {{ form_row(form.cgIsTransport) }}
+                            <div id="form-transport" class="hidden">
+                                {{ form_row(form.cgNomCooperative) }}
+                                {{ form_row(form.cgItineraire) }}
+                                {{ form_row(form.cgNumVignette) }}
+                                {{ form_row(form.ctZoneDeserte) }}
+                            </div>
+                            <hr>
+                            {{ form_row(form.cgNumCarteViolette) }}
+                            {{ form_row(form.cgLieuCarteViolette) }}
+                            {{ form_row(form.cgDateCarteViolette, {
+                                'attr': {
+                                    'class': ' datepicker-edit'
+                                }}) }}
+                            <hr>
+                            {{ form_row(form.cgPatente) }}
+                            {{ form_row(form.cgAni) }}
+                        </div>
+                    </div>
+                </div>
+
+                {# Formulaire véhicule #}
+                <div class="col-md-6">
+                    <div class="box box-success">
+                        <div class="box-header">
+                            <h3 class="box-title">Informations véhicule</h3>
+                        </div>
+
+                        <div class="box-body">
+                            {{ form_row(form.ctVehicule.ctGenre) }}
+                            {{ form_row(form.ctVehicule.vhcType) }}
+                            {{ form_row(form.ctVehicule.ctMarque) }}
+                            {{ form_row(form.ctVehicule.vhcNumSerie) }}
+                            {{ form_row(form.ctCarosserie) }}
+                            {{ form_row(form.ctVehicule.vhcNumMoteur) }}
+                            {{ form_row(form.ctSourceEnergie) }}
+                            {{ form_row(form.cgPuissanceAdmin) }}
+                            {{ form_row(form.cgNbrAssis) }}
+                            {{ form_row(form.ctVehicule.vhcPoidsVide) }}
+                            {{ form_row(form.ctVehicule.vhcChargeUtile) }}
+                            {{ form_row(form.ctVehicule.vhcPoidsTotalCharge) }}
+                            <hr>
+                            {{ form_row(form.cgMiseEnService, {
+                                'attr': {
+                                    'class': ' datepicker-edit'
+                                }})
+                            }}
+                        </div>
+
+                        {# Champs cachés #}
+                        <div class="hidden">
+                            {{ form_row(form.ctVehicule.vhcPuissance) }}
+                            {{ form_row(form.ctVehicule.vhcCylindre) }}
+                            {{ form_row(form.ctVehicule.vhcHauteur) }}
+                            {{ form_row(form.ctVehicule.vhcLongueur) }}
+                            {{ form_row(form.ctVehicule.vhcLargeur) }}
+                            {{ form_row(form.ctVehicule.vhcProvenance) }}
+                            {{ form_row(form.cgNbrDebout) }}
+                            <hr>
+                            {{ form_row(form.cgRta) }}
+                            <hr>
+                            {{ form_row(form.cgDateVignette) }}
+                            {{ form_row(form.cgLieuVignette) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {# Formulaire enregistrement #}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-success">
+                        <div class="box-body">
+                            <input type="submit" class="btn btn-primary" value="Enregistrer" name="new_carte_grise"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <!-- Vérification existence carte grise -->
+    <!-- JQuery UI -->
+    <script src="{{ asset('plugins/jquery-ui-1.12.1/jquery-ui.js') }}" ></script>
+    <script>
+        var _check_numero_ajax_uri = "{{ path('carte_grise_check_carte_grise_ajax') }}";
+        var _autocomplete_numero_serie_ajax_uri = "{{ path('vehicule_show_numero_serie_ajax') }}";
+        var _autocomplete_numero_identification_ajax_uri = "{{ path('vehicule_show_numero_serie_ajax') }}";
+        var _autocomplete_numero_immatriculation_ajax_uri = "{{ path('carte_grise_show_numero_immatriculation_ajax') }}";
+        var _fill_form_ajax_uri = "{{ path('carte_grise_fill_form_ajax') }}";
+        var _fill_form_by_numero_identification_ajax_uri = "{{ path('carte_grise_fill_form_by_numero_identification_ajax') }}";
+    </script>
+    <script src="{{ asset('backoffice/js/add.carte.grise.js') }}"></script>
+{% endblock %}

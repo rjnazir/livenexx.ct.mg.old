@@ -1,0 +1,29 @@
+province_index:
+    path:     /
+    defaults: { _controller: "AdminBundle:CtProvince:index" }
+    methods:  GET
+
+province_new:
+    path:     /new
+    defaults: { _controller: "AdminBundle:CtProvince:new" }
+    methods:  [GET, POST]
+
+province_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AdminBundle:CtProvince:edit" }
+    methods:  [GET, POST]
+
+province_update:
+    path:     /{id}/update
+    defaults: { _controller: "AdminBundle:CtProvince:update" }
+    methods:  [POST, PUT]
+
+province_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AdminBundle:CtProvince:delete" }
+    methods:  [GET, DELETE]
+
+province_delete_group:
+    path:     /delete-group
+    defaults: { _controller: "AdminBundle:CtProvince:deleteGroup" }
+    methods:  POST

@@ -1,0 +1,287 @@
+{% extends 'backoffice/base_admin.html.twig' %}
+
+{% if show_first_page is not defined and is_stop is not defined or (is_stop is defined and is_stop == false) %}
+
+    {% form_theme form ':form:fields.html.twig' %}
+
+    {#{{% form_theme form.ctCentre _self %}}#}
+    {% form_theme form.ctVehicule.ctGenre _self %}
+    {#{% form_theme form.ctTypeReception _self %}#}
+    {% form_theme form.ctVehicule.ctMarque _self %}
+    {% form_theme form.ctSourceEnergie _self %}
+    {% form_theme form.ctCarosserie _self %}
+    {% if rec_type is defined and rec_type == "isole" %}
+        {% form_theme form.ctMotif _self %}
+    {% endif %}
+    {% form_theme form.ctUtilisation _self %}
+
+{% endif %}
+
+{%- block choice_widget_collapsed -%}
+    {%- if required and placeholder is none and not placeholder_in_choices and not multiple -%}
+        {% set required = false %}
+    {%- endif -%}
+    <span>
+        <select class="select2" data-placeholder="Choisir" style="width: 100%;" oninvalid="setErrorClass($(this));"
+                {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
+            {%- if placeholder is not none -%}
+                <option value=""{% if required and value is empty %} selected="selected"{% endif %}>
+                    {{ placeholder != '' ? placeholder|trans({}, translation_domain) }}
+                </option>
+            {%- endif -%}
+            {%- if preferred_choices|length > 0 -%}
+                {% set options = preferred_choices %}
+                {{- block('choice_widget_options') -}}
+                {%- if choices|length > 0 and separator is not none -%}
+                    <option disabled="disabled">{{ separator }}</option>
+                {%- endif -%}
+            {%- endif -%}
+            {%- set options = choices -%}
+            {{- block('choice_widget_options') -}}
+        </select>
+    </span>
+{%- endblock choice_widget_collapsed -%}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <!-- JQuery UI -->
+    <link href="{{ asset('plugins/jquery-ui-1.12.1/jquery-ui.css') }}" rel="Stylesheet"></link>
+{% endblock %}
+
+{% block title %}{{ parent() }} Ajout Réception {% endblock %}
+
+{% set menu_reception               = true %}
+{% set menu_reception_create        = true %}
+{% set menu_reception_create_create = true %}
+
+{% block body %}
+    {% for flashMessage in app.session.flashbag.get('success') %}
+        <div class="callout callout-success">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        <div class="callout callout-danger">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+
+    {% if is_stop is defined and is_stop == true and id_recep is defined  %}
+        <div style="text-align: center">
+            <a href="{{ path('reception_generer_pv', { 'id': id_recep }) }}"
+               class="btn btn-primary btn-lg" target="_blank">
+                Générer PV
+            </a>
+        </div>
+    {% else %}
+        {% if show_first_page is defined %}
+            <div class="row">
+                <div class="col-md-6" id="id-choix-reception">
+                    <div class="box box-success">
+                        <div class="box-header text-center">
+                            <h3 class="box-title">Nouvelle réception</h3>
+                        </div>
+                        <form name="nb_vehicule" id="nb_vehicule" action="{{ path('reception_new')}}" method="post">
+                            <div class="box-body">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-sm-6 col-md-6 col-lg-4">
+                                            <select class="form-control" data-placeholder="Choisir" id="select-type">
+                                                <option value="" selected="selected">
+                                                    Choisir
+                                                </option>
+                                                {% if type_receptions %}
+                                                    {% for rcpt in type_receptions %}
+                                                        <option value="{{ rcpt.tprcpLibelle }}">
+                                                            {{ rcpt.tprcpLibelle }}
+                                                        </option>
+                                                    {% endfor %}
+                                                {% endif %}
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="creer-form" class="hide">
+                                    <div class="form-group" id="nb-vehicule-form">
+                                        <div class="row">
+                                            <div class="col-sm-6 col-md-6 col-lg-4">
+                                                <input type="number" min="1" id="ct_nb_total_vehicule" name="ct_nb_total_vehicule" class="form-control" value="" oninvalid="setErrorClass($(this));"
+                                                placeholder="Nombre de vehicules">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-sm-6 col-md-6 col-lg-4 text-center">
+                                                <button type="submit" class="btn btn-success form-control" id="ct_creer_recep">Cr&eacute;er</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-6" id="id-bilan-reception">
+                    <div class="box box-success">
+                        <div class="box-header text-center">
+                            <h3 class="box-title">Bilan</h3>
+                        </div>
+                        <div class="box-body">
+                            <div class="kl-fdc">
+                                <div class="form-group">
+                                    <select required class="form-control" data-placeholder="Choisir" id="select-type-bilan">
+                                        <option value="" selected="selected">
+                                            Choisir
+                                        </option>
+                                        {% if type_receptions %}
+                                            {% for rcpt in type_receptions %}
+                                                <option value="{{ rcpt.id }}">
+                                                    {{ rcpt.tprcpLibelle }}
+                                                </option>
+                                            {% endfor %}
+                                        {% endif %}
+
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                <input required type="text" id="ct_date_generer" name="ct_date_generer" class="form-control cs-datepicker">
+                                </div>
+                                <a href="{{ path('reception_generer_fdc_rec') }}"
+                                   class="btn btn-primary btn-lg" id="ct_link_generer_feuille_caisse" target="_blank">
+                                    Feuille de caisse
+                                </a>
+                                <a href="{{ path('reception_generer_fdctrl_rec') }}"
+                                   class="btn btn-danger btn-lg" id="ct_link_generer_fiche_controle" target="_blank">
+                                    Fiche de contrôle
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        {% else %}
+
+            <div class="panel panel-default">
+                <div class="panel-heading text-center"><h3>Nouvelle Réception {{ rec_type|capitalize }}
+                        {% if nb_vehicule is defined %}<span class="label label-warning">{% if num_saisie is defined %}{{ num_saisie }}{% endif %}/{{ nb_vehicule }} V&eacute;hicules</span>{% endif %}</h3></div>
+                <div class="panel-body">
+                    <div class="row">
+                        {{ form_start(form) }}
+                        {# Formulaire véhicule #}
+                        <div class="col-md-6">
+                            <div class="box box-success">
+                                <div class="box-header">
+                                    <h3 class="box-title">Informations véhicule</h3>
+                                </div>
+
+                                <div class="box-body">
+                                    {{ form_row(form.ctVehicule.ctGenre) }}
+                                    {{ form_row(form.ctVehicule.ctMarque) }}
+                                    <hr>
+                                    {{ form_row(form.ctVehicule.vhcType) }}
+                                    <div class="form-group">
+                                        {{ form_label(form.ctVehicule.vhcNumSerie) }}
+                                        {{ form_widget(form.ctVehicule.vhcNumSerie,
+                                        {
+                                            'attr': {
+                                            'class': 'form-control',
+                                            'ajax-url': path('reception_autocomplete_vehicule')
+                                        }
+                                        }
+                                        )}}
+                                    </div>
+                                    {{ form_row(form.ctVehicule.vhcNumMoteur) }}
+                                    {{ form_row(form.ctCarosserie) }}
+                                    {{ form_row(form.ctSourceEnergie) }}
+                                    <hr>
+                                    {{ form_row(form.ctVehicule.vhcCylindre) }}
+                                    {{ form_row(form.ctVehicule.vhcPuissance) }}
+                                    {{ form_row(form.ctVehicule.vhcPoidsVide) }}
+                                    {{ form_row(form.ctVehicule.vhcChargeUtile) }}
+                                    {{ form_row(form.ctVehicule.vhcPoidsTotalCharge) }}
+                                    {#<div class="form-group">
+                                        <label for="ct_ptac" class="">Poids total a charge</label>
+                                        <input type="text" id="ct_ptac" name="ct_ptac" class="form-control" value="" disabled>
+                                    </div>#}
+
+                                    <div class="hidden">
+                                        {#{{ form_row(form.ctCentre) }}
+                                        {{ form_row(form.ctTypeReception) }}#}
+                                        {{ form_row(form.ctVehicule.vhcHauteur) }}
+                                        {{ form_row(form.ctVehicule.vhcLongueur) }}
+                                        {{ form_row(form.ctVehicule.vhcLargeur) }}
+                                        {{ form_row(form.ctVehicule.vhcProvenance) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {# Formulaire Reception #}
+                        <div class="col-md-6">
+                            <div class="box box-primary">
+                                <div class="box-header">
+                                    <h3 class="box-title">Informations réception</h3>
+                                </div>
+
+                                <div class="box-body">
+                                    {{ form_row(form.ctUtilisation) }}
+                                    {% if rec_type is defined and rec_type == "isole" %}
+                                        {{ form_row(form.ctMotif) }}
+                                    {% else %}
+                                        {{ form_row(form.ctMotif, { 'attr':{'disabled':'disabled'} }) }}
+                                    {% endif %}
+                                    <hr>
+                                    {% if rec_type is defined and rec_type == "isole" %}
+                                        {{ form_row(form.rcpImmatriculation) }}
+                                    {% endif %}
+                                    {{ form_row(form.rcpProprietaire) }}
+                                    {{ form_row(form.rcpProfession) }}
+                                    {{ form_row(form.rcpAdresse) }}
+                                    <hr>
+                                    {{ form_row(form.rcpNbrAssis) }}
+                                    {{ form_row(form.rcpNbrDebout) }}
+                                    {{ form_row(form.rcpMiseService) }}
+                                </div>
+
+                                <div class="box-footer">
+                                    <input type="hidden" name="num_saisie" id="num_saisie" value="{% if num_saisie is defined %}{{ num_saisie }}{% endif %}">
+                                    <input type="hidden" name="nb-total-vehicule" id="id-nb-total-vehicule" value="{% if nb_vehicule is defined %}{{ nb_vehicule }}{% endif %}">
+                                    <input type="hidden" id="id-is-focus" value=" {{ is_focus }}" name=""/>
+                                    {% if is_stop is defined and is_stop == false %}
+                                        <input type="submit" class="btn btn-warning" value="Suivant" name="new_type_reception"/>
+                                    {% else %}
+                                        <input type="submit" class="btn btn-primary" value="Enregistrer" name="new_type_reception"/>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+
+
+
+        {% endif %}
+    {% endif %}
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <!-- JQuery UI -->
+    <script src="{{ asset('plugins/jquery-ui-1.12.1/jquery-ui.js') }}" ></script>
+
+    <script src="{{ asset('backoffice/js/edit.reception.js') }}"></script>
+    <!-- Base URL -->
+    <script>
+        var _base_url = "{{ path('dashboard_index') }}";
+    </script>
+{% endblock %}

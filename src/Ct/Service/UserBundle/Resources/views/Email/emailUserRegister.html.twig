@@ -1,0 +1,26 @@
+{% extends '::layoutEmail.email.twig' %}
+
+{% block body_html_content %}
+	<td valign="middle" style="width:430px; padding:10px; font-family:Arial, Helvetica, sans-serif; font-size:14px;">
+	    <p style="margin-top:10px;margin-bottom:10px;">Bonjour {{ user.firstname }},</p>
+	    <p style="margin-top:10px;margin-bottom:10px;"><br><br>Voici votre identifiant :</p>
+
+        <table>
+            <tr>
+                <td>Login</td>
+                <td>:</td>
+                <td>{{ data['username'] }}</td>
+            </tr>
+            <tr>
+                <td>Mot de passe</td>
+                <td>:</td>
+                <td>{{ data['password'] }}</td>
+            </tr>
+        </table>
+
+        <p style="margin-top:10px;margin-bottom:10px;"><br><br>Merci</p>
+	</td>
+{% endblock %}
+
+{% block body_html_footer_action %}
+{% endblock %}

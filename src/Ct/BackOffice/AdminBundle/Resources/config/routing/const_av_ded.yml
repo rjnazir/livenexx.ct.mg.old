@@ -1,0 +1,54 @@
+const_av_ded_index:
+    path:     /
+    defaults: { _controller: "AdminBundle:CtConstatationAvDedouanement:index" }
+    methods:  GET
+
+const_av_ded_new:
+    path:     /new
+    defaults: { _controller: "AdminBundle:CtConstatationAvDedouanement:new" }
+    methods:  [GET, POST]
+
+const_av_ded_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AdminBundle:CtConstatationAvDedouanement:edit" }
+    methods:  [GET, POST]
+
+const_av_ded_view:
+    path:     /{id}/view
+    defaults: { _controller: "AdminBundle:CtConstatationAvDedouanement:view" }
+    methods:  [GET, POST]
+
+const_av_ded_update:
+    path:     /{id}/update
+    defaults: { _controller: "AdminBundle:CtConstatationAvDedouanement:update" }
+    methods:  [POST, PUT]
+
+const_av_ded_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AdminBundle:CtConstatationAvDedouanement:delete" }
+    methods:  [GET, DELETE]
+
+const_av_ded_delete_group:
+    path:     /delete-group
+    defaults: { _controller: "AdminBundle:CtConstatationAvDedouanement:deleteGroup" }
+    methods:  POST
+
+const_av_ded_generer_pv:
+    path:     /{id}/generer-pv
+    defaults: { _controller: "AdminBundle:CtConstatationAvDedouanement:genererPv" }
+    methods:  [GET, POST]
+
+const_av_ded_download_pv:
+    path:     /{id}/download-pv
+    defaults: { _controller: "AdminBundle:CtConstatationAvDedouanement:downloadPv" }
+    methods:  [GET, POST]
+    
+const_av_ded_generate_reporting_feuille_caisse_ajax:
+    path:     /generate-reporting-cad-feuille-caisse-ajax
+    defaults: { _controller: "AdminBundle:CtConstatationAvDedouanement:generateReportingFeuilleCaisseAjax" }
+    methods:  [GET, POST]
+
+const_av_ded_generate_reporting_fiche_controle_ajax:
+    path:     /generate-reporting-cad-fiche-controle-ajax
+    defaults: { _controller: "AdminBundle:CtConstatationAvDedouanement:generateReportingFicheControleAjax" }
+    methods:  [GET, POST]

@@ -1,0 +1,124 @@
+reception_index:
+    path:     /
+    defaults: { _controller: "AdminBundle:CtReception:index" }
+    methods:  GET
+
+reception_new:
+    path:     /new/{type}
+    defaults: { _controller: "AdminBundle:CtReception:new", type: 0 }
+    methods:  [GET, POST]
+
+reception_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AdminBundle:CtReception:edit" }
+    methods:  [GET, POST]
+
+reception_view:
+    path:     /{id}/view
+    defaults: { _controller: "AdminBundle:CtReception:view" }
+    methods:  [GET, POST]
+
+reception_update:
+    path:     /{id}/update
+    defaults: { _controller: "AdminBundle:CtReception:update" }
+    methods:  [POST, PUT]
+
+reception_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AdminBundle:CtReception:delete" }
+    methods:  [GET, DELETE]
+
+reception_delete_group:
+    path:     /delete-group
+    defaults: { _controller: "AdminBundle:CtReception:deleteGroup" }
+    methods:  POST
+
+reception_centre_ajax:
+    path:     /centre-ajax
+    defaults: { _controller: "AdminBundle:CtReception:selectCentreAjax" }
+    methods:  [GET, POST]
+
+reception_autocomplete_vehicule:
+    path:     /auto-vehicule
+    defaults: { _controller: "AdminBundle:CtReception:autoCompleteNumSerie" }
+    methods:  [GET, POST]
+
+reception_generer_pv:
+    path:     /{id}/generer-pv
+    defaults: { _controller: "AdminBundle:CtReception:genererPv", id: 0}
+    methods:  [GET, POST]
+
+reception_download_pv:
+    path:     /download-pv/{id}
+    defaults: { _controller: "AdminBundle:CtReception:downloadPv" }
+    methods:  [GET, POST]
+
+reception_download_duplicata_pv:
+    path:     /download-duplicata-pv/{id}
+    defaults: { _controller: "AdminBundle:CtReception:downloadPvDuplicata" }
+    methods:  [GET, POST]
+
+reception_generer_pv_ajax:
+    path:     /pv-ajax
+    defaults: { _controller: "AdminBundle:CtReception:genererPvAjax" }
+    methods:  [GET, POST]
+
+reception_generer_pv_duplicata_ajax:
+    path:     /pv-duplicata-ajax
+    defaults: { _controller: "AdminBundle:CtReception:genererPvDuplicataAjax" }
+    methods:  [GET, POST]
+
+reception_duplicata:
+    path:     /duplicata
+    defaults: { _controller: "AdminBundle:CtReception:duplicata" }
+    methods:  [GET, POST]
+
+reception_autocomplete_num_serie_duplicata:
+    path:     /auto-duplicata-serie
+    defaults: { _controller: "AdminBundle:CtReception:autoCompleteNumSerieDuplicata" }
+    methods:  [GET, POST]
+
+reception_autocomplete_immatricule_duplicata:
+    path:     /auto-duplicata-immatricule
+    defaults: { _controller: "AdminBundle:CtReception:autoCompleteImmatriculeDuplicata" }
+    methods:  [GET, POST]
+
+reception_generer_duplicata_pv:
+    path:     /{id}/generer-pv-duplicata
+    defaults: { _controller: "AdminBundle:CtReception:genererPvDuplicata"}
+    methods:  [GET, POST]
+
+reception_generer_fdc_rec:
+    path:     /generer-fdc-rec/{date}/{type}
+    defaults: { _controller: "AdminBundle:CtReception:genererFeuilleDeCaisseReception", date: 0, type: 0}
+    methods:  [GET, POST]
+
+reception_generer_fdctrl_rec:
+    path:     /generer-fiche-controle-rec/{date}/{type}
+    defaults: { _controller: "AdminBundle:CtReception:genererFicheDeControleReception", date: 0, type: 0}
+    methods:  [GET, POST]
+
+reception_redirect_to_edit:
+    path:     /{id}/redirect-to-edit
+    defaults: { _controller: "AdminBundle:CtReception:redirectToEdit"}
+    methods:  [GET, POST]
+
+reception_search:
+    path:     /search
+    defaults: { _controller: "AdminBundle:CtReception:search" }
+    methods:  [GET, POST]
+
+reception_get_info_ajax:
+    path:     /get-info-ajax
+    defaults: { _controller: "AdminBundle:CtReception:getInfoAjax" }
+    methods:  POST
+
+reception_show_numero_immatriculation_ajax:
+    path:     /show-numero-immatriculation-ajax
+    defaults: { _controller: "AdminBundle:CtReception:showNumeroImmatriculationAjax" }
+    methods:  POST
+
+reception_show_numero_serie_ajax:
+    path:     /show-numero-serie-ajax
+    defaults: { _controller: "AdminBundle:CtReception:showNumeroSerieAjax" }
+    methods:  POST

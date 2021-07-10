@@ -1,0 +1,23 @@
+/* 
+    Created on : 27 déc. 2016, 09:44:32
+    Author     : Niaina
+*/
+.login-box{ width:480px !important;}
+
+.login-logo{ margin-bottom:0px;}
+
+.login-logo > img {
+    width: 100%;
+}
+
+.login-page, .register-page {
+    background: white;
+}
+
+.login-box-body, .register-box-body {
+    background: silver;
+}
+@media screen and (max-width:481px){
+    .login-box{ width:95% !important;}
+    #login-form .col-xs-offset-8.col-xs-4{ width:100%; float:right !important;}
+}

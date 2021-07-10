@@ -1,0 +1,75 @@
+{% extends 'backoffice/base_admin.html.twig' %}
+
+{% form_theme form ':form:custom_fields.html.twig' %}
+{% form_theme form.ctTypeVisite _self %}
+{% form_theme form.ctUsage _self %}
+
+{% block title %}{{ parent() }} Ajout Tarif usage {% endblock %}
+
+{% set menu_usage_tarif        = true %}
+{% set menu_usage_tarif_create = true %}
+
+{%- block choice_widget_collapsed -%}
+    {%- if required and placeholder is none and not placeholder_in_choices and not multiple -%}
+        {% set required = false %}
+    {%- endif -%}
+    <span>
+        <select class="select2" data-placeholder="Choisir" style="width: 100%;" oninvalid="setErrorClass($(this));"
+                {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
+            {%- if placeholder is not none -%}
+                <option value=""{% if required and value is empty %} selected="selected"{% endif %}>
+                    {{ placeholder != '' ? placeholder|trans({}, translation_domain) }}
+                </option>
+            {%- endif -%}
+            {%- if preferred_choices|length > 0 -%}
+                {% set options = preferred_choices %}
+                {{- block('choice_widget_options') -}}
+                {%- if choices|length > 0 and separator is not none -%}
+                    <option disabled="disabled">{{ separator }}</option>
+                {%- endif -%}
+            {%- endif -%}
+            {%- set options = choices -%}
+            {{- block('choice_widget_options') -}}
+        </select>
+    </span>
+{%- endblock choice_widget_collapsed -%}
+
+{% block body %}
+    {% for flashMessage in app.session.flashbag.get('success') %}
+        <div class="callout callout-success">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        <div class="callout callout-danger">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                {{ form_start(form) }}
+                    <div class="box-header">
+                        <h3 class="box-title">Ajouter tarif usage</h3>
+                    </div>
+                    
+                    <div class="box-body">
+                        {{ form_row(form.ctTypeVisite) }}
+                        {{ form_row(form.ctUsage) }}
+                        {{ form_row(form.usgTrfPrix) }}
+                        {#{{ form_row(form.usgTrfAnnee) }}#}
+                    </div>
+
+                    <div class="box-footer">
+                        <input type="submit" class="btn btn-primary" value="Enregistrer" name="new_usage"/>
+                        <a href="{{ path('usage_index') }}"
+                           class="btn btn-default pull-left btn-mini-rectif" >
+                            Retour à la liste
+                        </a>
+                    </div>                    
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

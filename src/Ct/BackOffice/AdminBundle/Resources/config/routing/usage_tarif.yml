@@ -1,0 +1,29 @@
+usage_tarif_index:
+    path:     /
+    defaults: { _controller: "AdminBundle:CtUsageTarif:index" }
+    methods:  GET
+
+usage_tarif_new:
+    path:     /new
+    defaults: { _controller: "AdminBundle:CtUsageTarif:new" }
+    methods:  [GET, POST]
+
+usage_tarif_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AdminBundle:CtUsageTarif:edit" }
+    methods:  [GET, POST]
+
+usage_tarif_update:
+    path:     /{id}/update
+    defaults: { _controller: "AdminBundle:CtUsageTarif:update" }
+    methods:  [POST, PUT]
+
+usage_tarif_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AdminBundle:CtUsageTarif:delete" }
+    methods:  [GET, DELETE]
+
+usage_tarif_delete_group:
+    path:     /delete-group
+    defaults: { _controller: "AdminBundle:CtUsageTarif:deleteGroup" }
+    methods:  POST

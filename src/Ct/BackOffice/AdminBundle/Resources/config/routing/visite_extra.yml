@@ -1,0 +1,29 @@
+visite_extra_index:
+    path:     /
+    defaults: { _controller: "AdminBundle:CtVisiteExtra:index" }
+    methods:  GET
+
+visite_extra_new:
+    path:     /new
+    defaults: { _controller: "AdminBundle:CtVisiteExtra:new" }
+    methods:  [GET, POST]
+
+visite_extra_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AdminBundle:CtVisiteExtra:edit" }
+    methods:  [GET, POST]
+
+visite_extra_update:
+    path:     /{id}/update
+    defaults: { _controller: "AdminBundle:CtVisiteExtra:update" }
+    methods:  [POST, PUT]
+
+visite_extra_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AdminBundle:CtVisiteExtra:delete" }
+    methods:  [GET, DELETE]
+
+visite_extra_delete_group:
+    path:     /delete-group
+    defaults: { _controller: "AdminBundle:CtVisiteExtra:deleteGroup" }
+    methods:  POST

@@ -1,0 +1,29 @@
+droit_ptac_index:
+    path:     /
+    defaults: { _controller: "AdminBundle:CtDroitPtac:index" }
+    methods:  GET
+
+droit_ptac_new:
+    path:     /new
+    defaults: { _controller: "AdminBundle:CtDroitPtac:new" }
+    methods:  [GET, POST]
+
+droit_ptac_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AdminBundle:CtDroitPtac:edit" }
+    methods:  [GET, POST]
+
+droit_ptac_update:
+    path:     /{id}/update
+    defaults: { _controller: "AdminBundle:CtDroitPtac:update" }
+    methods:  [POST, PUT]
+
+droit_ptac_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AdminBundle:CtDroitPtac:delete" }
+    methods:  [GET, DELETE]
+
+droit_ptac_delete_group:
+    path:     /delete-group
+    defaults: { _controller: "AdminBundle:CtDroitPtac:deleteGroup" }
+    methods:  POST

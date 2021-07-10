@@ -1,0 +1,1 @@
+ALTER TABLE ct_const_av_ded ADD cad_observation VARCHAR(255) DEFAULT NULL;

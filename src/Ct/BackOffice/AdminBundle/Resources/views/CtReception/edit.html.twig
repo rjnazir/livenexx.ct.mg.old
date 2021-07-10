@@ -1,0 +1,156 @@
+{% extends 'backoffice/base_admin.html.twig' %}
+
+{% form_theme edit_form ':form:fields.html.twig' %}
+
+{#{% form_theme edit_form.ctCentre _self %}#}
+{% form_theme edit_form.ctVehicule.ctGenre _self %}
+{#{% form_theme edit_form.ctTypeReception _self %}#}
+{% form_theme edit_form.ctVehicule.ctMarque _self %}
+{% form_theme edit_form.ctSourceEnergie _self %}
+{% form_theme edit_form.ctCarosserie _self %}
+{% form_theme edit_form.ctMotif _self %}
+{% form_theme edit_form.ctUtilisation _self %}
+
+{%- block choice_widget_collapsed -%}
+    {%- if required and placeholder is none and not placeholder_in_choices and not multiple -%}
+        {% set required = false %}
+    {%- endif -%}
+    <span>
+        <select class="select2" data-placeholder="Choisir" style="width: 100%;" oninvalid="setErrorClass($(this));"
+                {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
+            {%- if placeholder is not none -%}
+                <option value=""{% if required and value is empty %} selected="selected"{% endif %}>
+                    {{ placeholder != '' ? placeholder|trans({}, translation_domain) }}
+                </option>
+            {%- endif -%}
+            {%- if preferred_choices|length > 0 -%}
+                {% set options = preferred_choices %}
+                {{- block('choice_widget_options') -}}
+                {%- if choices|length > 0 and separator is not none -%}
+                    <option disabled="disabled">{{ separator }}</option>
+                {%- endif -%}
+            {%- endif -%}
+            {%- set options = choices -%}
+            {{- block('choice_widget_options') -}}
+        </select>
+    </span>
+{%- endblock choice_widget_collapsed -%}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <!-- JQuery UI -->
+    <link href="{{ asset('plugins/jquery-ui-1.12.1/jquery-ui.css') }}" rel="Stylesheet"></link>
+{% endblock %}
+
+{% block title %}{{ parent() }} Modification Réception {% endblock %}
+
+{% set menu_reception             = true %}
+{% set menu_reception_create = true %}
+
+{% block body %}
+    {% for flashMessage in app.session.flashbag.get('success') %}
+        <div class="callout callout-success">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        <div class="callout callout-danger">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    <div class="panel panel-default">
+        <div class="panel-heading text-center"><h3>Modifier Réception {{ rec_type|capitalize }}</h3></div>
+        <div class="panel-body">
+            <div class="row">
+                {{ form_start(edit_form) }}
+                {# Formulaire véhicule #}
+                <div class="col-md-6">
+                    <div class="box box-success">
+                        <div class="box-header">
+                            <h3 class="box-title">Informations véhicule</h3>
+                        </div>
+
+                        <div class="box-body">
+                            {{ form_row(edit_form.ctVehicule.vhcType) }}
+                            <div class="form-group">
+                                {{ form_label(edit_form.ctVehicule.vhcNumSerie, 'Numero Serie') }}
+                                {{ form_widget(edit_form.ctVehicule.vhcNumSerie, {
+                                    'attr': {
+                                        'class': 'form-control',
+                                        'ajax-url': path('reception_autocomplete_vehicule')
+                                    }
+                                }
+                                )}}
+                            </div>
+                            {{ form_row(edit_form.ctVehicule.vhcNumMoteur) }}
+                            {{ form_row(edit_form.rcpImmatriculation) }}
+                            {{ form_row(edit_form.ctVehicule.ctGenre) }}
+                            {{ form_row(edit_form.ctVehicule.ctMarque) }}
+                            {{ form_row(edit_form.ctVehicule.vhcCylindre) }}
+                            {{ form_row(edit_form.ctVehicule.vhcPuissance) }}
+                            {{ form_row(edit_form.ctVehicule.vhcChargeUtile) }}
+                            {{ form_row(edit_form.ctVehicule.vhcPoidsVide) }}
+                            {{ form_row(edit_form.ctVehicule.vhcPoidsTotalCharge) }}
+                            <div class="hidden">
+                                {{ form_row(edit_form.ctVehicule.vhcHauteur) }}
+                                {{ form_row(edit_form.ctVehicule.vhcLongueur) }}
+                                {{ form_row(edit_form.ctVehicule.vhcLargeur) }}
+                                {{ form_row(edit_form.ctVehicule.vhcProvenance) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {# Formulaire Reception #}
+                <div class="col-md-6">
+                    <div class="box box-primary">
+                        <div class="box-header">
+                            <h3 class="box-title">Informations réception</h3>
+                        </div>
+
+                        <div class="box-body">
+                            {{ form_row(edit_form.ctSourceEnergie) }}
+                            {{ form_row(edit_form.ctCarosserie) }}
+                            {{ form_row(edit_form.rcpNbrAssis) }}
+                            {{ form_row(edit_form.rcpNbrDebout) }}
+                            {{ form_row(edit_form.rcpMiseService, {
+                                'attr': {
+                                    'class': ' datepicker-edit'
+                                }}) }}
+                            {{ form_row(edit_form.ctMotif) }}
+                            {{ form_row(edit_form.rcpProprietaire) }}
+                            {{ form_row(edit_form.rcpAdresse) }}
+                            {{ form_row(edit_form.rcpProfession) }}
+                            {{ form_row(edit_form.ctUtilisation) }}
+                        </div>
+                        <div class="box-footer">
+                            <input type="submit" class="btn btn-primary" value="Modifier" name="update_type_reception"/>
+                            <a href="{{ path('reception_index') }}"
+                               class="btn btn-default pull-left btn-mini-rectif" >
+                                Retour à la liste
+                            </a>
+                            <a href="{{ path('reception_generer_pv', { 'id': reception.id }) }}"
+                               class="btn btn-warning" target="_blank">
+                                Générer PV
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+                {{ form_end(edit_form) }}
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <!-- JQuery UI -->
+    <script src="{{ asset('plugins/jquery-ui-1.12.1/jquery-ui.js') }}" ></script>
+
+    <script src="{{ asset('backoffice/js/edit.reception.js') }}"></script>
+{% endblock %}

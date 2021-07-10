@@ -1,0 +1,9 @@
+ALTER TABLE ct_historique
+ADD ct_user_id INT DEFAULT NULL,
+
+ADD hst_is_view TINYINT(1) NOT NULL;
+
+ALTER TABLE ct_historique
+ADD CONSTRAINT FK_7E72DEE1C211A85D FOREIGN KEY (ct_user_id) REFERENCES ct_user (id);
+
+CREATE INDEX IDX_7E72DEE1C211A85D ON ct_historique (ct_user_id);

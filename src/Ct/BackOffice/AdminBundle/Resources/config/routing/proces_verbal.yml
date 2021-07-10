@@ -1,0 +1,29 @@
+proces_verbal_index:
+    path:     /
+    defaults: { _controller: "AdminBundle:CtProcesVerbal:index" }
+    methods:  GET
+
+proces_verbal_new:
+    path:     /new
+    defaults: { _controller: "AdminBundle:CtProcesVerbal:new" }
+    methods:  [GET, POST]
+
+proces_verbal_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AdminBundle:CtProcesVerbal:edit" }
+    methods:  [GET, POST]
+
+proces_verbal_update:
+    path:     /{id}/update
+    defaults: { _controller: "AdminBundle:CtProcesVerbal:update" }
+    methods:  [POST, PUT]
+
+proces_verbal_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AdminBundle:CtProcesVerbal:delete" }
+    methods:  [GET, DELETE]
+
+proces_verbal_delete_group:
+    path:     /delete-group
+    defaults: { _controller: "AdminBundle:CtProcesVerbal:deleteGroup" }
+    methods:  POST

@@ -1,0 +1,26 @@
+{% block subject %}{% endblock %}
+
+{% block body_text %}{% endblock %}
+
+{% block body_html %}
+    <html>
+        <head>
+            <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        </head>
+
+        <body style="margin:0;">
+            <table width="620" border="0" cellspacing="0" cellpadding="0" style="font-family:Arial, Helvetica, sans-serif; font-size:12px;">
+                <tbody>
+                    <tr>
+                        {% block body_html_content %}{% endblock %}
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            {% block body_html_footer_action %}{% endblock %}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </body>
+    </html>
+{% endblock %}

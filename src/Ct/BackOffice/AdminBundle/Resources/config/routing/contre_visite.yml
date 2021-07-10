@@ -1,0 +1,44 @@
+contre_visite_index:
+    path:     /
+    defaults: { _controller: "AdminBundle:CtContreVisite:index" }
+    methods:  GET
+
+contre_visite_new:
+    path:     /new
+    defaults: { _controller: "AdminBundle:CtContreVisite:new" }
+    methods:  [GET, POST]
+
+contre_visite_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AdminBundle:CtContreVisite:edit" }
+    methods:  [GET, POST]
+
+contre_visite_update:
+    path:     /{id}/update
+    defaults: { _controller: "AdminBundle:CtContreVisite:update" }
+    methods:  [POST, PUT]
+
+contre_visite_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AdminBundle:CtContreVisite:delete" }
+    methods:  [GET, DELETE]
+
+contre_visite_delete_group:
+    path:     /delete-group
+    defaults: { _controller: "AdminBundle:CtContreVisite:deleteGroup" }
+    methods:  POST
+
+contre_visite_generate_reporting_ajax:
+    path:     /generate-reporting-ajax
+    defaults: { _controller: "AdminBundle:CtContreVisite:generateReportingAjax" }
+    methods:  POST
+
+contre_visite_search_by_serie:
+    path:     /search-by-serie
+    defaults: { _controller: "AdminBundle:CtContreVisite:searchBySerie" }
+    methods:  POST
+
+contre_visite_search_by_immatriculation:
+    path:     /search-by-immatriculation
+    defaults: { _controller: "AdminBundle:CtContreVisite:searchByImmatriculation" }
+    methods:  POST

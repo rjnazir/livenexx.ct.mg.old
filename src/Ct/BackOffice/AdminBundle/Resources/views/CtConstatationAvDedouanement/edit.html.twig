@@ -1,0 +1,185 @@
+{% extends 'backoffice/base_admin.html.twig' %}
+
+{% form_theme edit_form ':form:custom_fields.html.twig' %}
+{% form_theme edit_form.ctVerificateur _self %}
+
+{%- block choice_widget_collapsed -%}
+    {%- if required and placeholder is none and not placeholder_in_choices and not multiple -%}
+        {% set required = false %}
+    {%- endif -%}
+    <span>
+        <select class="select2" data-placeholder="Choisir" style="width: 100%;" oninvalid="setErrorClass($(this));"
+                {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
+            {%- if placeholder is not none -%}
+                <option value=""{% if required and value is empty %} selected="selected"{% endif %}>
+                    {{ placeholder != '' ? placeholder|trans({}, translation_domain) }}
+                </option>
+            {%- endif -%}
+            {%- if preferred_choices|length > 0 -%}
+                {% set options = preferred_choices %}
+                {{- block('choice_widget_options') -}}
+                {%- if choices|length > 0 and separator is not none -%}
+                    <option disabled="disabled">{{ separator }}</option>
+                {%- endif -%}
+            {%- endif -%}
+            {%- set options = choices -%}
+            {{- block('choice_widget_options') -}}
+        </select>
+    </span>
+{%- endblock choice_widget_collapsed -%}
+
+{% block title %}{{ parent() }} Ajout motif {% endblock %}
+
+{% set menu_const_av_ded           = true %}
+{% set menu_const_av_ded_create    = true %}
+
+{% block body %}
+    {% for flashMessage in app.session.flashbag.get('success') %}
+        <div class="callout callout-success">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        <div class="callout callout-danger">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+
+
+    <div class="panel panel-default">
+        <div class="panel-heading text-center"><h3>Caracteristiques du vehicule</h3></div>
+        <div class="panel-body">
+            {{ form_start(edit_form) }}
+            <div class="row">
+                {% for cadc in edit_form.ctConstAvDedCaracs %}
+                    {% form_theme cadc.ctGenre _self %}
+                    {% form_theme cadc.ctMarque _self %}
+                    {% form_theme cadc.ctSourceEnergie _self %}
+                    {% form_theme cadc.ctCarosserie _self %}
+                    <div class="col-md-6">
+                        <div class="box box-success">
+                            <div class="box-body">
+                                <div class="form-group">
+                                    {{ form_widget(cadc.ctConstAvDedType, {'attr': {'class': 'form-control hide'}})}}
+                                </div>
+                                <div class="form-group">
+                                    {{ form_widget(cadc.cadInputCaracType, {'attr': {'class': 'form-control kl-select-cadt'}})}}
+                                </div>
+                                <div class="form-group">
+                                    {{ form_label(cadc.cadPremiereCircule) }}
+                                    {{ form_widget(cadc.cadPremiereCircule,{'attr': {'class': 'form-control'}})}}
+                                </div>
+                                <div class="form-group">
+                                    {{ form_label(cadc.ctGenre) }}
+                                    {{ form_widget(cadc.ctGenre,{'attr': {'class': 'form-control'}})}}
+                                </div>
+                                <div class="form-group">
+                                    {{ form_label(cadc.ctMarque) }}
+                                    {{ form_widget(cadc.ctMarque,{'attr': {'class': 'form-control'}})}}
+                                </div>
+                                <div class="form-group">
+                                    {{ form_label(cadc.cadTypeCar) }}
+                                    {{ form_widget(cadc.cadTypeCar,{'attr': {'class': 'form-control'}})}}
+                                </div>
+                                <div class="form-group">
+                                    {{ form_label(cadc.cadNumSerieType) }}
+                                    {{ form_widget(cadc.cadNumSerieType,{'attr': {'class': 'form-control'}})}}
+                                </div>
+                                <div class="form-group">
+                                    {{ form_label(cadc.cadNumMoteur) }}
+                                    {{ form_widget(cadc.cadNumMoteur,{'attr': {'class': 'form-control'}})}}
+                                </div>
+                                <div class="form-group">
+                                    {{ form_label(cadc.ctSourceEnergie) }}
+                                    {{ form_widget(cadc.ctSourceEnergie,{'attr': {'class': 'form-control'}})}}
+                                </div>
+                                <div class="form-group">
+                                    {{ form_label(cadc.cadCylindre) }}
+                                    {{ form_widget(cadc.cadCylindre,{'attr': {'class': 'form-control'}})}}
+                                </div>
+                                <div class="form-group">
+                                    {{ form_label(cadc.cadPuissance) }}
+                                    {{ form_widget(cadc.cadPuissance,{'attr': {'class': 'form-control'}})}}
+                                </div>
+                                <div class="form-group">
+                                    {{ form_label(cadc.ctCarosserie) }}
+                                    {{ form_widget(cadc.ctCarosserie,{'attr': {'class': 'form-control'}})}}
+                                </div>
+                                <div class="form-group">
+                                    {{ form_label(cadc.cadNbrAssis) }}
+                                    {{ form_widget(cadc.cadNbrAssis,{'attr': {'class': 'form-control'}})}}
+                                </div>
+                                <hr/>
+                                <div class="form-group">
+                                    {{ form_label(cadc.cadLargeur) }}
+                                    {{ form_widget(cadc.cadLargeur,{'attr': {'class': 'form-control'}})}}
+                                </div>
+                                <div class="form-group">
+                                    {{ form_label(cadc.cadHauteur) }}
+                                    {{ form_widget(cadc.cadHauteur,{'attr': {'class': 'form-control'}})}}
+                                </div>
+                                <div class="form-group">
+                                    {{ form_label(cadc.cadLongueur) }}
+                                    {{ form_widget(cadc.cadLongueur,{'attr': {'class': 'form-control'}})}}
+                                </div>
+                                <hr/>
+                                <div class="form-group">
+                                    {{ form_label(cadc.cadChargeUtile) }}
+                                    {{ form_widget(cadc.cadChargeUtile,{'attr': {'class': 'form-control'}})}}
+                                </div>
+                                <div class="form-group">
+                                    {{ form_label(cadc.cadPoidsVide) }}
+                                    {{ form_widget(cadc.cadPoidsVide,{'attr': {'class': 'form-control'}})}}
+                                </div>
+                                <div class="form-group">
+                                    {{ form_label(cadc.cadPoidsTotalCharge) }}
+                                    {{ form_widget(cadc.cadPoidsTotalCharge,{'attr': {'class': 'form-control'}})}}
+                                </div>
+                                <div class="form-group">
+                                    {{ form_label(cadc.cadPoidsMaxima) }}
+                                    {{ form_widget(cadc.cadPoidsMaxima,{'attr': {'class': 'form-control'}})}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="kl-cav">
+                <div class="col-md-12">
+                    {#<div class="box-body">#}
+                    {{ form_row(edit_form.ctVerificateur ) }}
+                    {{ form_row(edit_form.cadImmatriculation ) }}
+                    {{ form_row(edit_form.cadProvenance) }}
+                    {{ form_row(edit_form.cadDateEmbarquement) }}
+                    {{ form_row(edit_form.cadLieuEmbarquement) }}
+                    {{ form_row(edit_form.cadProprietaireNom) }}
+                    {{ form_row(edit_form.cadProprietaireAdresse) }}
+                    {{ form_row(edit_form.cadDivers) }}
+                    {{ form_row(edit_form.cadConforme) }}
+                    {{ form_row(edit_form.cadBonEtat) }}
+                    {{ form_row(edit_form.cadSecPers) }}
+                    {{ form_row(edit_form.cadSecMarch) }}
+                    {{ form_row(edit_form.cadProtecEnv) }}
+                    {#</div>#}
+                </div>
+            </div>
+        </div>
+        <div class="box-footer">
+            <input type="submit" class="btn btn-primary" value="Enregistrer" name="new_motif"/>
+            <a href="{{ path('const_av_ded_index') }}"
+               class="btn btn-default pull-left btn-mini-rectif" >
+                Retour à la liste
+            </a>
+        </div>
+        {{ form_end(edit_form) }}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <!-- JQuery UI -->
+    <script src="{{ asset('plugins/jquery-ui-1.12.1/jquery-ui.js') }}" ></script>
+
+    <script src="{{ asset('backoffice/js/edit.reception.js') }}"></script>
+{% endblock %}

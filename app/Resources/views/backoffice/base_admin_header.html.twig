@@ -1,0 +1,111 @@
+<header class="main-header">
+    <!-- Logo -->
+    <a href="{{ path('dashboard_index') }}" class="logo">
+        <img src="{{ asset('img/header.png') }}" style="max-width: 75px" alt="logo" />
+    </a>
+
+    <nav class="navbar navbar-static-top">
+        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+            <span class="sr-only">Toggle navigation</span>
+        </a>
+
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+                {% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') %}
+                 {#Notification#}
+                <li class="dropdown notifications-menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-bell-o"></i>
+                        <span class="label label-warning" id="id-counter-notif"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="header" id="id-counter-notif-li">Vous avez 0 notification</li>
+                        <li id="id-list-notif-li">
+                            <ul class="menu" id="id-list-notif-ul">
+
+                            </ul>
+                        </li>
+                        <li class="footer hide" id="id-view-all-notif"><a href="#">Voir tous</a></li>
+                    </ul>
+                </li>
+                {% endif %}
+
+                {# Profil #}
+                <li class="dropdown user user-menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <img src="{{ asset('img/user.png') }}" class="user-image" alt="User Image">
+
+                        <span class="hidden-xs">
+                            {% if app.user %}
+                                Bienvenue <b>{{ app.user.usrName }}</b>
+                                <span class="{% if app.user.ctRole.id == constant('Ct\\Service\\MetierManagerBundle\\Utils\\RoleName::ID_ROLE_SUPERADMIN') %}hidden{% endif %}">
+                                    ({{ app.user.ctCentre.ctProvince.prvNom ~ ' - ' ~ app.user.ctCentre.ctrNom }})
+                                </span>
+                            {% endif %}
+                        </span>
+                        <i class="fa fa-angle-down"></i>
+                    </a>
+
+                    <ul class="dropdown-menu">
+                        <!-- User image -->
+                        <li class="user-header">
+                            <img src="{{ asset('img/user.png') }}" class="img-circle" alt="User Image">
+                            <p>
+                                {% if app.user %}
+                                    {{ app.user.username }}<br>
+                                    {{ app.user.ctRole.roleName }}
+                                {% endif %}
+                            </p>
+                        </li>
+
+                        <!-- Menu Footer-->
+                        <li class="user-footer">
+                            <div class="pull-left">
+                                <a href="{{ path('user_edit', { 'id': app.user.id }) }}"
+                                   class="btn btn-default btn-flat">
+                                    <i class="fa fa-user"></i> Profil
+                                </a>
+                            </div>
+                            <div class="pull-right">
+                                <a href="{{ path('fos_user_security_logout') }}"
+                                   class="btn btn-default btn-flat">
+                                    <i class="fa fa-sign-out"></i> Deconnecter
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<div id="detail-notif-table-container" style="display:none">
+    <table class="display table table-striped table-bordered" cellspacing="0" width="100%">
+        <thead>
+        <tr>
+            <th>Province</th>
+            <th>Centre</th>
+            <th>Description</th>
+            <th>Modification</th>
+            <th>Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+{% block javascripts %}
+    <script>
+        {% if app.user is defined %} var _user_id = {{ app.user.id }}
+            {% else %} var _user_id = 0
+        {% endif %}
+        {% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_ADMIN') %}
+            var _is_show_notification = 1;
+        {% else %}
+            var _is_show_notification = 0;
+        {% endif %}
+        var _historique_get_notification_ajax_uri = "{{ path('historique_get_notification_ajax') }}";
+        var _historique_get_detail_notification_ajax_uri = "{{ path('historique_get_detail_notification_ajax') }}";
+        var _historique_get_detail_all_notifications_ajax_uri = "{{ path('historique_get_detail_all_notifications_ajax') }}";
+    </script>
+{% endblock %}

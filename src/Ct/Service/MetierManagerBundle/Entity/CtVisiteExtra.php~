@@ -1,0 +1,98 @@
+<?php
+
+namespace Ct\Service\MetierManagerBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * CtVisiteExtra
+ *
+ * @ORM\Table(name="ct_visite_extra")
+ * @ORM\Entity
+ */
+class CtVisiteExtra
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="vste_libelle", type="string", length=255, nullable=true)
+     */
+    private $vsteLibelle;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="CtVisite", inversedBy="ctVisiteExtra")
+     * @ORM\JoinTable(name="ct_visite_extra_has_ct_visite",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="ct_visite_extra_id", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="ct_visite_id", referencedColumnName="id")
+     *   }
+     * )
+     */
+    private $ctVisite;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->ctVisite = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Add ctVisite
+     *
+     * @param \Ct\Service\MetierManagerBundle\Entity\CtVisite $ctVisite
+     *
+     * @return CtVisiteExtra
+     */
+    public function addCtVisite(\Ct\Service\MetierManagerBundle\Entity\CtVisite $ctVisite)
+    {
+        $this->ctVisite[] = $ctVisite;
+
+        return $this;
+    }
+
+    /**
+     * Remove ctVisite
+     *
+     * @param \Ct\Service\MetierManagerBundle\Entity\CtVisite $ctVisite
+     */
+    public function removeCtVisite(\Ct\Service\MetierManagerBundle\Entity\CtVisite $ctVisite)
+    {
+        $this->ctVisite->removeElement($ctVisite);
+    }
+
+    /**
+     * Get ctVisite
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCtVisite()
+    {
+        return $this->ctVisite;
+    }
+}

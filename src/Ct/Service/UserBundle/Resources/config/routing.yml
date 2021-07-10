@@ -1,0 +1,11 @@
+eternaly_user:
+    resource: "@UserBundle/Resources/config/routing/user.yml"
+    prefix:   /admin/user
+
+eternaly_verificateur:
+    resource: "@UserBundle/Resources/config/routing/verificateur.yml"
+    prefix:   /admin/verificateur
+
+eternaly_login:
+    path: /
+    defaults: { _controller: UserBundle:Security:login }
