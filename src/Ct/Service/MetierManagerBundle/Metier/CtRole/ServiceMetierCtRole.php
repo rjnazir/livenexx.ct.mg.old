@@ -129,7 +129,8 @@ class ServiceMetierCtRole
                 RoleName::ID_ROLE_ADMIN,
                 RoleName::ID_ROLE_RECEPTION,
                 RoleName::ID_ROLE_VISITE,
-                RoleName::ID_ROLE_STAFF
+                RoleName::ID_ROLE_STAFF,
+                RoleName::ID_ROLE_APPRO
             )
         );
         if ($_id_user == RoleName::ID_ROLE_ADMIN)
@@ -138,7 +139,8 @@ class ServiceMetierCtRole
                     RoleName::ID_ROLE_ADMIN,
                     RoleName::ID_ROLE_RECEPTION,
                     RoleName::ID_ROLE_VISITE,
-                    RoleName::ID_ROLE_STAFF
+                    RoleName::ID_ROLE_STAFF,
+                    RoleName::ID_ROLE_APPRO
                 )
             );
 
