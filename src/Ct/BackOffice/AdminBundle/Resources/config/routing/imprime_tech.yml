@@ -1,0 +1,29 @@
+imprime_tech_index:
+    path:     /
+    defaults: { _controller: "AdminBundle:CtImprimeTech:index" }
+    methods:  GET
+
+imprime_tech_new:
+    path:     /new
+    defaults: { _controller: "AdminBundle:CtImprimeTech:new" }
+    methods:  [GET, POST]
+
+imprime_tech_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AdminBundle:CtImprimeTech:edit" }
+    methods:  [GET, POST]
+
+imprime_tech_update:
+    path:     /{id}/update
+    defaults: { _controller: "AdminBundle:CtImprimeTech:update" }
+    methods:  [POST, PUT]
+
+imprime_tech_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AdminBundle:CtImprimeTech:delete" }
+    methods:  [GET, DELETE]
+
+imprime_tech_delete_group:
+    path:     /delete-group
+    defaults: { _controller: "AdminBundle:CtImprimeTech:deleteGroup" }
+    methods:  POST

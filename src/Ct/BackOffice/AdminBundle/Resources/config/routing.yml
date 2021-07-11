@@ -149,3 +149,7 @@ ct_statistique_constatation:
 ct_zone_deserte:
     resource: "@AdminBundle/Resources/config/routing/zone_deserte.yml"
     prefix:   /zone-deserte
+
+ct_imprime_tech:
+    resource: "@AdminBundle/Resources/config/routing/imprime_tech.yml"
+    prefix:   /imprime-tech

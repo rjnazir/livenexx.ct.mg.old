@@ -868,6 +868,61 @@
                     </ul>
                 </li>
             {% endif %}
+
+
+            {% if (is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_APPROVISIONNEMENT')) %}
+                {# Approvisionnement #}
+                <li class="treeview {% if menu_user is defined or menu_role is defined %}{{ active }}{% endif %}">
+                    <a href="#">
+                        <i class="fa fa-users"></i>
+                        <span>Approvisionnement</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        {# Bordereau d'envoi #}
+                        <li class="treeview {% if menu_user is defined %}{{ active }}{% endif %}">
+                            <a href="#">
+                                <i class="fa fa-archive"></i>
+                                <span>Bordereau d'envoi</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li {# class="{% if menu_user_list is defined %}{{ active }}{% endif %}" #}>
+                                    <a href="#"><i class="fa fa-circle-o"></i> Liste</a>
+                                </li>
+                                <li {# class="{% if menu_user_create is defined %}{{ active }}{% endif %}" #}>
+                                    <a href="#"><i class="fa fa-circle-o"></i> Créer</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        {% if is_granted('ROLE_SUPERADMIN') %}
+                            {# Imprimé technique #}
+                            <li class="treeview {% if menu_imprime_tech is defined %}{{ active }}{% endif %}">
+                                <a href="#">
+                                    <i class="fa fa-print"></i>
+                                    <span>Imprimés techniques</span>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li class="{% if menu_imprime_tech_list is defined %}{{ active }}{% endif %}">
+                                        <a href="{{ path('imprime_tech_index') }}"><i class="fa fa-circle-o"></i> Liste</a>
+                                    </li>
+                                    <li class="{% if menu_imprime_tech_create is defined %}{{ active }}{% endif %}">
+                                        <a href="{{ path('imprime_tech_new') }}"><i class="fa fa-circle-o"></i> Créer</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </li>
+            {% endif %}
         </ul>
     </section>
 </aside>

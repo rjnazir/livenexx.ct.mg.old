@@ -46,4 +46,6 @@ class ServiceName
     const SRV_METIER_HISTORIQUE = 'ct.service.metier.historique';
     const SRV_METIER_TYPE_DROIT_PTAC = 'ct.service.metier.type_droit_ptac';
     const SRV_METIER_ZONE_DESERTE = 'ct.service.metier.zone_deserte';
+
+    const SRV_METIER_IMPRIME_TECH = 'ct.service.metier.imprime_tech';
 }

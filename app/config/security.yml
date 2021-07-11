@@ -9,8 +9,8 @@ security:
         ROLE_VISITE: ROLE_USER
         ROLE_STAFF: ROLE_USER
         ROLE_ADMIN: ROLE_USER
-        ROLE_APPRO: ROLE_APPRO
-        ROLE_SUPERADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_APPRO, ROLE_ALLOWED_TO_SWITCH]
+        ROLE_APPRO: ROLE_USER
+        ROLE_SUPERADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
     providers:
         fos_userbundle:
@@ -82,3 +82,5 @@ security:
         - { path: ^/admin/vehicule*, role: [ROLE_ADMIN, ROLE_VISITE, ROLE_STAFF] }
 
         - { path: ^/admin, role: ROLE_USER }
+
+        - { path: ^/admin/imprime-tech*, role: [ROLE_SUPERADMIN, ROLE_APPRO] }
