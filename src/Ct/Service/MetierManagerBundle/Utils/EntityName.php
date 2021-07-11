@@ -43,4 +43,6 @@ class EntityName
     const CT_GENRE_CATEGORIE    = 'MetierManagerBundle:CtGenreCategorie';
     const CT_TYPE_DROIT_PTAC    = 'MetierManagerBundle:CtTypeDroitPtac';
     const CT_ZONE_DESERTE       = 'MetierManagerBundle:CtZoneDeserte';
+    /* Gestion des imprimés techniques */
+    const CT_IMPRIMES_TECH      = 'MetierManagerBundle:CtImprimesTech';
 }

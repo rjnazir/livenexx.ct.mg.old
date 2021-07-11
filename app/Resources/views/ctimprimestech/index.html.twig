@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Ctimprimesteches list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nomimprimetech</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for ctImprimesTech in ctImprimesTeches %}
+            <tr>
+                <td><a href="{{ path('imprime-tech_show', { 'id': ctImprimesTech.id }) }}">{{ ctImprimesTech.id }}</a></td>
+                <td>{{ ctImprimesTech.nomImprimeTech }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('imprime-tech_show', { 'id': ctImprimesTech.id }) }}">show</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    
+{% endblock %}
