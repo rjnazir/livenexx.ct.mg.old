@@ -84,3 +84,4 @@ security:
         - { path: ^/admin, role: ROLE_USER }
 
         - { path: ^/admin/imprime-tech*, role: [ROLE_SUPERADMIN, ROLE_APPRO] }
+        - { path: ^/admin/bordereau*, role: [ROLE_SUPERADMIN, ROLE_APPRO] }

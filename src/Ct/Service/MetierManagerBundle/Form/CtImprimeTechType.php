@@ -19,6 +19,10 @@ class CtImprimeTechType extends AbstractType
                 'label'    => 'Nom imprimé technique',
                 'required' => true
             ))
+            ->add('uteImprimeTech', TextType::class, array(
+                'label'    => 'Unité',
+                'required' => true
+            ))
         ;
     }
     

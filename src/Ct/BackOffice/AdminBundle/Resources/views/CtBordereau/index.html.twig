@@ -1,9 +1,9 @@
 {% extends 'backoffice/base_admin.html.twig' %}
 
-{% block title %}{{ parent() }} Liste des imprimés techniques {% endblock %}
+{% block title %}{{ parent() }} Liste des bordereaux {% endblock %}
 
-{% set menu_imprime_tech      = true %}
-{% set menu_imprime_tech_list = true %}
+{% set menu_bordereau      = true %}
+{% set menu_bordereau_list = true %}
 
 {% block body %}
     {% for flashMessage in app.session.flashbag.get('success') %}
@@ -34,40 +34,48 @@
 
                 {# Bouton création #}
                 <div class="row add-btn-top-list">
-                    <a href="{{ path('imprime_tech_new') }}" onclick=";">
+                    <a href="{{ path('bordereau_new') }}" onclick=";">
                         <button class="btn btn-primary">
                             <i class="fa fa-plus"></i>
-                            Créer un imprimé technique
+                            Ajouter un IT dans le bordereau
                         </button>
                     </a>
                 </div>
 
-                <form action="{{ path('imprime_tech_delete_group') }}" method="POST" class="form-search">
+                <form action="{{ path('bordereau_delete_group') }}" method="POST" class="form-search">
                     <div class="box-body table-responsive">
-                        <table id="liste-imprime-tech" class="table table-bordered table-striped table-condensed">
+                        <table id="liste-imprime-tech-bl" class="table table-bordered table-striped table-condensed">
                             <thead>
                             <tr>
                                 <th></th>
-                                <th>Nom imprimé technique</th>
+                                <th>N° bordereau</th>
+                                <th>Nom centre</th>
+                                <th>Nom IT</th>
                                 <th>Unité</th>
+                                <th>Début N° IT</th>
+                                <th>Fin N° IT</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
-                            {% for imprime_tech in imprime_techs %}
+                            {% for it_in_bl in its_in_bl %}
                                 <tr>
                                     <td>
-                                        <input type="checkbox" value="{{ imprime_tech.id }}" name="delete[]" />
+                                        <input type="checkbox" value="{{ it_in_bl.id }}" name="delete[]" />
                                     </td>
-                                    <td>{{ imprime_tech.nomImprimeTech }}</td>
-                                    <td>{{ imprime_tech.uteImprimeTech }}</td>
+                                    <td>{{ it_in_bl.blNumero }}</td>
+                                    <td>{{ it_in_bl.ctCentre.ctrNom }}</td>
+                                    <td>{{ it_in_bl.ctImprimeTech.nomImprimeTech }}</td>
+                                    <td>{{ it_in_bl.ctImprimeTech.uteImprimeTech }}</td>
+                                    <td>{{ it_in_bl.blDebutNumero }}</td>
+                                    <td>{{ it_in_bl.blFinNumero }}</td>
                                     <td>
                                         <a class="btn btn-primary" title="Modifier"
-                                           href="{{ path('imprime_tech_edit', { 'id': imprime_tech.id }) }}">
+                                           href="{{ path('bordereau_edit', { 'id': it_in_bl.id }) }}">
                                             <i class="fa fa-edit"></i>
                                         </a>
                                         <a class="btn btn-danger remove-elt" title="Supprimer"
-                                           href="{{ path('imprime_tech_delete', { 'id': imprime_tech.id }) }}">
+                                           href="{{ path('bordereau_delete', { 'id': it_in_bl.id }) }}">
                                             <i class="fa fa-trash"></i>
                                         </a>
                                     </td>
@@ -95,7 +103,7 @@
 
     <script type="text/javascript">
         $(function () {
-            $('#liste-imprime-tech').DataTable(
+            $('#liste-imprime-tech-bl').DataTable(
             {
                 "order": [[ 0, "desc" ]],
                 "bProcessing": true,

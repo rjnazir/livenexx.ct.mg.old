@@ -1,0 +1,148 @@
+{% extends 'backoffice/base_admin.html.twig' %}
+
+{% form_theme search_form.ctCentre _self %}
+
+{%- block choice_widget_collapsed -%}
+    {%- if required and placeholder is none and not placeholder_in_choices and not multiple -%}
+        {% set required = false %}
+    {%- endif -%}
+    <span>
+        <select class="select2" data-placeholder="Choisir" style="width: 100%;" oninvalid="setErrorClass($(this));"
+                {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
+            {%- if placeholder is not none -%}
+                <option value=""{% if required and value is empty %} selected="selected"{% endif %}>
+                    {{ placeholder != '' ? placeholder|trans({}, translation_domain) }}
+                </option>
+            {%- endif -%}
+            {%- if preferred_choices|length > 0 -%}
+                {% set options = preferred_choices %}
+                {{- block('choice_widget_options') -}}
+                {%- if choices|length > 0 and separator is not none -%}
+                    <option disabled="disabled">{{ separator }}</option>
+                {%- endif -%}
+            {%- endif -%}
+            {%- set options = choices -%}
+            {{- block('choice_widget_options') -}}
+        </select>
+    </span>
+{%- endblock choice_widget_collapsed -%}
+
+{% block title %}{{ parent() }} Recherche bordereau de livraison {% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <!-- JQuery UI -->
+    <link href="{{ asset('plugins/jquery-ui-1.12.1/jquery-ui.css') }}" rel="Stylesheet"></link>
+{% endblock %}
+
+{% set menu_bordereau        = true %}
+{% set menu_bordereau_search = true %}
+
+{% block body %}
+    {# Formulaire recherche #}
+    <form action="{{ path('bordereau_search') }}" method="POST">
+        <div class="row" id="search-form">
+            <div class="col-md-12">
+                <div class="box box-default">
+                    <div class="box-header">
+                        <h3 class="box-title">Recherche</h3>
+                    </div>
+                   
+                    <div class="box-body">
+                        {{ form_row(search_form.blNumero) }}
+                    </div>  
+
+                    <div class="box-body">
+                        {{ form_row(search_form.ctCentre) }}
+                    </div>
+
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="search_bordreau"></label>
+                            <input type="submit" id="search_bordereau" class="form-control btn btn-primary" value="Rechercher"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# Affichage des listes des imprimés techniques dans le BDD #}
+        {% if liste_in_bl %}
+        <div class="row" id="search-form">
+            <div class="col-md-12">
+                <div class="box box-default">
+                    <div class="box-header">
+                        <h3 class="box-title">Liste des imprimés dans le bordereau</h3>
+                    </div>
+                    <div class="box-body table-responsive">
+                        <table id="liste-imprime-tech-bl" class="table table-bordered table-striped table-condensed">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>N° bordereau</th>
+                                <th>Nom centre</th>
+                                <th>Nom IT</th>
+                                <th>Unité</th>
+                                <th>Début N° IT</th>
+                                <th>Fin N° IT</th>
+                                {# <th>Action</th> #}
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for list_in_bl in liste_in_bl %}
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" value="{{ it_in_bl.id }}" name="delete[]" />
+                                    </td>
+                                    <td>{{ list_in_bl.blNumero }}</td>
+                                    <td>{{ list_in_bl.ctCentre.ctrNom }}</td>
+                                    <td>{{ list_in_bl.ctImprimeTech.nomImprimeTech }}</td>
+                                    <td>{{ list_in_bl.ctImprimeTech.uteImprimeTech }}</td>
+                                    <td>{{ list_in_bl.blDebutNumero }}</td>
+                                    <td>{{ list_in_bl.blFinNumero }}</td>
+                                    {# <td>
+                                        <a class="btn btn-primary" title="Modifier"
+                                           href="{{ path('bordereau_edit', { 'id': it_in_bl.id }) }}">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                        <a class="btn btn-danger remove-elt" title="Supprimer"
+                                           href="{{ path('bordereau_delete', { 'id': it_in_bl.id }) }}">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </td> #}
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+
+                        {# Bouton suppression #}
+                        {# <a href="#">
+                            <button type="submit" name="_group_delete" class="btn btn-danger delete-btn">
+                                <i class="fa fa-trash"></i>
+                                Supprimer la sélection
+                            </button>
+                        </a> #}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+    </form>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <!-- Vérification existence carte grise -->
+    <!-- JQuery UI -->
+    <script src="{{ asset('plugins/jquery-ui-1.12.1/jquery-ui.js') }}" ></script>
+    {# <script>
+        var _fill_form_carte_grise_ajax_uri = "{{ path('carte_grise_fill_info_by_immatriculation_ajax') }}";
+        var _autocomplete_numero_serie_ajax_uri = "{{ path('carte_grise_show_numero_serie_ajax') }}";
+        var _autocomplete_numero_immatriculation_ajax_uri = "{{ path('carte_grise_show_numero_immatriculation_ajax') }}";
+        var _visite_search_ajax_uri = "{{ path('visite_search') }}";
+    </script> #}
+    {# <script src="{{ asset('backoffice/js/search.visite.js') }}"></script> #}
+{% endblock %}

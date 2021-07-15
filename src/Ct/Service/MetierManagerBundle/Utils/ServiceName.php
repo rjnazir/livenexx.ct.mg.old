@@ -48,4 +48,5 @@ class ServiceName
     const SRV_METIER_ZONE_DESERTE = 'ct.service.metier.zone_deserte';
 
     const SRV_METIER_IMPRIME_TECH = 'ct.service.metier.imprime_tech';
+    const SRV_METIER_BORDEREAU = 'ct.service.metier.bordereau';
 }

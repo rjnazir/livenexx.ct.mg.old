@@ -73,7 +73,17 @@ class ServiceMetierCtImprimeTech
      */
     public function saveCtImprimeTech($_imprime_tech, $_action)
     {
+        // Récuperer ID utilisateur
+        $ct_user_id = $this->_container->get('security.token_storage')->getToken()->getUser();
+        $_imprime_tech->setCtUser($ct_user_id);
+        // Date de modification
+        $_imprime_tech->setPrttUpdatedAt(new \DateTime());
+
         if ($_action == 'new') {
+            // Date de création
+            $_imprime_tech->setPrttCreatedAt(new \DateTime());
+            // Date de modification
+            $_imprime_tech->setPrttUpdatedAt(NULL);
             $this->_entity_manager->persist($_imprime_tech);
         }
         $this->_entity_manager->flush();

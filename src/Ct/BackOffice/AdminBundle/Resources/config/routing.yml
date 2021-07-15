@@ -153,3 +153,7 @@ ct_zone_deserte:
 ct_imprime_tech:
     resource: "@AdminBundle/Resources/config/routing/imprime_tech.yml"
     prefix:   /imprime-tech
+
+ct_bordereau:
+    resource: "@AdminBundle/Resources/config/routing/bordereau.yml"
+    prefix:   /bordereau

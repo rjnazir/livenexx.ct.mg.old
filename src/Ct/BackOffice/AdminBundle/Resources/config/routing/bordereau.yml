@@ -1,0 +1,34 @@
+bordereau_index:
+    path:     /
+    defaults: { _controller: "AdminBundle:CtBordereau:index" }
+    methods:  GET
+
+bordereau_new:
+    path:     /new
+    defaults: { _controller: "AdminBundle:CtBordereau:new" }
+    methods:  [GET, POST]
+
+bordereau_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AdminBundle:CtBordereau:edit" }
+    methods:  [GET, POST]
+
+bordereau_update:
+    path:     /{id}/update
+    defaults: { _controller: "AdminBundle:CtBordereau:update" }
+    methods:  [POST, PUT]
+
+bordereau_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AdminBundle:CtBordereau:delete" }
+    methods:  [GET, DELETE]
+
+bordereau_delete_group:
+    path:     /delete-group
+    defaults: { _controller: "AdminBundle:CtBordereau:deleteGroup" }
+    methods:  POST
+
+bordereau_search:
+    path:     /search
+    defaults: { _controller: "AdminBundle:CtBordereau:search" }
+    methods:  [GET, POST]
