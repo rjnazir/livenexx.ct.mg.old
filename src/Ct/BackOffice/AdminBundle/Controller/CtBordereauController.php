@@ -219,25 +219,39 @@ class CtBordereauController extends Controller
     public function searchAction(Request $_request)
     {
         $_bl_manager = $this->get(ServiceName::SRV_METIER_BORDEREAU);
+        $_ctr_manager = $this->get(ServiceName::SRV_METIER_CENTRE);
         // Chargement de formulaire
         $_bordereau = new CtBordereau();
         $_search_form = $this->createSearchForm($_bordereau);
         $_search_form->handleRequest($_request);
         // Initilisation des listes
-        $_list_in_bl = "";
+        $_list_in_its = "";
+        $bl_numero = "";
+        $_ct_centre_id = "";
+        $_ctr_nom = "";
+        // Charger la liste des centres
+        $_list_centres = $_ctr_manager->getAllCtCentreByOrder(array('ctrNom' => 'ASC'));
 
         if ($_request->getMethod() === 'POST' ) {
             // Récupération données formulaires
             $_data_forms   = $_request->request->all();
-            $_bl_numero = isset($_data_forms['blNumero']) ? $_data_forms['blNumero'] : '';
-            $_ct_centre_id = isset($_data_forms['ctCentre']) ? $_data_forms['ctCentre'] : '';
-
-            // Recherche par numéro de série
-            $_list_in_bl     = $_bl_manager->getListInBordereau($_ct_centre_id, $_bl_numero);
+            $bl_numero = isset($_data_forms['bl_numero']) ? $_data_forms['bl_numero'] : '';
+            $ct_centre_id = isset($_data_forms['ct_centre_id']) ? $_data_forms['ct_centre_id'] : '';
+            // Recherche du centre selectionné
+            $_centre = $_ctr_manager->getCtCentreById($ct_centre_id);
+            $_ct_centre_id = $_centre->getId();
+            $_ctr_nom = $_centre->getCtrNom();
+            // Recherche par numéro de bordereau et ID centre de destinataire
+            $_list_in_its = $_bl_manager->getListInBordereau($ct_centre_id, $bl_numero);
+            if(count($_list_in_its) == 0) $_bl_manager->setFlash('error', 'Le bordereau N° '.$bl_numero.' pour le centre '.$_ctr_nom.' est introuvable.');
         }
 
         return $this->render('AdminBundle:CtBordereau:search.html.twig', array(
-            'liste_in_bl' => $_list_in_bl,
+            'list_in_its' => $_list_in_its,
+            'bl_numero' => $bl_numero,
+            'ct_centre_id' => $_ct_centre_id,
+            'ctr_nom' => $_ctr_nom,
+            'list_centres' => $_list_centres,
             'search_form' => $_search_form->createView()
         ));
     }

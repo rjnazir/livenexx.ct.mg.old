@@ -152,16 +152,17 @@ class ServiceMetierCtBordereau
     {
         $_entity_bl = EntityName::CT_BORDEREAU;
 
-        $_sql    = "SELECT t
+        $_dql    = "SELECT t
                     FROM $_entity_bl t 
-                    WHERE   t.ctCentre = ?1
-                        AND t.blNumero = ?2";
-        $_query  = $this->_entity_manager->createQuery($_sql);
-        $_query->setParameter(1, '%'.$_ct_centre_id.'%');
-        $_query->setParameter(2, '%'.$_bl_numero.'%');
+                    WHERE   t.ctCentre = :ct_centre_id
+                        AND t.blNumero = :bl_numero";
+        $_query  = $this->_entity_manager->createQuery($_dql);
+        $_query->setParameter('ct_centre_id', $_ct_centre_id);
+        $_query->setParameter('bl_numero', $_bl_numero);
         $_ret = $_query->getResult();
-        if (count($_ret) > 0 && is_array($_ret))
-            return $_ret[0];
+        // if (count($_ret) > 0 && is_array($_ret))
+        //     return $_ret[0];
         return $_ret;
+
     }
 }
