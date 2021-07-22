@@ -87,11 +87,14 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="row">
                         <div class="col-md-2">
                             <div class="box-body">
                                 <div class="form-group">
-                                    <input type="submit" class="btn btn-primary" value="Rechercher" name="search_bordereau"/>
+                                    <button type="submit" class="btn btn-primary">
+                                        Rechercher
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -99,7 +102,17 @@
                         <div class="col-md-2">
                             <div class="box-body">
                                 <div class="form-group">
-                                    <input type="submit" class="btn btn-warning" value="Imprimer" name="print_bordereau"/>
+                                    <button type="submit" class="pull-left btn btn-primary"
+                                            id="btn-generate-bordereau-livraison" style="">
+                                        Générer
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="box-body">
+                                <div class="form-group">
+                                    <span class="pull-left" id="link-download-bordereau-livraison"></span>
                                 </div>
                             </div>
                         </div>
@@ -161,11 +174,8 @@
     <!-- Vérification existence carte grise -->
     <!-- JQuery UI -->
     <script src="{{ asset('plugins/jquery-ui-1.12.1/jquery-ui.js') }}" ></script>
-    {# <script>
-        var _fill_form_carte_grise_ajax_uri = "{{ path('carte_grise_fill_info_by_immatriculation_ajax') }}";
-        var _autocomplete_numero_serie_ajax_uri = "{{ path('carte_grise_show_numero_serie_ajax') }}";
-        var _autocomplete_numero_immatriculation_ajax_uri = "{{ path('carte_grise_show_numero_immatriculation_ajax') }}";
-        var _visite_search_ajax_uri = "{{ path('visite_search') }}";
-    </script> #}
-    {# <script src="{{ asset('backoffice/js/search.visite.js') }}"></script> #}
+    <script>
+        var _bordereau_generer_bl_uri = "{{ path('bordereau_generer_bl') }}";
+    </script>
+    <script src="{{ asset('backoffice/js/search.bordereau.js') }}"></script>
 {% endblock %}

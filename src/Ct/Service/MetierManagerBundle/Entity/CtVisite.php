@@ -7,7 +7,15 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * CtVisite
  *
- * @ORM\Table(name="ct_visite", indexes={@ORM\Index(name="fk_ct_visite_ct_carte_grise1_idx", columns={"ct_carte_grise_id"}), @ORM\Index(name="fk_ct_visite_ct_usage1_idx", columns={"ct_usage_id"}), @ORM\Index(name="fk_ct_visite_ct_user1_idx", columns={"ct_user_id"}), @ORM\Index(name="fk_ct_visite_ct_type_visite1_idx", columns={"ct_type_visite_id"}), @ORM\Index(name="fk_ct_visite_ct_user2_idx", columns={"ct_verificateur_id"}), @ORM\Index(name="fk_ct_visite_ct_centre1_idx", columns={"ct_centre_id"})})
+ * @ORM\Table(name="ct_visite",
+ *  indexes={
+ *      @ORM\Index(name="fk_ct_visite_ct_carte_grise1_idx", columns={"ct_carte_grise_id"}),
+ *      @ORM\Index(name="fk_ct_visite_ct_usage1_idx", columns={"ct_usage_id"}),
+ *      @ORM\Index(name="fk_ct_visite_ct_user1_idx", columns={"ct_user_id"}),
+ *      @ORM\Index(name="fk_ct_visite_ct_type_visite1_idx", columns={"ct_type_visite_id"}),
+ *      @ORM\Index(name="fk_ct_visite_ct_user2_idx", columns={"ct_verificateur_id"}),
+ *      @ORM\Index(name="fk_ct_visite_ct_centre1_idx", columns={"ct_centre_id"})
+ * })
  * @ORM\Entity
  */
 class CtVisite

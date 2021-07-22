@@ -8,6 +8,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 use Ct\Service\MetierManagerBundle\Entity\CtBordereau;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Class CtBordereauController
@@ -24,11 +27,26 @@ class CtBordereauController extends Controller
     {
         // Récupérer manager
         $_bl_manager = $this->get(ServiceName::SRV_METIER_BORDEREAU);
-        $_ctr_manager = $this->get(ServiceName::SRV_METIER_CENTRE);
 
         // Récupérer tout les imprimés tech
         $_bl = $_bl_manager->getAllCtBordereauByOrder(array('id' => 'DESC'));
         return $this->render('AdminBundle:CtBordereau:index.html.twig', array(
+            'its_in_bl' => $_bl,
+        ));
+    }
+
+    /**
+     * Afficher tout les bordereau
+     * @return Render page
+     */
+    public function ActivationAction()
+    {
+        // Récupérer manager
+        $_bl_manager = $this->get(ServiceName::SRV_METIER_BORDEREAU);
+
+        // Récupérer tout les imprimés tech
+        $_bl = $_bl_manager->getCtBordereauByCentre();
+        return $this->render('AdminBundle:CtBordereau:actived.html.twig', array(
             'its_in_bl' => $_bl,
         ));
     }
@@ -254,5 +272,26 @@ class CtBordereauController extends Controller
             'list_centres' => $_list_centres,
             'search_form' => $_search_form->createView()
         ));
+    }
+
+    /**
+     * Generer bordereau de livraison
+     * @param Request $_request
+     * @return Render page
+     */
+    public function genererBordereauLivraisonAction(Request $_request)
+    {
+        // Récupérer manager
+        $_bordereau_manager = $this->get(ServiceName::SRV_METIER_BORDEREAU);
+
+        // Récupération données formulaires
+        $_data_forms    = $_request->request->all();
+        $_ct_centre_id  = array_key_exists('ct_centre_id', $_data_forms) ? $_data_forms['ct_centre_id'] : 0;
+        $_bl_numero     = array_key_exists('bl_numero', $_data_forms) ? $_data_forms['bl_numero'] : 0;
+
+        // Formattage du bordereau de livraison
+        $_link_download = $_bordereau_manager->generateBordereauLivraison($_ct_centre_id, $_bl_numero);
+
+        return new JsonResponse($_link_download);
     }
 }

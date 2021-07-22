@@ -39,6 +39,6 @@ bordereau_generer_bl:
     methods:  [GET, POST]
 
 bordereau_activation:
-    path:     /
+    path:     /activation
     defaults: { _controller: "AdminBundle:CtBordereau:Activation" }
     methods:  GET

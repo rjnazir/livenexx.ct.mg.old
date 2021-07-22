@@ -46,4 +46,5 @@ class EntityName
     /* Gestion des imprimés techniques */
     const CT_IMPRIME_TECH       = 'MetierManagerBundle:CtImprimeTech';
     const CT_BORDEREAU          = 'MetierManagerBundle:CtBordereau';
+    const CT_IMPRIME_TECH_USE   = 'MetierManagerBundle:CtImprimeTechUse';
 }

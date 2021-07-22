@@ -29,7 +29,8 @@ class CtBordereauType extends AbstractType
                 'required'  => true
             ))
             ->add('blFinNumero', IntegerType::class, array(
-                'label'     => 'Fin N° imprimé technique'
+                'label'     => 'Fin N° imprimé technique',
+                'required'  => true
             ))
             ->add('ctCentre', EntityType::class, array(
                 'label'     => 'Centre destinataire',

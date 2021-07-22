@@ -104,4 +104,7 @@ class PathReportingName
     const TEMPLATE_CONSTATATION_FICHE_CONTROLE = 'template/constatation/fiche_controle.docx';
     const GENERATE_CONSTATATION_FICHE_CONTROLE = 'generated/constatation/';
 
+    const TEMPLATE_BORDEREAU = 'template/bordereau/bordereau_livraison.docx';
+    const GENERATE_BORDEREAU = 'generated/bordereau/';
+
 }

@@ -5,6 +5,9 @@ namespace Ct\Service\MetierManagerBundle\Metier\CtBordereau;
 use Doctrine\ORM\EntityManager;
 use Ct\Service\MetierManagerBundle\Utils\EntityName;
 use Symfony\Component\DependencyInjection\Container;
+use Ct\Service\MetierManagerBundle\Utils\PathReportingName;
+use PhpOffice\PhpWord\PhpWord;
+use Ct\Service\MetierManagerBundle\Utils\ServiceName;
 
 class ServiceMetierCtBordereau
 {
@@ -123,6 +126,30 @@ class ServiceMetierCtBordereau
 
     /**
      *  Récupérer un bordereau par son numéro
+     *  @param  $_ct_centre_id : Nom imprimé tech
+     *  @return $_imprime_tech : Liste imprimés tech non activer array()
+     */
+    public function getCtBordereauByCentre()
+    {
+        $_entity_bl = EntityName::CT_BORDEREAU;
+        $_entity_itu= EntityName::CT_IMPRIME_TECH_USE;
+
+        // Récuperer ID utilisateur
+        $_user_connected= $this->_container->get('security.token_storage')->getToken()->getUser();
+        $_ct_centre_id  = $_user_connected->getCtCentre();
+
+        $_sql   = " SELECT  t
+                    FROM    $_entity_bl t 
+                    WHERE   t.ctCentre = ?1
+                            AND t.blDebutNumero NOT IN (SELECT DISTINCT tt.ituNumero FROM $_entity_itu tt)";
+        $_query  = $this->_entity_manager->createQuery($_sql);
+        $_query->setParameter(1, $_ct_centre_id);
+        $_ret = $_query->getResult();
+        return $_ret;
+    }
+
+    /**
+     *  Récupérer un bordereau par son numéro
      *  @param  $_bl_numero : Nom imprimé tech
      *  @return $_bordereau : Liste imprimés tech dans le bordereau array()
      */
@@ -160,92 +187,8 @@ class ServiceMetierCtBordereau
         $_query->setParameter('ct_centre_id', $_ct_centre_id);
         $_query->setParameter('bl_numero', $_bl_numero);
         $_ret = $_query->getResult();
-        // if (count($_ret) > 0 && is_array($_ret))
-        //     return $_ret[0];
         return $_ret;
 
-    }
-
-    /**
-     * Générer bordereau de livraison
-     *  @param  $centre : ID du centre destinataire
-     *  @param  $numero : N° début de l'imprimé tech
-     *  @return array Liste imprimés tech dans le bordereau array()
-     */
-    public function generateBordereauLivraison($centre, $numero)
-    {
-        // Recuperer managers
-        $_centre_manager = $this->_container->get(ServiceName::SRV_METIER_CENTRE);
-
-        $_bordereau = $this->getListInBordereau($centre, preg_replace('/\_/', '/', $numero));
-        var_dump($_bordereau);
-        $_centre = $_centre_manager->getCtCentreById($centre);
-
-        $_nom_centre            = $_centre->getCtrNom();
-        $_slct_centre           = $this->transformcenter($_nom_centre);
-        $_nom_centre            = $_slct_centre[0];
-        $_lieu_centre           = $_slct_centre[1];
-
-        $_bl_directory          = $this->_container->getParameter('reporting_template_directory');
-        $_source_template       = $_bl_directory . PathReportingName::TEMPLATE_BORDEREAU;
-
-        $_phpWord               = new PhpWord();
-        $_template              = $_phpWord->loadTemplate($_source_template);
-
-        $_path                  = $_bl_directory . PathReportingName::GENERATE_BORDEREAU;
-        $_dest_tmp              = $_path . $numero . '.docx';
-        $_file_without_ext      = $numero;
-
-        $_url_scheme            = $this->_container->get('request_stack')->getCurrentRequest()->server->get('HTTP_HOST');
-        $_path_docx             = 'http://' . $_url_scheme . '/reporting/' . PathReportingName::GENERATE_BORDEREAU . $numero . '.docx';
-        $_path_pdf              = 'http://' . $_url_scheme . '/reporting/' . PathReportingName::GENERATE_BORDEREAU . $numero . '.pdf';
-
-        // Centre et numéro du B.L
-        $_template->setValue('centre', $_nom_centre);
-        $_template->setValue('lieu', $_lieu_centre);
-        $_template->setValue('bl_numero', preg_replace('/\_', '/', $numero));
-
-        $_total = 0;
-
-        foreach ($_bordereau as $_i => $_bordereau) {
-            ++$_i;
-            
-            $_imprime_tech = $_bordereau->getCtImprimeTech;
-            $_nom_imprime_tech = $_imprime_tech->getNomImprimeTech();
-            $_unite = $_imprime_tech->getUteImprimeTech();
-            $_numrero_debut = $_bordereau->getBlDebutNumero;
-            $_numero_fin = $_bordereau->getBlFinNumero;
-            if(!empty($_numero_fin))
-            {
-                $_designation = $_nom_imprime_tech . ' N° ' . $_numrero_debut . ' à ' . $_numero_fin;
-                $_nombre = abs($_numero_fin - $_numrero_debut);
-            }else{
-                $_designation = $_nom_imprime_tech . ' N° ' .$_numrero_debut;
-                $_nombre = 1;
-            }
-
-            $_nombre = number_format($_nombre, 0, ',', ' ');
-
-            $_template->setValue('i', $_i);
-            $_template->setValue('designation#' . $_i, $_designation);
-            $_template->setValue('unite#' . $_i, $_unite);
-            $_template->setValue('nombre#' . $_i, $_nombre);
-
-            $_total += $_nombre;
-        }
-        $_total = number_format($_total, 0, ',', ' ');
-        $_template->setValue('total', $_total);
-        $_template->saveAs($_dest_tmp);
-
-        // Recuperer manager
-        $_const_av_ded_manager = $this->_container->get(ServiceName::SRV_METIER_CONST_AV_DED);
-        // Convertir en PDF
-        $_dest_tmp = $_const_av_ded_manager->convertToPdf($_path, $_file_without_ext);
-
-        return array(
-            'download_path' => $_dest_tmp,
-            'url_path'      => $_path_docx
-        );
     }
 
     /**
@@ -258,49 +201,135 @@ class ServiceMetierCtBordereau
     {
         $center = array();
         switch($ctrNom){
-            case "ALAROBIA"         : $centre[0] ='LE COLONEL, DIRECTEUR DES OPERATIONS TECHNIQUES';$center[1] = 'ALAROBIA'; break;
+            case "ALAROBIA"         : $centre = array('LE COLONEL, DIRECTEUR DES OPERATIONS TECHNIQUES','ALAROBIA'); break;
 
-            case "ALASORA"          : $centre[0] = 'LE CHEF DE CENTRE DE LA SECURITE ROUTIERE';     $center[1] = 'ALASORA'; break;
-            case "ANTSIRABE"        : $centre[0] = 'LE CHEF DE CENTRE DE LA SECURITE ROUTIERE';     $center[1] = 'ANTSIRABE'; break;
-            case "BETONGOLO"        : $centre[0] = 'LE CHEF DE CENTRE DE LA SECURITE ROUTIERE';     $center[1] = 'BETONGOLO'; break;
-            case "IVATO"            : $centre[0] = 'LE CHEF DE CENTRE DE LA SECURITE ROUTIERE';     $center[1] = 'IVATO'; break;
-            case "TSIROANOMANDIDY"  : $centre[0] = 'LE CHEF DE CENTRE DE LA SECURITE ROUTIERE';     $center[1] = 'TSIROANOMANDIDY'; break;
+            case "ALASORA"          : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'ALASORA'); break;
+            case "ANTSIRABE"        : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'ANTSIRABE'); break;
+            case "BETONGOLO"        : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'BETONGOLO'); break;
+            case "IVATO"            : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'IVATO'); break;
+            case "TSIROANOMANDIDY"  : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'TSIROANOMANDIDY'); break;
             
-            case "AMBATONDRAZAKA"   : $centre[0] = 'LE CHEF DE CENTRE DE LA SECURITE ROUTIERE';     $center[1] = 'AMBATONDRAZAKA'; break;
-            case "FENERIVE-EST"     : $centre[0] = 'LE CHEF DE CENTRE DE LA SECURITE ROUTIERE';     $center[1] = 'FENERIVE-EST'; break;
-            case "MORAMANGA"        : $centre[0] = 'LE CHEF DE CENTRE DE LA SECURITE ROUTIERE';     $center[1] = 'MORAMANGA'; break;
-            case "TANAMBOROZANO"    : $centre[0] = 'LE CHEF DE CENTRE DE LA SECURITE ROUTIERE';     $center[1] = 'TOAMASINA'; break;
-            case "BARIKADIMY"       : $centre[0] = 'LE CHEF DE CENTRE DE LA SECURITE ROUTIERE';     $center[1] = 'TOAMASINA'; break;
+            case "AMBATONDRAZAKA"   : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'AMBATONDRAZAKA'); break;
+            case "FENERIVE-EST"     : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'FENERIVE-EST'); break;
+            case "MORAMANGA"        : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'MORAMANGA'); break;
+            case "TANAMBOROZANO"    : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'TOAMASINA'); break;
+            case "BARIKADIMY"       : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'TOAMASINA'); break;
 
-            case "AMBOSITRA"        : $centre[0] = 'LE CHEF DE CENTRE DE LA SECURITE ROUTIERE';     $center[1] = 'AMBOSITRA'; break;
-            case "FARAFANGANA"      : $centre[0] = 'LE CHEF DE CENTRE DE LA SECURITE ROUTIERE';     $center[1] = 'FARAFANGANA'; break;
-            case "BESOROHITRA"      : $centre[0] = 'LE CHEF DE CENTRE DE LA SECURITE ROUTIERE';     $center[1] = 'FIANARANTSOA'; break;
-            case "MANAKARA"         : $centre[0] = 'LE CHEF DE CENTRE DE LA SECURITE ROUTIERE';     $center[1] = 'MANAKARA'; break;
+            case "AMBOSITRA"        : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'AMBOSITRA'); break;
+            case "FARAFANGANA"      : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'FARAFANGANA'); break;
+            case "BESOROHITRA"      : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'FIANARANTSOA'); break;
+            case "MANAKARA"         : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'MANAKARA'); break;
 
-            case "TRANOBOZAKA"      : $centre[0] = 'LE CHEF DE CENTRE DE LA SECURITE ROUTIERE';     $center[1] = 'ANTSIRANANA'; break;
-            case "NOSY BE"          : $centre[0] = 'LE CHEF DE CENTRE DE LA SECURITE ROUTIERE';     $center[1] = 'NOSY BE'; break;
-            case "SAMBAVA"          : $centre[0] = 'LE CHEF DE CENTRE DE LA SECURITE ROUTIERE';     $center[1] = 'SAMBAVA'; break;
+            case "TRANOBOZAKA"      : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'ANTSIRANANA'); break;
+            case "NOSY BE"          : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'NOSY BE'); break;
+            case "SAMBAVA"          : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'SAMBAVA'); break;
 
-            case "ANTSOHIHY"        : $centre[0] = 'LE CHEF DE CENTRE DE LA SECURITE ROUTIERE';     $center[1] = 'ANTSOHIHY'; break;
-            case "AMBOROVY"         : $centre[0] = 'LE CHEF DE CENTRE DE LA SECURITE ROUTIERE';     $center[1] = 'MAHANJANGA'; break;
+            case "ANTSOHIHY"        : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'ANTSOHIHY'); break;
+            case "AMBOROVY"         : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'MAHANJANGA'); break;
 
-            case "AMBOVOMBE"        : $centre[0] = 'LE CHEF DE CENTRE DE LA SECURITE ROUTIERE';     $center[1] = 'AMBOVOMBE'; break;
-            case "IHOSY"            : $centre[0] = 'LE CHEF DE CENTRE DE LA SECURITE ROUTIERE';     $center[1] = 'IHOSY'; break;
-            case "MORONDAVA"        : $centre[0] = 'LE CHEF DE CENTRE DE LA SECURITE ROUTIERE';     $center[1] = 'MORONDAVA'; break;
-            case "SANFIL"           : $centre[0] = 'LE CHEF DE CENTRE DE LA SECURITE ROUTIERE';     $center[1] = 'TOLIARA'; break;
-            case "TAOLAGNARO"       : $centre[0] = 'LE CHEF DE CENTRE DE LA SECURITE ROUTIERE';     $center[1] = 'TAOLAGNARO'; break;
+            case "AMBOVOMBE"        : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'AMBOVOMBE'); break;
+            case "IHOSY"            : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'IHOSY'); break;
+            case "MORONDAVA"        : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'MORONDAVA'); break;
+            case "SANFIL"           : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'TOLIARA'); break;
+            case "TAOLAGNARO"       : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'TAOLAGNARO'); break;
 
             case "CENTRE_RECEPTION_TECHNIQUE":
-                                      $centre[0] = 'LE CHEF DE CENTRE DE LA RECEPTION TECHNIQUE';   $center[1] = 'ALASORA'; break;
+                                      $centre = array('LE CHEF DE CENTRE DE LA RECEPTION TECHNIQUE', 'ALASORA'); break;
             default                 : $centre = array(NULL, NULL);
         }
         return $centre;
     }
 
-    function generateBL($list)
+
+    /**
+     * Générer bordereau de livraison
+     *  @param  $centre : ID du centre destinataire
+     *  @param  $numero : N° début de l'imprimé tech
+     *  @return array  array()
+     */
+    public function  generateBordereauLivraison($centre, $numero)
     {
-        $_bl_centre = $this->_container->get(ServiceName::SRV_METIER_CENTRE);
-$list = json_encode($list);
-        return $list;
+        // Récupérer manager
+        $_centre_manager= $this->_container->get(ServiceName::SRV_METIER_CENTRE);
+        $_it_manger     = $this->_container->get(ServiceName::SRV_METIER_IMPRIME_TECH);
+
+        $_centre = $_centre_manager->getCtCentreById($centre);
+
+        /* Récupération informations chef de centre et lieu centre */
+        $_nom_centre     = $_centre->getCtrNom();
+
+        $_centre_formatted = $this->transformcenter($_nom_centre);
+        $_nom_centre     = $_centre_formatted[0];
+        $_lieu_centre    = $_centre_formatted[1];
+
+        // Récupérer répertoire modèle Word
+        $_bl_directory  = $this->_container->getParameter('reporting_template_directory');
+        $_template_src  = $_bl_directory . PathReportingName::TEMPLATE_BORDEREAU;
+        $_bl_numero     = str_replace('/', '_', $numero);
+        $_path          = $_bl_directory . PathReportingName::GENERATE_BORDEREAU;
+
+        $_num_bl        = 'BL_' . $_bl_numero;
+        $_filename      = strtoupper($_num_bl);
+
+        $_dest_tmp          = $_path . $_filename . '.docx';
+        $_file_without_ext  = $_filename;
+
+        $_url_scheme    = $this->_container->get('request_stack')->getCurrentRequest()->server->get('HTTP_HOST');
+        $_path_docx     = 'http://' . $_url_scheme . '/reporting/' . PathReportingName::GENERATE_BORDEREAU . $_filename . '.docx';
+        // $_path_pdf      = 'http://' . $_url_scheme . '/reporting/' . PathReportingName::GENERATE_BORDEREAU . $_filename . '.pdf';
+
+        $_php_word      = new PhpWord();
+        $_template      = $_php_word->loadTemplate($_template_src);
+
+        // Centre, lieu centre et numéro BL
+        $_template->setValue('nom_centre', $_nom_centre);
+        $_template->setValue('lieu_centre', $_lieu_centre);
+        $_template->setValue('bl_numero', $numero);
+
+        // Liste des imprimés techniques
+        $_bordereau      = $this->getListInBordereau($centre, $numero);
+        $_nbr_it         = count($_bordereau);
+        $_total          = 0;
+
+        $_template->cloneRow('i', $_nbr_it);
+
+        $_i = 0;
+        foreach($_bordereau as $_imprime_tech)
+        {
+            ++$_i;
+            $_template->setValue('i#' . $_i, $_i);
+            $_nomImprimeTech = $_imprime_tech->getCtImprimeTech()->getNomImprimeTech();
+            $_numDebut = $_imprime_tech->getBlDebutNumero();
+            $_numFin = $_imprime_tech->getBlFinNumero();
+            $_quantite = abs($_numFin - $_numDebut) + 1;
+            if($_numDebut == $_numFin)
+            {
+                $_designation = $_nomImprimeTech . ' N° ' . $_numDebut;
+            }else{
+                $_designation = $_nomImprimeTech . ' N° ' . $_numDebut . ' à ' . $_numFin;
+            }
+            $_template->setValue('designation#' . $_i, $_designation);
+            $_uteImprimeTech = $_imprime_tech->getCtImprimeTech()->getUteImprimeTech();
+            $_template->setValue('unite#' . $_i, $_uteImprimeTech);
+            $_template->setValue('quantite#' . $_i, $_quantite);
+            $_total += $_quantite;
+        }
+
+        $_total  = number_format($_total, 0, ',', ' ');
+
+        $_template->setValue('total', $_total);
+
+        $_template->saveAs($_dest_tmp);
+
+        // Recuperer manager
+        // $_const_av_ded_manager = $this->_container->get(ServiceName::SRV_METIER_CONST_AV_DED);
+
+        // Convertir en PDF
+        // $_dest_tmp = $_const_av_ded_manager->convertToPdf($_path, $_file_without_ext);
+
+        return array(
+            'download_path' => $_dest_tmp,
+            'url_path'      => $_path_docx
+        );
     }
 }
