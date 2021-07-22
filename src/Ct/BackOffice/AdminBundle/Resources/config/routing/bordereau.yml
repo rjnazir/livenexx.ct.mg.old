@@ -32,3 +32,13 @@ bordereau_search:
     path:     /search
     defaults: { _controller: "AdminBundle:CtBordereau:search" }
     methods:  [GET, POST]
+
+bordereau_generer_bl:
+    path:     /generer-bl
+    defaults: { _controller: "AdminBundle:CtBordereau:genererBordereauLivraison"}
+    methods:  [GET, POST]
+
+bordereau_activation:
+    path:     /
+    defaults: { _controller: "AdminBundle:CtBordereau:Activation" }
+    methods:  GET
