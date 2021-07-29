@@ -141,7 +141,8 @@ class ServiceMetierCtBordereau
         $_sql   = " SELECT  t
                     FROM    $_entity_bl t 
                     WHERE   t.ctCentre = ?1
-                            AND t.blDebutNumero NOT IN (SELECT DISTINCT tt.ituNumero FROM $_entity_itu tt)";
+                            AND t.blDebutNumero NOT IN (SELECT DISTINCT tt.ituNumero FROM $_entity_itu tt)
+                    ORDER BY t.id DESC";
         $_query  = $this->_entity_manager->createQuery($_sql);
         $_query->setParameter(1, $_ct_centre_id);
         $_ret = $_query->getResult();
@@ -251,7 +252,6 @@ class ServiceMetierCtBordereau
     {
         // Récupérer manager
         $_centre_manager= $this->_container->get(ServiceName::SRV_METIER_CENTRE);
-        $_it_manger     = $this->_container->get(ServiceName::SRV_METIER_IMPRIME_TECH);
 
         $_centre = $_centre_manager->getCtCentreById($centre);
 
@@ -276,7 +276,6 @@ class ServiceMetierCtBordereau
 
         $_url_scheme    = $this->_container->get('request_stack')->getCurrentRequest()->server->get('HTTP_HOST');
         $_path_docx     = 'http://' . $_url_scheme . '/reporting/' . PathReportingName::GENERATE_BORDEREAU . $_filename . '.docx';
-        // $_path_pdf      = 'http://' . $_url_scheme . '/reporting/' . PathReportingName::GENERATE_BORDEREAU . $_filename . '.pdf';
 
         $_php_word      = new PhpWord();
         $_template      = $_php_word->loadTemplate($_template_src);
@@ -320,12 +319,6 @@ class ServiceMetierCtBordereau
         $_template->setValue('total', $_total);
 
         $_template->saveAs($_dest_tmp);
-
-        // Recuperer manager
-        // $_const_av_ded_manager = $this->_container->get(ServiceName::SRV_METIER_CONST_AV_DED);
-
-        // Convertir en PDF
-        // $_dest_tmp = $_const_av_ded_manager->convertToPdf($_path, $_file_without_ext);
 
         return array(
             'download_path' => $_dest_tmp,

@@ -155,3 +155,7 @@ services:
     ct.service.metier.bordereau:
         class: Ct\Service\MetierManagerBundle\Metier\CtBordereau\ServiceMetierCtBordereau
         arguments: [ "@doctrine.orm.entity_manager", "@service_container", "%kernel.root_dir%" ]
+
+    ct.service.metier.imprime_tech_use :
+        class: Ct\Service\MetierManagerBundle\Metier\CtImprimeTechUse\ServiceMetierCtImprimeTechUse
+        arguments: [ "@doctrine.orm.entity_manager", "@service_container", "%kernel.root_dir%" ]

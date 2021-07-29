@@ -42,3 +42,8 @@ bordereau_activation:
     path:     /activation
     defaults: { _controller: "AdminBundle:CtBordereau:Activation" }
     methods:  GET
+
+bordereau_actived:
+    path:     /actived/{_id}
+    defaults: { _controller: "AdminBundle:CtBordereau:Actived", _id: 0 }
+    methods:  [GET, POST]

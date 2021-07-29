@@ -108,21 +108,21 @@
                                     <div class="form-group">
                                         <label for="ct_fdc_centre">Séléctionner le centre</label>
                                         <select id="ct_fdc_centre" name="ct_fdc_centre" class="form-control select2"
-                                                style="width: 100%;" data-placeholder="Choisir" required>
-                                                <option value="" selected="selected">
-                                                    Choisir
-                                                </option>
-                                            {% for province in provinces %}
-                                            <optgroup label="{{ province.prvNom }}">
+                                            style="width: 100%;" data-placeholder="Choisir" required>
+                                            <option value="" selected="selected">
+                                                Choisir
+                                            </option>
+                                            {# {% for province in provinces %}
+                                            <optgroup label="{{ province.prvNom }}"> #}
                                                 {% for centre in centres %}
-                                                    {% if province.id == centre.ctProvince.id %}
+                                                    {# {% if province.id == centre.ctProvince.id %} #}
                                                         <option value="{{ centre.id }}">
                                                             {{ centre.ctrNom|upper }}
                                                         </option>
-                                                    {% endif %}
+                                                    {# {% endif %} #}
                                                 {% endfor %}
-                                            </optgroup>
-                                            {% endfor %}
+                                            {# </optgroup>
+                                            {% endfor %} #}
                                         </select>
                                     </div>
                                 </div>
@@ -177,17 +177,17 @@
                                                 <option value="" selected="selected">
                                                     Choisir
                                                 </option>
-                                            {% for province in provinces %}
-                                                <optgroup label="{{ province.prvNom }}">
-                                                    {% for centre in centres %}
-                                                        {% if province.id == centre.ctProvince.id %}
-                                                            <option value="{{ centre.id }}">
-                                                                {{ centre.ctrNom|upper }}
-                                                            </option>
-                                                        {% endif %}
-                                                    {% endfor %}
-                                                </optgroup>
-                                            {% endfor %}
+                                                {# {% for province in provinces %}
+                                                    <optgroup label="{{ province.prvNom }}"> #}
+                                                        {% for centre in centres %}
+                                                            {# {% if province.id == centre.ctProvince.id %} #}
+                                                                <option value="{{ centre.id }}">
+                                                                    {{ centre.ctrNom|upper }}
+                                                                </option>
+                                                            {# {% endif %} #}
+                                                        {% endfor %}
+                                                    {# </optgroup>
+                                                {% endfor %} #}
                                         </select>
                                     </div>
                                 </div>
@@ -202,11 +202,11 @@
                                             <option value="" selected="selected">
                                                 Choisir
                                             </option>
-                                        {% for verif in verificateurs %}
-                                            <option value="{{ verif.id }}">
-                                                {{ verif.usrName|upper }}
-                                            </option>
-                                        {% endfor %}
+                                            {% for verif in verificateurs %}
+                                                <option value="{{ verif.id }}">
+                                                    {{ verif.usrName|upper }}
+                                                </option>
+                                            {% endfor %}
                                     </select>
                                 </div>
                             </div>
@@ -257,17 +257,17 @@
                                                 <option value="" selected="selected">
                                                     Choisir
                                                 </option>
-                                            {% for province in provinces %}
-                                                <optgroup label="{{ province.prvNom }}">
-                                                    {% for centre in centres %}
-                                                        {% if province.id == centre.ctProvince.id %}
-                                                            <option value="{{ centre.id }}">
-                                                                {{ centre.ctrNom|upper }}
-                                                            </option>
-                                                        {% endif %}
-                                                    {% endfor %}
-                                                </optgroup>
-                                            {% endfor %}
+                                                {# {% for province in provinces %}
+                                                    <optgroup label="{{ province.prvNom }}"> #}
+                                                        {% for centre in centres %}
+                                                            {# {% if province.id == centre.ctProvince.id %} #}
+                                                                <option value="{{ centre.id }}">
+                                                                    {{ centre.ctrNom|upper }}
+                                                                </option>
+                                                            {# {% endif %} #}
+                                                        {% endfor %}
+                                                    {# </optgroup>
+                                                {% endfor %} #}
                                         </select>
                                     </div>
                                 </div>
@@ -443,6 +443,35 @@
                             }}) }}
                             {{ form_row(form.ctVerificateur) }}
                             {{ form_row(form.ctVisiteExtra) }}
+                        </div>
+                    </div>
+                    
+                    {# Informations des imprimés utilisés #}
+                    <div class="box box-warning">
+                        <div class="box-header">
+                            <h3 class="box-title">Informations imprimés techniques utilisés</h3>
+                        </div>
+
+                        <div class="row">
+                            <div class="box-body">
+                                <div class="form-group" style="margin: 0 8px 0 8px; padding:  0 8px 0 8px;">
+                                    <label for="ct_imprime_tech_use">Séléctionner les N° imprimés utilisés</label>
+                                    <select id="ct_imprime_tech_use" name="ct_imprime_tech_use[]" class="form-control select2 mx-6"
+                                        style="width: 100%;" data-placeholder="  Choisir" multiple="" required>
+                                        {% for imprime_tech in imprimes_tech %}
+                                        <optgroup label="{{ imprime_tech.nomImprimeTech|upper }}">
+                                            {% for imprime_tech_use in imprimes_tech_use %}
+                                                {% if imprime_tech.id == imprime_tech_use.ctImprimeTech.id %}
+                                                <option value="{{ imprime_tech_use.id }}">
+                                                    {{ imprime_tech_use.ituNumero|upper }}
+                                                </option>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </optgroup>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

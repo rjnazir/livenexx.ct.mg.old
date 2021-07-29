@@ -157,3 +157,7 @@ ct_imprime_tech:
 ct_bordereau:
     resource: "@AdminBundle/Resources/config/routing/bordereau.yml"
     prefix:   /bordereau
+
+imprime_tech_use:
+    resource: "@AdminBundle/Resources/config/routing/imprime_tech_use.yml"
+    prefix:   /imprime-tech-use

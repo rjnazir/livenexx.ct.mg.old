@@ -168,6 +168,40 @@
                         {{ form_row(edit_form.ctVisiteExtra) }}
                     </div>
                 </div>
+            
+                {# Informations des imprimés utilisés #}
+                <div class="box box-warning">
+                    <div class="box-header">
+                        <h3 class="box-title">Informations imprimés techniques utilisés</h3>
+                    </div>
+
+                    <div class="row">
+                        <div class="box-body">
+                            <div class="form-group" style="margin: 0 8px 0 8px; padding:  0 8px 0 8px;">
+                                <label for="ct_imprime_tech_use">Séléctionner les N° imprimés utilisés</label>
+                                <select id="ct_imprime_tech_use" name="ct_imprime_tech_use[]" class="form-control select2 mx-6"
+                                    style="width: 100%;" data-placeholder=" Choisir" multiple="" required >
+                                    {% for imprime_use in imprimes_use %}
+                                        <option value="{{ imprime_use.id }}" selected>
+                                            {{ imprime_use.ituNumero }}
+                                        </option>
+                                    {% endfor %}
+                                    {% for imprime_tech in imprimes_tech %}
+                                    <optgroup label="{{ imprime_tech.nomImprimeTech|upper }}">
+                                        {% for imprime_tech_use in imprimes_tech_use %}
+                                            {% if imprime_tech.id == imprime_tech_use.ctImprimeTech.id %}
+                                            <option value="{{ imprime_tech_use.id }}">
+                                                {{ imprime_tech_use.ituNumero|upper }}
+                                            </option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </optgroup>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     
@@ -202,10 +236,15 @@
 {% block javascripts %}
     {{ parent() }}
 
+
     <!-- Vérification existence carte grise -->
     <!-- JQuery UI -->
     <script src="{{ asset('plugins/jquery-ui-1.12.1/jquery-ui.js') }}" ></script>
     <script>
+        $(".ct_imprime_tech_use").select2({
+            tags: true,
+            tokenSeparators: [',', ' ']
+        })
         var _fill_form_carte_grise_ajax_uri = "{{ path('carte_grise_fill_info_by_immatriculation_ajax') }}";
         var _autocomplete_numero_serie_ajax_uri = "{{ path('carte_grise_show_numero_serie_ajax') }}";
         var _autocomplete_numero_immatriculation_ajax_uri = "{{ path('carte_grise_show_numero_immatriculation_ajax') }}";

@@ -111,10 +111,25 @@ class CtContreVisiteController extends Controller
         // Récupérer liste numéro serie et immatriculation
         $_list_numero_serie           = $_contre_visite_manager->getAllNumeroSerieContreVisite();
         $_list_numero_immatriculation = $_contre_visite_manager->getAllNumeroImmatriculationContreVisite();
+        // Récupérer tout les imprimés techniques
+        $_imprime_tech = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH);
+        $_imprime_tech_use = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
+        $_imprimestech = $_imprime_tech->getAllCtImprimeTechByOrder(array('nomImprimeTech' => 'ASC'));
+        $_imprimestechuse = $_imprime_tech_use->getAllCtImprimeTechNoUsedOrder();
 
         if ($_form->isSubmitted() && $_form->isValid()) {
             // Enregistrement visite
             $_id_carte_visite = $_contre_visite_manager->addCtContreVisite($_visite, 'new');
+
+            /* ============ Misa à jour des imprimés utilisés pour cette visite ============ */
+            $_em_imprimes = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
+            $_data = $_request->request->all();
+            $_list_itu = $_data['ct_imprime_tech_use']; $x = NULL;
+            foreach($_list_itu as $_one_uti){
+                $_imprime_tech_use = $_em_imprimes->getCtImprimeTechUseById($_one_uti);
+                $_em_imprimes->saveCtImprimeTechUse($_imprime_tech_use, 'Contre', $_visite->getId());
+            }
+            /* ============================================================================== */
 
             $_contre_visite_manager->setFlash('success', "Contre visite ajouté");
             $this->get('session')->getFlashBag()->set('success_contre_visite_id', $_visite->getId()); // For security purpose
@@ -123,10 +138,12 @@ class CtContreVisiteController extends Controller
         }
 
         return $this->render('AdminBundle:CtContreVisite:add.html.twig', array(
-            'visite'                      => $_visite,
-            'form'                        => $_form->createView(),
-            'list_numero_serie'           => $_list_numero_serie,
-            'list_numero_immatriculation' => $_list_numero_immatriculation
+            'visite'                        => $_visite,
+            'form'                          => $_form->createView(),
+            'list_numero_serie'             => $_list_numero_serie,
+            'list_numero_immatriculation'   => $_list_numero_immatriculation,
+            'imprimes_tech'                 => $_imprimestech,
+            'imprimes_tech_use'             => $_imprimestechuse,
         ));
     }
 

@@ -1,7 +1,96 @@
-{% extends "::base.html.twig" %}
+{% extends 'backoffice/base_admin.html.twig' %}
 
-{% block title %}AdminBundle:CtImprimeTechUse:edit{% endblock %}
+{% form_theme edit_form ':form:custom_fields.html.twig' %}
+
+{% form_theme edit_form.ctBordereau _self %}
+{% form_theme edit_form.ctCentre _self %}
+{% form_theme edit_form.ctImprimeTech _self %}
+{% form_theme edit_form.ituMotifUsed _self %}
+
+{%- block choice_widget_collapsed -%}
+    {%- if required and placeholder is none and not placeholder_in_choices and not multiple -%}
+        {% set required = false %}
+    {%- endif -%}
+    <span>
+        <select class="select2" data-placeholder="Choisir" style="width: 100%;" oninvalid="setErrorClass($(this));"
+                {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
+            {%- if placeholder is not none -%}
+                <option value=""{% if required and value is empty %} selected="selected"{% endif %}>
+                    {{ placeholder != '' ? placeholder|trans({}, translation_domain) }}
+                </option>
+            {%- endif -%}
+            {%- if preferred_choices|length > 0 -%}
+                {% set options = preferred_choices %}
+                {{- block('choice_widget_options') -}}
+                {%- if choices|length > 0 and separator is not none -%}
+                    <option disabled="disabled">{{ separator }}</option>
+                {%- endif -%}
+            {%- endif -%}
+            {%- set options = choices -%}
+            {{- block('choice_widget_options') -}}
+        </select>
+    </span>
+{%- endblock choice_widget_collapsed -%}
+
+{% block title %}{{ parent() }} Modification utilisation imprimé technique {% endblock %}
+
+{% set menu_imprime_tech_use        = true %}
+{% set menu_imprime_tech_use_create = true %}
 
 {% block body %}
-<h1>Welcome to the CtImprimeTechUse:edit page</h1>
+    {% for flashMessage in app.session.flashbag.get('success') %}
+        <div class="callout callout-success">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        <div class="callout callout-danger">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                {{ form_start(edit_form) }}
+                    <div class="box-header">
+                        <h3 class="box-title">Modifier une utilisation d'imprimé technique</h3>
+                    </div>
+
+                    <div class="box-body">
+                        {{ form_row(edit_form.ctBordereau) }}
+                    </div>
+
+                    <div class="box-body">
+                        {{ form_row(edit_form.ctCentre) }}
+                    </div>
+
+                    <div class="box-body">
+                        {{ form_row(edit_form.ctImprimeTech) }}
+                    </div>
+
+                    <div class="box-body">
+                        {{ form_row(edit_form.ituNumero) }}
+                    </div>
+
+                    <div class="box-body">
+                        {{ form_row(edit_form.ctControle) }}
+                    </div>
+
+                    <div class="box-body">
+                        {{ form_row(edit_form.ituMotifUsed) }}
+                    </div>
+
+
+                    <div class="box-footer">
+                        <input type="submit" class="btn btn-primary" value="Modifier" name="update_it_in_bl"/>
+                        {# <a href="{{ path('bordereau_index') }}"
+                           class="btn btn-default pull-left btn-mini-rectif" >
+                            Retour à la liste
+                        </a> #}
+                    </div>
+                {{ form_end(edit_form) }}
+            </div>
+        </div>
+    </div>
 {% endblock %}

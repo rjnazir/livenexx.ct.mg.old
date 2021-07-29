@@ -33,21 +33,21 @@
                 </div>
 
                 {# Bouton création #}
-                <div class="row add-btn-top-list">
+                {# <div class="row add-btn-top-list">
                     <a href="#">
                         <button type="submit" name="_group_activation" class="btn btn-primary activation-btn">
                             <i class="fa fa-check"></i>
                             Activer la sélection
                         </button>
                     </a>
-                </div>
+                </div> #}
 
                 <form action="{#{ path('bordereau_activation_group') }#}" method="POST" class="form-search">
                     <div class="box-body table-responsive">
                         <table id="liste-imprime-tech-use" class="table table-bordered table-striped table-condensed">
                             <thead>
                             <tr>
-                                <th></th>
+                                {# <th></th> #}
                                 <th>N° bordereau</th>
                                 <th>Nom centre</th>
                                 <th>Nom IT</th>
@@ -60,9 +60,9 @@
                             <tbody>
                             {% for it_in_bl in its_in_bl %}
                                 <tr>
-                                    <td>
+                                    {# <td>
                                         <input type="checkbox" value="{{ it_in_bl.id }}" name="activation[]" />
-                                    </td>
+                                    </td> #}
                                     <td>{{ it_in_bl.blNumero }}</td>
                                     <td>{{ it_in_bl.ctCentre.ctrNom }}</td>
                                     <td>{{ it_in_bl.ctImprimeTech.nomImprimeTech }}</td>
@@ -70,9 +70,10 @@
                                     <td>{{ it_in_bl.blDebutNumero }}</td>
                                     <td>{{ it_in_bl.blFinNumero }}</td>
                                     <td>
-                                        <a class="btn btn-primary activation-elt" title="Activer"
-                                           href="{{ path('bordereau_activation', { 'id': it_in_bl.id }) }}">
+                                        <a class="btn btn-primary activation-elt" title="Activer" id="btn-imprime-tech-to-actived"
+                                           href="{{ path('bordereau_actived', { '_id': it_in_bl.id }) }}">
                                             <i class="fa fa-check"></i>
+                                            Activer l'imprimé
                                         </a>
                                     </td>
                                 </tr>
@@ -81,12 +82,12 @@
                         </table>
 
                         {# Bouton activer #}
-                        <a href="#">
+                        {# <a href="#">
                             <button type="submit" name="_group_activation" class="btn btn-primary activation-btn">
                                 <i class="fa fa-check"></i>
                                 Activer la sélection
                             </button>
-                        </a>
+                        </a> #}
                     </div>
                 </form>
             </div>

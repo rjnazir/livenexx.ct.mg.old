@@ -33,9 +33,9 @@ class CtImprimeTechUse
     /**
      * @var \CtBordereau
      *
-     * @ORM\ManyToOne(targetEntity="CtBordereau", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Ct\Service\MetierManagerBundle\Entity\CtBordereau")
      * @ORM\JoinColumns({
-     *  @ORM\JoinColumn(name="ct_bordereau_id", referencedColumnName="id", nullable=false)
+     *  @ORM\JoinColumn(name="ct_bordereau_id", referencedColumnName="id")
      * })
      * 
      */
@@ -44,9 +44,9 @@ class CtImprimeTechUse
     /**
      * @var \CtCentre
      *
-     * @ORM\ManyToOne(targetEntity="CtCentre", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="CtCentre")
      * @ORM\JoinColumns({
-     *  @ORM\JoinColumn(name="ct_centre_id", referencedColumnName="id", nullable=false)
+     *  @ORM\JoinColumn(name="ct_centre_id", referencedColumnName="id")
      * })
      * 
      */
@@ -55,9 +55,9 @@ class CtImprimeTechUse
     /**
      * @var \CtImprimeTech
      * 
-     * @ORM\ManyToOne(targetEntity="CtImprimeTech", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="CtImprimeTech")
      * @ORM\JoinColumns({
-     *  @ORM\JoinColumn(name="ct_imprime_tech_id", referencedColumnName="id", nullable=false)
+     *  @ORM\JoinColumn(name="ct_imprime_tech_id", referencedColumnName="id")
      * })
      * 
      */
@@ -66,7 +66,7 @@ class CtImprimeTechUse
     /**
      * @var integer
      *
-     * @ORM\Column(name="ct_controle_id", type="integer")
+     * @ORM\Column(name="ct_controle_id", type="integer", nullable=true)
      */
     private $ctControle;
 
@@ -75,7 +75,7 @@ class CtImprimeTechUse
      * 
      * @ORM\ManyToOne(targetEntity="Ct\Service\UserBundle\Entity\User")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="ct_user_id", referencedColumnName="id", nullable=false)
+     *   @ORM\JoinColumn(name="ct_user_id", referencedColumnName="id")
      * })
      * 
      */
@@ -84,35 +84,35 @@ class CtImprimeTechUse
     /**
      * @var int
      *
-     * @ORM\Column(name="itu_numero", type="integer")
+     * @ORM\Column(name="itu_numero", type="integer", nullable=true)
      */
     private $ituNumero;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="itu_used", type="boolean")
+     * @ORM\Column(name="itu_used", type="boolean", nullable=true)
      */
     private $ituUsed;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="itu_motif_used", type="string", length=64)
+     * @ORM\Column(name="itu_motif_used", type="string", length=64, nullable=true)
      */
     private $ituMotifUsed;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created_at", type="datetime")
+     * @ORM\Column(name="created_at", type="datetime", nullable=true)
      */
     private $createdAt;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="updated_at", type="datetime")
+     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
      */
     private $updatedAt;
 
@@ -129,15 +129,17 @@ class CtImprimeTechUse
 
     /**
      * Set ctBordereau
-     *
+     * 
      * @param \Ct\Service\MetierManagerBundle\Entity\CtBordereau $ctBordereau
-     *
+     * 
      * @return CtImprimeTechUse
+     * 
      */
-    public function setItuCtBordereau(\Ct\Service\MetierManagerBundle\Entity\CtBordereau $ctBordereau = null)
+
+    public function setCtBordereau(\Ct\Service\MetierManagerBundle\Entity\CtBordereau $ctBordereau = null)
     {
         $this->ctBordereau = $ctBordereau;
-
+        
         return $this;
     }
 
@@ -146,19 +148,21 @@ class CtImprimeTechUse
      *
      * @return \Ct\Service\MetierManagerBundle\Entity\CtBordereau
      */
-    public function getItuCtBordereau()
+    public function getCtBordereau()
     {
         return $this->ctBordereau;
     }
 
     /**
      * Set ctCentre
-     *
+     * 
      * @param \Ct\Service\MetierManagerBundle\Entity\CtCentre $ctCentre
-     *
+     * 
      * @return CtImprimeTechUse
+     * 
      */
-    public function setItuCtCentre(\Ct\Service\MetierManagerBundle\Entity\CtCentre $ctCentre = null)
+
+    public function setCtCentre(\Ct\Service\MetierManagerBundle\Entity\CtCentre $ctCentre = null)
     {
         $this->ctCentre = $ctCentre;
 
@@ -169,20 +173,22 @@ class CtImprimeTechUse
      * Get ctCentre
      *
      * @return \Ct\Service\MetierManagerBundle\Entity\CtCentre
+     * 
      */
-    public function getItuCtCentre()
+    public function getCtCentre()
     {
         return $this->ctCentre;
     }
 
     /**
      * Set ctImprimeTech
-     *
+     * 
      * @param \Ct\Service\MetierManagerBundle\Entity\CtImprimeTech $ctImprimeTech
-     *
+     * 
      * @return CtImprimeTechUse
+     * 
      */
-    public function setItuCtImprimeTech(\Ct\Service\MetierManagerBundle\Entity\CtImprimeTech $ctImprimeTech = null)
+    public function setCtImprimeTech(\Ct\Service\MetierManagerBundle\Entity\CtImprimeTech $ctImprimeTech = null)
     {
         $this->ctImprimeTech = $ctImprimeTech;
 
@@ -193,8 +199,9 @@ class CtImprimeTechUse
      * Get ctImprimeTech
      *
      * @return \Ct\Service\MetierManagerBundle\Entity\CtImprmeTech
+     * 
      */
-    public function getItuCtImprimeTech()
+    public function getCtImprimeTech()
     {
         return $this->ctImprimeTech;
     }
@@ -205,8 +212,9 @@ class CtImprimeTechUse
      * @param integer $ctControle
      *
      * @return CtImprimeTechUse
+     * 
      */
-    public function setItuCtControle($ctControle)
+    public function setCtControle($ctControle)
     {
         $this->ctControle = $ctControle;
 
@@ -217,8 +225,9 @@ class CtImprimeTechUse
      * Get ctControle
      *
      * @return integer
+     * 
      */
-    public function getItuCtControle()
+    public function getCtControle()
     {
         return $this->ctControle;
     }
@@ -226,11 +235,12 @@ class CtImprimeTechUse
     /**
      * Set ctUser
      *
-     * @param integer $ctUser
+     * @param \Ct\Service\UserBundle\Entity\User $ctUser
      *
      * @return CtImprimeTechUse
+     * 
      */
-    public function setItuCtUser($ctUser)
+    public function setCtUser(\Ct\Service\UserBundle\Entity\User $ctUser = null)
     {
         $this->ctUser = $ctUser;
 
@@ -241,8 +251,9 @@ class CtImprimeTechUse
      * Get ctUser
      *
      * @return int
+     * 
      */
-    public function getItuCtUser()
+    public function getCtUser()
     {
         return $this->ctUser;
     }
@@ -253,6 +264,7 @@ class CtImprimeTechUse
      * @param integer $ituNumero
      *
      * @return CtImprimeTechUse
+     * 
      */
     public function setItuNumero($ituNumero)
     {
@@ -265,6 +277,7 @@ class CtImprimeTechUse
      * Get ituNumero
      *
      * @return int
+     * 
      */
     public function getItuNumero()
     {
@@ -277,6 +290,7 @@ class CtImprimeTechUse
      * @param boolean $ituUsed
      *
      * @return CtImprimeTechUse
+     * 
      */
     public function setItuUsed($ituUsed)
     {
@@ -289,6 +303,7 @@ class CtImprimeTechUse
      * Get ituUsed
      *
      * @return bool
+     * 
      */
     public function getItuUsed()
     {
@@ -301,6 +316,7 @@ class CtImprimeTechUse
      * @param string $ituMotifUsed
      *
      * @return CtImprimeTechUse
+     * 
      */
     public function setItuMotifUsed($ituMotifUsed)
     {
@@ -313,6 +329,7 @@ class CtImprimeTechUse
      * Get ituMotifUsed
      *
      * @return string
+     * 
      */
     public function getItuMotifUsed()
     {
@@ -325,6 +342,7 @@ class CtImprimeTechUse
      * @param \DateTime $createdAt
      *
      * @return CtImprimeTechUse
+     * 
      */
     public function setItuCreatedAt($createdAt)
     {
@@ -337,6 +355,7 @@ class CtImprimeTechUse
      * Get createdAt
      *
      * @return \DateTime
+     * 
      */
     public function getItuCreatedAt()
     {
@@ -349,6 +368,7 @@ class CtImprimeTechUse
      * @param string $updatedAt
      *
      * @return CtImprimeTechUse
+     * 
      */
     public function setItuUpdatedAt($updatedAt)
     {
@@ -361,6 +381,7 @@ class CtImprimeTechUse
      * Get updatedAt
      *
      * @return string
+     * 
      */
     public function getItuUpdatedAt()
     {

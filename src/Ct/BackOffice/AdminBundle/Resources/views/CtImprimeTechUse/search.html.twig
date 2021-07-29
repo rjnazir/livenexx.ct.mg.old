@@ -1,7 +1,200 @@
-{% extends "::base.html.twig" %}
+{% extends 'backoffice/base_admin.html.twig' %}
 
-{% block title %}AdminBundle:CtImprimeTechUse:search{% endblock %}
+{% block title %}{{ parent() }} Recherche imprimé technique {% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <!-- JQuery UI -->
+    <link href="{{ asset('plugins/jquery-ui-1.12.1/jquery-ui.css') }}" rel="Stylesheet"></link>
+{% endblock %}
+
+{% set menu_imprime_tech_use        = true %}
+{% set menu_imprime_tech_use_search = true %}
 
 {% block body %}
-<h1>Welcome to the CtImprimeTechUse:search page</h1>
+    {% for flashMessage in app.session.flashbag.get('success') %}
+        <div class="callout callout-success">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        <div class="callout callout-danger">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    {# Formulaire recherche #}
+    <form action="{{ path('imprime_tech_use_search') }}" method="POST">
+        <div class="row" id="search-form">
+            <div class="col-md-12">
+                <div class="box box-default">
+                    <div class="box-header">
+                        <h3 class="box-title">Recherche</h3>
+                    </div>
+
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="ct_imprime_tech_id">Type d'imprimé technique</label>
+                                        <select required id="ct_imprime_tech_id" name="ct_imprime_tech_id" class="form-control select2" >
+                                        <option value="" disabled selected>Séléctionner imprimé technique</option>
+                                            {% if (ct_imprime_tech_id and nomImprimeTech) %}
+                                                <option value="{{ ct_imprime_tech_id }}" selected>
+                                                    {{ nomImprimeTech | upper }}
+                                                </option>
+                                            {% endif %}
+
+                                            {% for list_it in list_its %}
+                                                <option value="{{ list_it.id }}">
+                                                    {{ list_it.nomImprimeTech | upper }}
+                                                </option>
+                                            {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="itu_numero">Par numéro d'imprimé technique</label>
+                                    <input id="itu_numero" name="itu_numero" value="{{ itu_numero }}"
+                                        class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary">
+                                            Rechercher
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            {% if imprime %}
+                            <div class="col-md-2">
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <a class="btn btn-warning" title="Modifier"
+                                           href="{{ path('imprime_tech_use_edit', {'id':imprime.id}) }}">
+                                            <i class="fa fa-edit"></i>
+                                            Modifier
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% if imprime.ituUsed %}
+                            <div class="col-md-2">
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <a class="btn btn-default" title="Annuler utilisation"
+                                        href="{{ path('imprime_tech_use_reset', {'id':imprime.id}) }}">
+                                            <i class="fa fa-trash"></i>
+                                            Annuler utilisation
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% endif %}
+                        </div>
+                        {% if imprime %}
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="box box-primary">
+                                    <div class="box-header">
+                                        <h3 class="box-title">Détail de l'imprimé technique</h3>
+                                    </div>
+
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>N° bordereau de livraison</label>
+                                                    <input value="{{ imprime.ctBordereau.blNumero }}" class="form-control" disabled />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>N° de l'imprimé technique</label>
+                                                    <input value="{{ imprime.ituNumero }}" class="form-control" disabled />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Centre destinataire</label>
+                                                    <input value="{{ imprime.ctCentre.ctrNom }}" class="form-control" disabled />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-check" style="margin:15px 0 0; padding: 15px 0 0 0">
+                                                    <input class="form-check-input" type="checkbox" style="margin:0 0 0 4px; padding: 0 0 0 4px;" {% if imprime.ituUsed %} checked {% endif %} disabled>
+                                                    <label class="form-check-label" for="flexCheckCheckedDisabled">
+                                                        &nbsp;&nbsp;Est-utlisé ?
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Imprimé technique</label>
+                                                    <input value="{{ imprime.ctImprimeTech.nomImprimeTech|upper }}" class="form-control" disabled />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Par numéro d'imprimé technique</label>
+                                                    <input value="{{ imprime.ituMotifUsed }}" class="form-control" disabled />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>N° d'utilisation</label>
+                                                    <input value="{{ imprime.ctControle }}" class="form-control" disabled />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group" style="margin: 12px 0 0 0; padding: 12px 0 0 0;">
+                                                    <a class="btn btn-warning" title="Modifier"
+                                                    href="{{ path('imprime_tech_use_edit', {'id':imprime.id}) }}">
+                                                        <i class="fa fa-edit"></i>
+                                                        Modifier
+                                                    </a>
+                                                    {% if imprime.ituUsed %}
+                                                    <a class="btn btn-default" title="Annuler utilisation"
+                                                    href="{{ path('imprime_tech_use_reset', {'id':imprime.id}) }}">
+                                                        <i class="fa fa-trash"></i>
+                                                        Annuler utilisation
+                                                    </a>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <!-- Vérification existence carte grise -->
+    <!-- JQuery UI -->
+    <script src="{{ asset('plugins/jquery-ui-1.12.1/jquery-ui.js') }}" ></script>
+    <script>
+        var _recuperer_numero_it_ajax_uri = "{{ path('imprime_tech_use_search') }}";
+    </script>
+    <script src="{{ asset('backoffice/js/search.used_it.js') }}"></script>
 {% endblock %}

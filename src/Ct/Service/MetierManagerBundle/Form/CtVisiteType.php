@@ -4,6 +4,7 @@ namespace Ct\Service\MetierManagerBundle\Form;
 
 use Ct\Service\MetierManagerBundle\Entity\CtAnomalie;
 use Ct\Service\MetierManagerBundle\Entity\CtCentre;
+use Ct\Service\MetierManagerBundle\Entity\CtImprimeTechUse;
 use Ct\Service\MetierManagerBundle\Utils\RoleName;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -163,6 +164,7 @@ class CtVisiteType extends AbstractType
             ))
 
             ->add('ctCarteGrise', CtCarteGriseType::class)
+
         ;
     }
 

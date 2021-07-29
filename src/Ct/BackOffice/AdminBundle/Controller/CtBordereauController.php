@@ -8,9 +8,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 use Ct\Service\MetierManagerBundle\Entity\CtBordereau;
+use Ct\Service\MetierManagerBundle\Entity\CtImprimeTechUse;
+use Ct\Service\MetierManagerBundle\Utils\EntityName;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+
 
 /**
  * Class CtBordereauController
@@ -49,6 +50,34 @@ class CtBordereauController extends Controller
         return $this->render('AdminBundle:CtBordereau:actived.html.twig', array(
             'its_in_bl' => $_bl,
         ));
+    }
+
+    /**
+     *  Activer un serie d'imprimés techniques
+     *  @param integer $_id
+     *  @return Redirect redirection
+     */
+    public function ActivedAction($_id)
+    {
+        // Utilisateur connecté   
+        $_user_connected= $this->get('security.token_storage')->getToken()->getUser();
+
+        // Récupérer manager
+        $_itu_manager   = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
+        $_bl_manager    = $this->get(ServiceName::SRV_METIER_BORDEREAU);
+        $_it_in_bl      = $_bl_manager->getCtBordereauById($_id);
+        $_ct_bordereau_id = $_it_in_bl;
+        $_ct_centre_id  = $_it_in_bl->getCtCentre();
+        $_ct_imprime_tech_id  = $_it_in_bl->getCtImprimeTech();
+        $_nomImrpimeTech= $_it_in_bl->getCtImprimeTech()->getNomImprimeTech();
+        $_start = $_it_in_bl->getBlDebutNumero();
+        $_ending= $_it_in_bl->getBlFinNumero();
+        for($i = $_start; $i <= $_ending; $i++){
+            $_itu_manager->save_CtImprimeTechUse($_ct_bordereau_id, $_ct_centre_id, $_ct_imprime_tech_id, $i);
+        }
+        $_bl_manager->setFlash('success', 'Les '.$_nomImrpimeTech.' N° '.$_start.' à '.$_ending.' sont activés pour votre centre.');
+
+        return $this->redirectToRoute('bordereau_activation');        
     }
 
     /**
@@ -237,6 +266,7 @@ class CtBordereauController extends Controller
     public function searchAction(Request $_request)
     {
         $_bl_manager = $this->get(ServiceName::SRV_METIER_BORDEREAU);
+        $_province_manager  = $this->get(ServiceName::SRV_METIER_PROVINCE);
         $_ctr_manager = $this->get(ServiceName::SRV_METIER_CENTRE);
         // Chargement de formulaire
         $_bordereau = new CtBordereau();
@@ -247,7 +277,8 @@ class CtBordereauController extends Controller
         $bl_numero = "";
         $_ct_centre_id = "";
         $_ctr_nom = "";
-        // Charger la liste des centres
+        // Charger la liste des centres et provinces
+        $_provinces = $_province_manager->getAllCtProvinceByOrder(array('id' => 'ASC'));
         $_list_centres = $_ctr_manager->getAllCtCentreByOrder(array('ctrNom' => 'ASC'));
 
         if ($_request->getMethod() === 'POST' ) {
@@ -269,6 +300,7 @@ class CtBordereauController extends Controller
             'bl_numero' => $bl_numero,
             'ct_centre_id' => $_ct_centre_id,
             'ctr_nom' => $_ctr_nom,
+            'list_provinces' => $_provinces,
             'list_centres' => $_list_centres,
             'search_form' => $_search_form->createView()
         ));
