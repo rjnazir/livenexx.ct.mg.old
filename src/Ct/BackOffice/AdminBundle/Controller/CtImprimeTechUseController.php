@@ -21,10 +21,18 @@ class CtImprimeTechUseController extends Controller
         // Récupérer manager
         $_itu_manager = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
 
+        // Récupérer tout les provinces et les centres
+        $_province_manager  = $this->get(ServiceName::SRV_METIER_PROVINCE);
+        $_centre_manager    = $this->get(ServiceName::SRV_METIER_CENTRE);
+        $_centres   = $_centre_manager->getAllCtCentreByOrder(array('id' => 'ASC'));
+        $_provinces = $_province_manager->getAllCtProvinceByOrder(array('id' => 'ASC'));
+
         // Récupérer tout les imprimés tech
         $_itu_list = $_itu_manager->getAllCtImprimeTechUsedByCentre();
         return $this->render('AdminBundle:CtImprimeTechUse:index.html.twig', array(
             'itu_listes' => $_itu_list,
+            'centres' => $_centres,
+            'provinces' => $_provinces,
         ));
     }
 
@@ -215,5 +223,10 @@ class CtImprimeTechUseController extends Controller
             ->setAction($this->generateUrl('imprime_tech_use_edit', array('id' => $_imprime_tech_use->getId())))
             ->setMethod('POST')
             ->getForm();
+    }
+
+    public function generateFeuilleUsedITAction(Request $_request)
+    {
+
     }
 }

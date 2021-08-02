@@ -532,6 +532,10 @@ class ServiceMetierCtVisite
         return $_query->getResult();
     }
 
+
+    /* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+    /* Chargement trop volumineuux des listes des numéros de série */
+    /* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
     public function getAllNumeroSerieContreVisite()
     {
         $_entity = EntityName::CT_VISITE;
@@ -544,9 +548,11 @@ class ServiceMetierCtVisite
                     WHERE cg2.id = cg.id) = v.vstCreated
                     AND v.vstIsApte = 0
                     AND v.vstIsContreVisite = 0
+                    AND v.vstCreated > :debut
                     GROUP BY vh.vhcNumSerie";
 
         $_query = $this->_entity_manager->createQuery($_dql);
+        $_query->setParameter('debut', new \DateTIME('-2 month'));
 
         return $_query->getResult();
     }
@@ -568,6 +574,9 @@ class ServiceMetierCtVisite
         return $_query->getResult();
     }
 
+    /* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+    /* Chargement trop volumineuux des listes des numéros de série */
+    /* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
     /**
      * Récupérer liste numéro d'immatriculation
      * @return array
@@ -583,9 +592,11 @@ class ServiceMetierCtVisite
                     WHERE cg2.id = cg.id) = v.vstCreated
                     AND v.vstIsApte = 0
                     AND v.vstIsContreVisite = 0
+                    AND v.vstCreated > :debut
                     GROUP BY cg.cgImmatriculation";
 
         $_query = $this->_entity_manager->createQuery($_dql);
+        $_query->setParameter('debut', new \DateTIME('-2 month'));
 
         return $_query->getResult();
     }

@@ -42,4 +42,9 @@ imprime_tech_use_show_numero_it_ajax:
     path:     /show-numero-it-ajax
     defaults: { _controller: "AdminBundle:CtImprimeTechUse:showNumeroITAjax" }
     methods:  POST
+
+imprimes_tech_generate_used_ajax:
+    path:     /generate-feuille-it-ajax
+    defaults: { _controller: "AdminBundle:CtImprimeTechUse:generateFeuilleUsedIT" }
+    methods:  [GET, POST]
     

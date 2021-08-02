@@ -163,7 +163,7 @@ class ServiceMetierCtImprimeTechUse
                 $this->_entity_manager->persist($_imprime_tech_use);
             }
         }else{
-            if($_action == 'Visite' || $_action == 'Réception' || $_action == 'Constation')
+            if($_action == 'Visite' || $_action == 'Contre' || $_action == 'Réception' || $_action == 'Constatation')
             {
                 $_imprime_tech_use->setCtControle($_id);
                 $_imprime_tech_use->setItuUsed(TRUE);

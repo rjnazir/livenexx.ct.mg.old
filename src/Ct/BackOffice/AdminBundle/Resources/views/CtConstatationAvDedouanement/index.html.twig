@@ -47,9 +47,12 @@
                         <table id="list-const-av-ded" class="table table-bordered table-striped table-condensed">
                             <thead>
                             <tr>
-                                <th></th>
-                                <th>Provenance</th>
-                                <th>Action</th>
+                                <th width="5%"></th>
+                                <th width="25%">N° PV</th>
+                                <th width="15%">Provenance</th>
+                                <th width="40%">Proprietaire</th>
+                                <th width="10%">N° imm.</th>
+                                <th width="15%">Action</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -58,7 +61,10 @@
                                     <td>
                                         <input type="checkbox" value="{{ constatation.id }}" name="delete[]" />
                                     </td>
+                                    <td>{{ constatation.cadNumero }}</td>
                                     <td>{{ constatation.cadProvenance }}</td>
+                                    <td>{{ constatation.cadProprietaireNom }}</td>
+                                    <td>{{ constatation.cadImmatriculation }}</td>
                                     <td>
                                         <a class="btn btn-primary" title="Modifier"
                                            href="{{ path('const_av_ded_edit', { 'id': constatation.id }) }}">

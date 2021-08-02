@@ -374,10 +374,10 @@ class CtVisiteController extends Controller
         $_visite_manager = $this->get(ServiceName::SRV_METIER_VISITE);
 
         // Récupération données formulaires
-        $_data_forms = $_request->request->all();
-        $_date       = array_key_exists('date', $_data_forms) ? $_data_forms['date'] : date('d/m/Y');
-        $_centre_id  = array_key_exists('centre_id', $_data_forms) ? $_data_forms['centre_id'] : 0;
-        $_type_visite_id  = array_key_exists('type_visite', $_data_forms) ? $_data_forms['type_visite'] : 0;
+        $_data_forms    = $_request->request->all();
+        $_date          = array_key_exists('date', $_data_forms) ? $_data_forms['date'] : date('d/m/Y');
+        $_centre_id     = array_key_exists('centre_id', $_data_forms) ? $_data_forms['centre_id'] : 0;
+        $_type_visite_id= array_key_exists('type_visite', $_data_forms) ? $_data_forms['type_visite'] : 0;
 
         // Formattage date
         $_date_exploded = explode('/', $_date);

@@ -22,28 +22,81 @@
             {{ messages }} <br />
         </div>
     {% endfor %}
+    <div class="row">
+        <div class="col-md-6">
+            <div class="box box-primary kl-bloc-visite">
+                <div class="box-header">
+                    <h3 class="box-title">Feuille d'utilisation des imprimés techniques</h3>
+                </div>
+
+                <div class="box-body">
+                    <form id="ct_fdc_form">
+                        <div class="modal-body">
+
+                            <!-- Année -->
+                            <div class="row">
+                                <div class="form-group">
+                                    <label for="ct_fdc_date">Séléctionner la date</label>
+                                    <input required id="ct_fdc_date" name="ct_fdc_date" class="form-control datepicker"
+                                           value="{{ "now"|date("d/m/Y") }}" />
+                                </div>
+                            </div>
+
+                            <!-- Centre -->
+                            <div class="{% if app.user.ctRole.id != constant('Ct\\Service\\MetierManagerBundle\\Utils\\RoleName::ID_ROLE_SUPERADMIN') %}hidden{% endif %}">
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label for="ct_fdc_centre">Séléctionner le centre</label>
+                                        <select id="ct_fdc_centre" name="ct_fdc_centre" class="form-control select2"
+                                            style="width: 100%;" data-placeholder="Choisir" required>
+                                            <option value="" selected="selected">
+                                                Choisir
+                                            </option>
+                                            {# {% for province in provinces %}
+                                            <optgroup label="{{ province.prvNom }}"> #}
+                                                {% for centre in centres %}
+                                                    {# {% if province.id == centre.ctProvince.id %} #}
+                                                        <option value="{{ centre.id }}">
+                                                            {{ centre.ctrNom|upper }}
+                                                        </option>
+                                                    {# {% endif %} #}
+                                                {% endfor %}
+                                            {# </optgroup>
+                                            {% endfor %} #}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <button type="submit" class="pull-left btn btn-primary" id="btn-generate-utilisation-it" style="">
+                                        Générer
+                                    </button>
+                                </div>
+                                <div class="col-md-5">
+                                    <span class="pull-left" id="link-download-utilisation-it"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="row">
         <div class="col-xs-12">
-            <div class="box">
+            <div class="box box-success">
                 <div class="box-header">
-                    <div class="list-count">
-                        <span class="title-count-text"> TOTAL: </span><span class="title-count"></span>
-                    </div>
+                    <h3 class="box-title">Liste d'utilisation des imprimés techniques</h3>
                 </div>
-
-                {# Bouton création #}
-                {# <div class="row add-btn-top-list">
-                    <a href="{{ path('bordereau_new') }}" onclick=";">
-                        <button class="btn btn-primary">
-                            <i class="fa fa-plus"></i>
-                            Ajouter un IT dans le bordereau
-                        </button>
-                    </a>
-                </div> #}
 
                 <form action="#" method="POST" class="form-search">
                     <div class="box-body table-responsive">
+                        <div class="list-count">
+                            <span class="title-count-text"> TOTAL: </span><span class="title-count"></span>
+                        </div>
                         <table id="liste-imprime-tech-bl" class="table table-bordered table-striped table-condensed">
                             <thead>
                             <tr>
@@ -68,23 +121,11 @@
                                            href="{{ path('imprime_tech_use_edit', { 'id': itu_liste.id }) }}">
                                             <i class="fa fa-edit"></i>
                                         </a>
-                                        {# <a class="btn btn-danger remove-elt" title="Supprimer"
-                                           href="{{ path('bordereau_delete', { 'id': it_in_bl.id }) }}">
-                                            <i class="fa fa-trash"></i>
-                                        </a> #}
                                     </td>
                                 </tr>
                             {% endfor %}
                             </tbody>
                         </table>
-
-                        {# Bouton suppression #}
-                        {# <a href="#">
-                            <button type="submit" name="_group_delete" class="btn btn-danger delete-btn">
-                                <i class="fa fa-trash"></i>
-                                Supprimer la sélection
-                            </button>
-                        </a> #}
                     </div>
                 </form>
             </div>
@@ -95,6 +136,9 @@
 {% block javascripts %}
     {{ parent() }}
 
+    <!-- Vérification existence carte grise -->
+    <!-- JQuery UI -->
+    <script src="{{ asset('plugins/jquery-ui-1.12.1/jquery-ui.js') }}" ></script>
     <script type="text/javascript">
         $(function () {
             $('#liste-imprime-tech-bl').DataTable(
@@ -118,5 +162,8 @@
                 }
             });
         });
+
+        var _generate_used_it_ajax_uri = "{{ path('imprimes_tech_generate_used_ajax') }}";
     </script>
+    <script src="{{ asset('backoffice/js/index.imprimes.js') }}"></script>
 {% endblock %}

@@ -50,6 +50,12 @@ class CtConstatationAvDedouanementController extends Controller
             throw $this->createNotFoundException('Unable to find constatation avant dedouanement entity.');
         }
 
+        // Récupérer tout les imprimés techniques
+        $_imprime_tech = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH);
+        $_imprime_tech_use = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
+        $_imprimestech = $_imprime_tech->getAllCtImprimeTechByOrder(array('nomImprimeTech' => 'ASC'));
+        $_imprimestechuse = $_imprime_tech_use->getAllCtImprimeTechNoUsedOrder();
+
         $_edit_form = $this->createEditForm($_const_av_ded);
 
         $_form_elements = $_edit_form->get('ctConstAvDedCaracs');
@@ -59,8 +65,16 @@ class CtConstatationAvDedouanementController extends Controller
 
         }
 
+        /* ====================== Récupération data imprimés techniques utilisés ====================== */
+        $_em_imprimes = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
+        $_imprimes_use = $_em_imprimes->getCtImprimeTechUseByCtControle($_const_av_ded->getId());
+        /* ============================================================================================ */
+
         return $this->render('AdminBundle:CtConstatationAvDedouanement:edit.html.twig', array(
             'constatation avant dedouanement' => $_const_av_ded,
+            'imprimes_tech' => $_imprimestech,
+            'imprimes_tech_use' => $_imprimestechuse,
+            'imprimes_use' => $_imprimes_use,
             'edit_form'  => $_edit_form->createView()
         ));
     }
@@ -79,6 +93,12 @@ class CtConstatationAvDedouanementController extends Controller
         $_province_manager  = $this->get(ServiceName::SRV_METIER_PROVINCE);
         $_centre_manager    = $this->get(ServiceName::SRV_METIER_CENTRE);
         $_verif_manager     = $this->get(ServiceName::SRV_METIER_USER);
+
+        // Récupérer tout les imprimés techniques
+        $_imprime_tech = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH);
+        $_imprime_tech_use = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
+        $_imprimestech = $_imprime_tech->getAllCtImprimeTechByOrder(array('nomImprimeTech' => 'ASC'));
+        $_imprimestechuse = $_imprime_tech_use->getAllCtImprimeTechNoUsedOrder();
 
         $_const_av_ded = new CtConstAvDed();
 
@@ -109,8 +129,6 @@ class CtConstatationAvDedouanementController extends Controller
         $_centres   = $_centre_manager->getAllCtCentreByOrder(array('id' => 'ASC'));
         $_provinces = $_province_manager->getAllCtProvinceByOrder(array('id' => 'ASC'));
 
-
-
         $_form       = $this->createCreateForm($_const_av_ded);
         $_form_elements = $_form->get('ctConstAvDedCaracs');
 
@@ -130,6 +148,21 @@ class CtConstatationAvDedouanementController extends Controller
             // Enregistrement constatation avant dedouanement
             $_const_av_ded_manager->saveCtConstatationAvDedouanement($_const_av_ded, 'new');
 
+            /* ============ Misa à jour des imprimés utilisés pour cette visite ============ */
+            $_em_imprimes = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
+            $_data = $_request->request->all();
+            $_list_itu = $_data['ct_imprime_tech_use'];
+            foreach($_list_itu as $_one_uti){
+                $_imprime_tech_use = $_em_imprimes->getCtImprimeTechUseById($_one_uti);
+                $_em_imprimes->saveCtImprimeTechUse($_imprime_tech_use, 'Constatation', $_const_av_ded->getId());
+            }
+            /* ============================================================================== */
+
+            /* ====================== Récupération data imprimés techniques utilisés ====================== */
+            $_em_imprimes = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
+            $_imprimes_use = $_em_imprimes->getCtImprimeTechUseByCtControle($_const_av_ded->getId());
+            /* ============================================================================================ */
+
             $_const_av_ded_manager->setFlash('success', "Constatation avant dedouanement ajoutée");
 
 //            return $this->redirect($this->generateUrl('const_av_ded_index'));
@@ -139,18 +172,29 @@ class CtConstatationAvDedouanementController extends Controller
                 'form'       => $_form->createView(),
                 'centres'   => $_centres,
                 'provinces' => $_provinces,
-                'verificateurs' => $_verificateurs
+                'verificateurs' => $_verificateurs,
+                'imprimes_use' => $_imprimes_use,
+                'imprimes_tech' => $_imprimestech,
+                'imprimes_tech_use' => $_imprimestechuse,
             ));
         } else {
             $string = (string) $_form->getErrors(true, false);
         }
 
+        /* ====================== Récupération data imprimés techniques utilisés ====================== */
+        $_em_imprimes = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
+        $_imprimes_use = $_em_imprimes->getCtImprimeTechUseByCtControle($_const_av_ded->getId());
+        /* ============================================================================================ */
+        
         return $this->render('AdminBundle:CtConstatationAvDedouanement:add.html.twig', array(
             'const_av_ded' => $_const_av_ded,
             'form'       => $_form->createView(),
             'centres'   => $_centres,
             'provinces' => $_provinces,
-            'verificateurs' => $_verificateurs
+            'verificateurs' => $_verificateurs,
+            'imprimes_use' => $_imprimes_use,
+            'imprimes_tech' => $_imprimestech,
+            'imprimes_tech_use' => $_imprimestechuse,
         ));
     }
 
@@ -219,6 +263,12 @@ class CtConstatationAvDedouanementController extends Controller
         // Récupérer manager
         $_const_av_ded_manager = $this->get(ServiceName::SRV_METIER_CONST_AV_DED);
 
+        // Récupérer tout les imprimés techniques
+        $_imprime_tech = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH);
+        $_imprime_tech_use = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
+        $_imprimestech = $_imprime_tech->getAllCtImprimeTechByOrder(array('nomImprimeTech' => 'ASC'));
+        $_imprimestechuse = $_imprime_tech_use->getAllCtImprimeTechNoUsedOrder();
+
         if (!$_const_av_ded) {
             throw $this->createNotFoundException('Unable to find constatation avant dedouanement entity.');
         }
@@ -229,6 +279,16 @@ class CtConstatationAvDedouanementController extends Controller
 
         if ($_edit_form->isValid()) {
             $_const_av_ded_manager->saveCtConstatationAvDedouanement($_const_av_ded, 'update');
+
+            /* ============ Misa à jour des imprimés utilisés pour cette visite ============ */
+            $_em_imprimes = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
+            $_data = $_request->request->all();
+            $_list_itu = $_data['ct_imprime_tech_use'];
+            foreach($_list_itu as $_one_uti){
+                $_imprime_tech_use = $_em_imprimes->getCtImprimeTechUseById($_one_uti);
+                $_em_imprimes->saveCtImprimeTechUse($_imprime_tech_use, 'Constatation', $_const_av_ded->getId());
+            }
+            /* ============================================================================== */
 
             $_const_av_ded_manager->setFlash('success', "Constatation avant dedouanement modifiée");
 

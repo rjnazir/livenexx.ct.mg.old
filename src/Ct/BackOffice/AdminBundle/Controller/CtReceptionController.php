@@ -57,6 +57,12 @@ class CtReceptionController extends Controller
         }
         $_reception_manager = $this->get(ServiceName::SRV_METIER_RECEPTION);
 
+        // Récupérer tout les imprimés techniques
+        $_imprime_tech = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH);
+        $_imprime_tech_use = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
+        $_imprimestech = $_imprime_tech->getAllCtImprimeTechByOrder(array('nomImprimeTech' => 'ASC'));
+        $_imprimestechuse = $_imprime_tech_use->getAllCtImprimeTechNoUsedOrder();
+
         $_success_reception_id = $this->get('session')->getFlashBag()->get('success_reception_id');
 
         if (isset($_success_reception_id) && count($_success_reception_id) > 0 &&
@@ -81,11 +87,20 @@ class CtReceptionController extends Controller
             throw $this->createAccessDeniedException('You cannot access this page!');
         }
 
+
+        /* ====================== Récupération data imprimés techniques utilisés ====================== */
+        $_em_imprimes = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
+        $_imprimes_use = $_em_imprimes->getCtImprimeTechUseByCtControle($_reception->getId());
+        /* ============================================================================================ */
+
         $_edit_form = $this->createEditForm($_reception);
 
         return $this->render('AdminBundle:CtReception:edit.html.twig', array(
             'rec_type' => $_reception->getCtTypeReception()->getTprcpLibelle(),
             'reception' => $_reception,
+            'imprimes_use' => $_imprimes_use,
+            'imprimes_tech' => $_imprimestech,
+            'imprimes_tech_use' => $_imprimestechuse,
             'edit_form'  => $_edit_form->createView()
         ));
     }
@@ -346,6 +361,12 @@ class CtReceptionController extends Controller
         $_reception_type_manager = $this->get(ServiceName::SRV_METIER_TYPE_RECEPTION);
         $_req_data = $_request->request->all();
         $_uniqid = $this->get('session')->get('uniqid');
+        
+        // Récupérer tout les imprimés techniques
+        $_imprime_tech = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH);
+        $_imprime_tech_use = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
+        $_imprimestech = $_imprime_tech->getAllCtImprimeTechByOrder(array('nomImprimeTech' => 'ASC'));
+        $_imprimestechuse = $_imprime_tech_use->getAllCtImprimeTechNoUsedOrder();
 
         // Afficher choix type
         if ($type === 0) { // Show choice type reception
@@ -380,6 +401,17 @@ class CtReceptionController extends Controller
                     // Afficher telechargement page
                     if ($_ret_recep) {
                         $_reception_manager->setFlash('success', "Réception ajoutée");
+
+                        /* ============ Misa à jour des imprimés utilisés pour cette visite ============ */
+                        $_em_imprimes = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
+                        $_data = $_request->request->all();
+                        $_list_itu = $_data['ct_imprime_tech_use'];
+                        foreach($_list_itu as $_one_uti){
+                            $_imprime_tech_use = $_em_imprimes->getCtImprimeTechUseById($_one_uti);
+                            $_em_imprimes->saveCtImprimeTechUse($_imprime_tech_use, 'Réception', $_reception->getId());
+                        }
+                        /* ============================================================================== */
+
                         $this->get('session')->getFlashBag()->set('success_reception_id', $_reception->getId()); // For security purpose
                         return $this->redirectToRoute('reception_edit', array('id' => $_reception->getId()));
 //                        unset($_form);
@@ -390,12 +422,21 @@ class CtReceptionController extends Controller
                     }
 
                 }
+
+                /* ====================== Récupération data imprimés techniques utilisés ====================== */
+                $_em_imprimes = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
+                $_imprimes_use = $_em_imprimes->getCtImprimeTechUseByCtControle($_reception->getId());
+                /* ============================================================================================ */
+
                 // Afficher formulaire
                 return $this->render('AdminBundle:CtReception:add.html.twig', array(
                     'rec_type'  => $type,
                     'is_focus'  => 0,
                     'reception' => $_reception,
                     'form'      => $_form->createView(),
+                    'imprimes_tech' => $_imprimestech,
+                    'imprimes_tech_use' => $_imprimestechuse,
+                    'imprimes_use' => $_imprimes_use,
                 ));
             } elseif ($type == 'type') {
                 $_type_rec = $_reception_type_manager->getTypeReception($type);
@@ -464,9 +505,24 @@ class CtReceptionController extends Controller
                             $_num_saisie++;
 
                         if ($_is_stop) {
+                            /* ============ Misa à jour des imprimés utilisés pour cette visite ============ */
+                            $_em_imprimes = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
+                            $_data = $_request->request->all();
+                            $_list_itu = $_data['ct_imprime_tech_use'];
+                            foreach($_list_itu as $_one_uti){
+                                $_imprime_tech_use = $_em_imprimes->getCtImprimeTechUseById($_one_uti);
+                                $_em_imprimes->saveCtImprimeTechUse($_imprime_tech_use, 'Réception', $_reception->getId());
+                            }
+                            /* ============================================================================== */
+
                             $this->get('session')->getFlashBag()->set('success_reception_id', $_reception->getId()); // For security purpose
                             return $this->redirectToRoute('reception_edit', array('id' => $_reception->getId()));
                         }
+
+                        /* ====================== Récupération data imprimés techniques utilisés ====================== */
+                        $_em_imprimes = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
+                        $_imprimes_use = $_em_imprimes->getCtImprimeTechUseByCtControle($_reception->getId());
+                        /* ============================================================================================ */
 
                         return $this->render('AdminBundle:CtReception:add.html.twig', array(
                             'id_recep' => $_ret_recep->getId(),
@@ -477,10 +533,18 @@ class CtReceptionController extends Controller
                             'is_focus' => 1,
                             'reception' => $_reception,
                             'form'       => $_form->createView(),
+                            'imprimes_tech' => $_imprimestech,
+                            'imprimes_tech_use' => $_imprimestechuse,
+                            'imprimes_use' => $_imprimes_use,
                         ));
                     }
 
                 }
+
+                /* ====================== Récupération data imprimés techniques utilisés ====================== */
+                $_em_imprimes = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
+                $_imprimes_use = $_em_imprimes->getCtImprimeTechUseByCtControle($_reception->getId());
+                /* ============================================================================================ */
 
                 return $this->render('AdminBundle:CtReception:add.html.twig', array(
                     'is_stop' => $_is_stop,
@@ -490,6 +554,9 @@ class CtReceptionController extends Controller
                     'is_focus' => 0,
                     'reception' => $_reception,
                     'form'       => $_form->createView(),
+                    'imprimes_tech' => $_imprimestech,
+                    'imprimes_tech_use' => $_imprimestechuse,
+                    'imprimes_use' => $_imprimes_use,
                 ));
                 return $this->redirectToRoute('reception_new');
             }
@@ -508,6 +575,12 @@ class CtReceptionController extends Controller
     {
         // Récupérer manager
         $_reception_manager = $this->get(ServiceName::SRV_METIER_RECEPTION);
+        
+        // Récupérer tout les imprimés techniques
+        $_imprime_tech = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH);
+        $_imprime_tech_use = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
+        $_imprimestech = $_imprime_tech->getAllCtImprimeTechByOrder(array('nomImprimeTech' => 'ASC'));
+        $_imprimestechuse = $_imprime_tech_use->getAllCtImprimeTechNoUsedOrder();
 
         if (!$_reception) {
             throw $this->createNotFoundException('Unable to find reception entity.');
@@ -520,15 +593,34 @@ class CtReceptionController extends Controller
             $_reception_manager->saveCtReception($_reception, 'update');
 
             $_reception_manager->setFlash('success', "Type réception modifiée");
+
+            /* ============ Misa à jour des imprimés utilisés pour cette visite ============ */
+            $_em_imprimes = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
+            $_data = $_request->request->all();
+            $_list_itu = $_data['ct_imprime_tech_use'];
+            foreach($_list_itu as $_one_uti){
+                $_imprime_tech_use = $_em_imprimes->getCtImprimeTechUseById($_one_uti);
+                $_em_imprimes->saveCtImprimeTechUse($_imprime_tech_use, 'Réception', $_reception->getId());
+            }
+            /* ============================================================================== */
+
             $this->get('session')->getFlashBag()->set('success_reception_id', $_reception->getId()); // For security purpose
 
             return $this->redirectToRoute('reception_edit', array('id' => $_reception->getId()));
 //            return $this->redirect($this->generateUrl('reception_index'));
         }
 
+        /* ====================== Récupération data imprimés techniques utilisés ====================== */
+        $_em_imprimes = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
+        $_imprimes_use = $_em_imprimes->getCtImprimeTechUseByCtControle($_reception->getId());
+        /* ============================================================================================ */
+
         return $this->render('AdminBundle:CtReception:edit.html.twig', array(
             'rec_type' => $_reception->getCtTypeReception()->getTprcpLibelle(),
             'reception' => $_reception,
+            'imprimes_tech' => $_imprimestech,
+            'imprimes_tech_use' => $_imprimestechuse,
+            'imprimes_use' => $_imprimes_use,
             'edit_form'  => $_edit_form->createView()
         ));
     }
