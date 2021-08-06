@@ -202,45 +202,44 @@ class ServiceMetierCtBordereau
     {
         $center = array();
         switch($ctrNom){
-            case "ALAROBIA"         : $centre = array('LE COLONEL, DIRECTEUR DES OPERATIONS TECHNIQUES','ALAROBIA'); break;
+            case "ALAROBIA"         : $centre = array('LE COLONEL, DIRECTEUR DES OPERATIONS TECHNIQUES','ALAROBIA','DIRECTION DES OPERATIONS TECHNIQUES'); break;
 
-            case "ALASORA"          : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'ALASORA'); break;
-            case "ANTSIRABE"        : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'ANTSIRABE'); break;
-            case "BETONGOLO"        : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'BETONGOLO'); break;
-            case "IVATO"            : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'IVATO'); break;
-            case "TSIROANOMANDIDY"  : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'TSIROANOMANDIDY'); break;
+            case "ALASORA"          : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'ALASORA', 'CENTRE DE LA SECURITE ROUTIERE'); break;
+            case "ANTSIRABE"        : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'ANTSIRABE', 'CENTRE DE LA SECURITE ROUTIERE'); break;
+            case "BETONGOLO"        : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'BETONGOLO', 'CENTRE DE LA SECURITE ROUTIERE'); break;
+            case "IVATO"            : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'IVATO', 'CENTRE DE LA SECURITE ROUTIERE'); break;
+            case "TSIROANOMANDIDY"  : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'TSIROANOMANDIDY', 'CENTRE DE LA SECURITE ROUTIERE'); break;
             
-            case "AMBATONDRAZAKA"   : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'AMBATONDRAZAKA'); break;
-            case "FENERIVE-EST"     : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'FENERIVE-EST'); break;
-            case "MORAMANGA"        : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'MORAMANGA'); break;
-            case "TANAMBOROZANO"    : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'TOAMASINA'); break;
-            case "BARIKADIMY"       : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'TOAMASINA'); break;
+            case "AMBATONDRAZAKA"   : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'AMBATONDRAZAKA', 'CENTRE DE LA SECURITE ROUTIERE'); break;
+            case "FENERIVE-EST"     : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'FENERIVE-EST', 'CENTRE DE LA SECURITE ROUTIERE'); break;
+            case "MORAMANGA"        : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'MORAMANGA', 'CENTRE DE LA SECURITE ROUTIERE'); break;
+            case "TANAMBOROZANO"    : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'TOAMASINA', 'CENTRE DE LA SECURITE ROUTIERE'); break;
+            case "BARIKADIMY"       : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'TOAMASINA', 'CENTRE DE LA SECURITE ROUTIERE'); break;
 
-            case "AMBOSITRA"        : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'AMBOSITRA'); break;
-            case "FARAFANGANA"      : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'FARAFANGANA'); break;
-            case "BESOROHITRA"      : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'FIANARANTSOA'); break;
-            case "MANAKARA"         : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'MANAKARA'); break;
+            case "AMBOSITRA"        : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'AMBOSITRA', 'CENTRE DE LA SECURITE ROUTIERE'); break;
+            case "FARAFANGANA"      : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'FARAFANGANA', 'CENTRE DE LA SECURITE ROUTIERE'); break;
+            case "BESOROHITRA"      : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'FIANARANTSOA', 'CENTRE DE LA SECURITE ROUTIERE'); break;
+            case "MANAKARA"         : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'MANAKARA', 'CENTRE DE LA SECURITE ROUTIERE'); break;
 
-            case "TRANOBOZAKA"      : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'ANTSIRANANA'); break;
-            case "NOSY BE"          : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'NOSY BE'); break;
-            case "SAMBAVA"          : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'SAMBAVA'); break;
+            case "TRANOBOZAKA"      : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'ANTSIRANANA', 'CENTRE DE LA SECURITE ROUTIERE'); break;
+            case "NOSY BE"          : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'NOSY BE', 'CENTRE DE LA SECURITE ROUTIERE'); break;
+            case "SAMBAVA"          : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'SAMBAVA', 'CENTRE DE LA SECURITE ROUTIERE'); break;
 
-            case "ANTSOHIHY"        : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'ANTSOHIHY'); break;
-            case "AMBOROVY"         : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'MAHANJANGA'); break;
+            case "ANTSOHIHY"        : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'ANTSOHIHY', 'CENTRE DE LA SECURITE ROUTIERE'); break;
+            case "AMBOROVY"         : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'MAHANJANGA', 'CENTRE DE LA SECURITE ROUTIERE'); break;
 
-            case "AMBOVOMBE"        : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'AMBOVOMBE'); break;
-            case "IHOSY"            : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'IHOSY'); break;
-            case "MORONDAVA"        : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'MORONDAVA'); break;
-            case "SANFIL"           : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'TOLIARA'); break;
-            case "TAOLAGNARO"       : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'TAOLAGNARO'); break;
+            case "AMBOVOMBE"        : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'AMBOVOMBE', 'CENTRE DE LA SECURITE ROUTIERE'); break;
+            case "IHOSY"            : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'IHOSY', 'CENTRE DE LA SECURITE ROUTIERE'); break;
+            case "MORONDAVA"        : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'MORONDAVA', 'CENTRE DE LA SECURITE ROUTIERE'); break;
+            case "SANFIL"           : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'TOLIARA', 'CENTRE DE LA SECURITE ROUTIERE'); break;
+            case "TAOLAGNARO"       : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'TAOLAGNARO', 'CENTRE DE LA SECURITE ROUTIERE'); break;
 
             case "CENTRE_RECEPTION_TECHNIQUE":
-                                      $centre = array('LE CHEF DE CENTRE DE LA RECEPTION TECHNIQUE', 'ALASORA'); break;
+                                      $centre = array('LE CHEF DE CENTRE DE LA RECEPTION TECHNIQUE', 'ALASORA', 'CENTRE DE LA RECEPTION TECHNIQUE'); break;
             default                 : $centre = array(NULL, NULL);
         }
         return $centre;
     }
-
 
     /**
      * Générer bordereau de livraison

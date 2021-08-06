@@ -8,6 +8,9 @@ use Symfony\Component\DependencyInjection\Container;
 use Ct\Service\MetierManagerBundle\Entity\CtImprimeTechUse;
 use DateTime;
 use Ct\Service\UserBundle\Entity\User;
+use Ct\Service\MetierManagerBundle\Utils\ServiceName;
+use Ct\Service\MetierManagerBundle\Utils\PathReportingName;
+use PhpOffice\PhpWord\PhpWord;
 
 class ServiceMetierCtImprimeTechUse
 {
@@ -246,12 +249,12 @@ class ServiceMetierCtImprimeTechUse
     {
         $_entity_bl = EntityName::CT_IMPRIME_TECH_USE;
 
-        $_sql    = "SELECT t
-                    FROM $_entity_bl t 
-                    WHERE t.ituNumero = ?1";
-        $_query  = $this->_entity_manager->createQuery($_sql);
+        $_sql   = " SELECT  t
+                    FROM    $_entity_bl t 
+                    WHERE   t.ituNumero = ?1";
+        $_query = $this->_entity_manager->createQuery($_sql);
         $_query->setParameter(1, '%'.$_numero.'%');
-        $_ret = $_query->getResult();
+        $_ret   = $_query->getResult();
         return $_ret;
     }
 
@@ -299,5 +302,223 @@ class ServiceMetierCtImprimeTechUse
         if (count($_ret) > 0 && is_array($_ret))
             return $_ret[0];
         return $_ret;
+    }
+
+    /**
+     *  Récuperer tous les imprimés techniques utilisés par un centre dans une journée
+     *  @param  $_centre : ID du centre exploitation
+     *  @param  $_date : date d'exploitation
+     *  @return $_result : array()
+     */
+    public function getAllITUsedInDaybyCentre($_centre, $_date)
+    {
+        $_date = implode('-',array_reverse  (explode('/', $_date)));
+        $_entity_itu = EntityName::CT_IMPRIME_TECH_USE;
+        $_dql = " SELECT  it
+                        FROM    $_entity_itu it
+                        WHERE       it.ctCentre     =       :ct_centre_id
+                                AND it.updatedAt    LIKE    :updated_at
+                        ORDER BY    it.ituMotifUsed ASC, it.updatedAt    ASC";
+        $_query = $this->_entity_manager->createQuery($_dql);
+        $_query->setParameter('ct_centre_id', $_centre);
+        $_query->setParameter('updated_at', $_date.'%');
+        $_res = $_query->getResult();
+        $_result = [];
+        $_j = 0;
+
+        foreach($_res as $_re){
+            $_result[$_j]   = new \stdClass();
+
+            $_used = $_re->getItuMotifUsed();
+            switch($_used)
+            {
+                case 'Rébus' :
+                    $_result[$_j]->ref = "-";
+                    $_result[$_j]->imm = "-";
+                    break;
+                case 'Visite' :
+                    $_vt_em = $this->_container->get(ServiceName::SRV_METIER_VISITE);
+                    $ctVisite = $_vt_em->getCtVisiteById($_re->getCtControle());
+                    $_result[$_j]->ref = $ctVisite->getVstNumPv();
+                    $_result[$_j]->imm = $ctVisite->getCtCarteGrise()->getCgImmatriculation();
+                    break;
+                case 'Contre' :
+                    $_vt_em = $this->_container->get(ServiceName::SRV_METIER_VISITE);
+                    $ctVisite = $_vt_em->getCtVisiteById($_re->getCtControle());
+                    $_result[$_j]->ref = $ctVisite->getVstNumPv();
+                    $_result[$_j]->imm = $ctVisite->getCtCarteGrise()->getCgImmatriculation();
+                    break;
+                case 'Réception' :
+                    $_rt_em = $this->_container->get(ServiceName::SRV_METIER_RECEPTION);
+                    $ctReception = $_rt_em->getCtReceptionById($_re->getCtControle());
+                    $_result[$_j]->ref = $ctReception->getRcpNumPv();
+                    $_result[$_j]->imm = $ctReception->getRcpImmatriculation();
+                    break;
+                case 'Constatation' :
+                    $_cad_em = $this->_container->get(ServiceName::SRV_METIER_CONST_AV_DED);
+                    $ctConstatation = $_cad_em->getCtConstatationAvDedouanementById($_re->getCtControle());
+                    $_result[$_j]->ref = $ctConstatation->getCadNumero();
+                    $_result[$_j]->imm = $ctConstatation->getCadImmatriculation();
+                    break;
+                default :
+                    $_result[$_j]->ref = $_re->getCtControle();
+                    $_result[$_j]->imm = '-';
+                    break;
+            }
+            $_result[$_j]->used = $_used;
+
+            $_type = $_re->getCtImprimeTech()->getNomImprimeTech();
+            preg_match('/PVO/', $_type) ? $_result[$_j]->npvo = $_re->getItuNumero() : $_result[$_j]->npvo = '-';
+            preg_match('/PVM/', $_type) ? $_result[$_j]->npvm = $_re->getItuNumero() : $_result[$_j]->npvm = '-';
+            preg_match('/Carnet/', $_type) ? $_result[$_j]->ncrt = $_re->getItuNumero() : $_result[$_j]->ncrt = '-';
+            preg_match('/Carte jaune/', $_type) ? $_result[$_j]->ncjn = $_re->getItuNumero() : $_result[$_j]->ncjn = '-';
+            preg_match('/Carte rouge/', $_type) ? $_result[$_j]->ncrg = $_re->getItuNumero() : $_result[$_j]->ncrg = '-';
+            preg_match('/barrée/', $_type) ? $_result[$_j]->ncbr = $_re->getItuNumero() : $_result[$_j]->ncbr = '-';
+            preg_match('/auto/', $_type) ? $_result[$_j]->ncae = $_re->getItuNumero() : $_result[$_j]->ncae = '-';
+            preg_match('/CIM 31/', $_type) ? $_result[$_j]->ncim31 = $_re->getItuNumero() : $_result[$_j]->ncim31 = '-';
+            preg_match('/Bis/', $_type) ? $_result[$_j]->ncim31b = $_re->getItuNumero() : $_result[$_j]->ncim31b = '-';
+            preg_match('/32/', $_type) ? $_result[$_j]->ncim32 = $_re->getItuNumero() : $_result[$_j]->ncim32 = '-';
+
+            ++$_j;
+        }
+        return $_result;
+    }
+
+    /**
+     * Générer bordereau de livraison
+     *  @param  $_centre : ID du centre exploitant
+     *  @param  $_date : Date d'exploitation
+     *  @return array  array()
+     */
+    public function genererFeuilleITUsed($_centre, $_date)
+    {
+        // Récupérer manager
+        $_centre_manager= $this->_container->get(ServiceName::SRV_METIER_CENTRE);
+        $_bordereau_manager= $this->_container->get(ServiceName::SRV_METIER_BORDEREAU);
+
+        if(empty($_centre)) 
+            $_ct_user_id= $this->_container->get('security.token_storage')->getToken()->getUser();
+            $_centre    = $_ct_user_id->getCtCentre();
+
+        $_centre = $_centre_manager->getCtCentreById($_centre);
+
+        /* Récupération informations chef de centre et lieu centre */
+        $_nom_centre     = $_centre->getCtrNom();
+
+        $_centre_formatted = $_bordereau_manager->transformcenter($_nom_centre);
+        $_lieu_centre    = $_centre_formatted[1];
+        $_nom_centre     = $_centre_formatted[2];
+
+        // Récupérer répertoire modèle Word
+        $_fuit_directory    = $this->_container->getParameter('reporting_template_directory');
+        $_template_src      = $_fuit_directory . PathReportingName::TEMPLATE_FEUILLE_IT_USED;
+        $_date_filename     = str_replace('/', '', $_date);
+        $_path              = $_fuit_directory . PathReportingName::GENERATE_FEUILLE_IT_USED;
+
+        $_fichier           = 'FEUILLE_UTILISATION_IT_' . $_date_filename;
+        $_filename          = strtoupper($_fichier);
+
+        $_dest_tmp          = $_path . $_filename . '.docx';
+        $_file_without_ext  = $_filename;
+
+        $_url_scheme    = $this->_container->get('request_stack')->getCurrentRequest()->server->get('HTTP_HOST');
+        $_path_docx     = 'http://' . $_url_scheme . '/reporting/' . PathReportingName::GENERATE_FEUILLE_IT_USED . $_filename . '.docx';
+        $_path_pdf      = 'http://' . $_url_scheme . '/reporting/' . PathReportingName::GENERATE_FEUILLE_IT_USED . $_filename . '.pdf';
+
+        $_php_word      = new PhpWord();
+        $_template      = $_php_word->loadTemplate($_template_src);
+
+        // Centre, lieu centre et numéro BL
+        $_template->setValue('centre', $_nom_centre);
+        $_template->setValue('lieu', $_lieu_centre);
+        $_template->setValue('date', $_date);
+
+        $_imprimes_used = $this->getAllITUsedInDaybyCentre($_centre, $_date);
+        $_nb_imprimes_used = count($_imprimes_used);
+
+        $_nbr_rebus = 0;
+        $_nbr_visite = 0;
+        $_nbr_contre = 0;
+        $_nbr_recep = 0;
+        $_nbr_cad = 0;
+        $_nbr_extra = 0;
+        $_nbr_pvo = 0;
+        $_nbr_pvm = 0;
+        $_nbr_crt = 0;
+        $_nbr_cjn = 0;
+        $_nbr_crg = 0;
+        $_nbr_cbr = 0;
+        $_nbr_cae = 0;
+        $_nbr_cim31 = 0;
+        $_nbr_cim31b = 0;
+        $_nbr_cim32 = 0;
+
+        $_i = 0;
+        $_k = 0;
+        $_list_imm_ct = [];
+
+        $_template->cloneRow('i', $_nb_imprimes_used);
+
+        foreach($_imprimes_used as $_imprime_used)
+        {
+            ++$_i;
+
+            // Récupérer tous les controles techniques
+            if(($_imprime_used->imm != '-') AND (!in_array($_imprime_used->imm, $_list_imm_ct))){
+                $_list_imm_ct[] = $_imprime_used->imm;
+                $_k++;
+            }
+
+            // Récuperer nombre des IT utilisés pour chaque type
+            $_imprime_used->npvo != '-' ? $_nbr_pvo++:$_nbr_pvo;
+            $_imprime_used->npvm != '-' ? $_nbr_pvm++:$_nbr_pvm;
+            $_imprime_used->ncrt != '-' ? $_nbr_crt++:$_nbr_crt;
+            $_imprime_used->ncjn != '-' ? $_nbr_cjn++:$_nbr_cjn;
+            $_imprime_used->ncrg != '-' ? $_nbr_crg++:$_nbr_crg;
+            $_imprime_used->ncbr != '-' ? $_nbr_cbr++:$_nbr_cbr;
+            $_imprime_used->ncae != '-' ? $_nbr_cae++:$_nbr_cae;
+            $_imprime_used->ncim31 != '-' ? $_nbr_cim31++:$_nbr_cim31;
+            $_imprime_used->ncim31b != '-' ? $_nbr_cim31b++:$_nbr_cim31b;
+            $_imprime_used->ncim32 != '-' ? $_nbr_cim32++:$_nbr_cim32;
+
+            $_template->setValue('i#' . $_i, $_i);
+            $_template->setValue('ref#' . $_i, strtoupper($_imprime_used->ref));
+            $_template->setValue('imm#' . $_i, $_imprime_used->imm);
+            $_template->setValue('used#' . $_i, $_imprime_used->used);
+            $_template->setValue('npvo#' . $_i, $_imprime_used->npvo);
+            $_template->setValue('npvm#' . $_i, $_imprime_used->npvm);
+            $_template->setValue('ncrt#' . $_i, $_imprime_used->ncrt);
+            $_template->setValue('ncjn#' . $_i, $_imprime_used->ncjn);
+            $_template->setValue('ncrg#' . $_i, $_imprime_used->ncrg);
+            $_template->setValue('ncbr#' . $_i, $_imprime_used->ncbr);
+            $_template->setValue('ncae#' . $_i, $_imprime_used->ncae);
+            $_template->setValue('ncim31#' . $_i, $_imprime_used->ncim31);
+            $_template->setValue('ncim31b#' . $_i, $_imprime_used->ncim31b);
+            $_template->setValue('ncim32#' . $_i, $_imprime_used->ncim32);
+        }
+
+        $_template->setValue('nbr_ct', number_format($_k, 0, ',', ' '));
+
+        $_template->setValue('nbr_pvo', number_format($_nbr_pvo, 0, ',', ' '));
+        $_template->setValue('nbr_pvm', number_format($_nbr_pvm, 0, ',', ' '));
+        $_template->setValue('nbr_crt', number_format($_nbr_crt, 0, ',', ' '));
+        $_template->setValue('nbr_cjn', number_format($_nbr_cjn, 0, ',', ' '));
+        $_template->setValue('nbr_crg', number_format($_nbr_crg, 0, ',', ' '));
+        $_template->setValue('nbr_cbr', number_format($_nbr_cbr, 0, ',', ' '));
+        $_template->setValue('nbr_cae', number_format($_nbr_cae, 0, ',', ' '));
+        $_template->setValue('nbr_cim31', number_format($_nbr_cim31, 0, ',', ' '));
+        $_template->setValue('nbr_cim31', number_format($_nbr_cim31, 0, ',', ' '));
+        $_template->setValue('nbr_cim31b', number_format($_nbr_cim31b, 0, ',', ' '));
+        $_template->setValue('nbr_cim32', number_format($_nbr_cim32, 0, ',', ' '));
+
+        $_template->setValue('total', number_format($_i, 0, ',', ' '));
+
+        $_template->saveAs($_dest_tmp);
+
+        return array(
+            'download_path' => $_dest_tmp,
+            'url_path'      => $_path_docx,
+            // 'url_path'      => $_path_pdf
+        );
     }
 }

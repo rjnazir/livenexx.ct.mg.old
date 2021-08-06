@@ -6,7 +6,7 @@ use Ct\Service\MetierManagerBundle\Utils\ServiceName;
 use Ct\Service\MetierManagerBundle\Form\CtImprimeTechUseType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Ct\Service\MetierManagerBundle\Entity\CtImprimeTechUse;
 
 class CtImprimeTechUseController extends Controller
@@ -225,8 +225,24 @@ class CtImprimeTechUseController extends Controller
             ->getForm();
     }
 
+    /**
+     * Generer bordereau de livraison
+     * @param Request $_request
+     * @return Render page
+     */
     public function generateFeuilleUsedITAction(Request $_request)
     {
+        // Récupérer manager
+        $_bordereau_manager = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
 
+        // Récupération données formulaires
+        $_data_forms    = $_request->request->all();
+        $_ct_centre_id  = array_key_exists('ct_centre_id', $_data_forms) ? $_data_forms['ct_centre_id'] : 0;
+        $_ct_fitu_date    = array_key_exists('ct_fitu_date', $_data_forms) ? $_data_forms['ct_fitu_date'] : 0;
+
+        // Formattage du bordereau de livraison
+        $_link_download = $_bordereau_manager->genererFeuilleITUsed($_ct_centre_id, $_ct_fitu_date);
+
+        return new JsonResponse($_link_download);
     }
 }

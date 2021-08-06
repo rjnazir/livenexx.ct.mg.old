@@ -107,4 +107,7 @@ class PathReportingName
     const TEMPLATE_BORDEREAU = 'template/bordereau/bordereau_livraison.docx';
     const GENERATE_BORDEREAU = 'generated/bordereau/';
 
+    const TEMPLATE_FEUILLE_IT_USED = 'template/bordereau/feuille_utilisation_it.docx';
+    const GENERATE_FEUILLE_IT_USED = 'generated/bordereau/';
+
 }

@@ -36,8 +36,8 @@
                             <!-- Année -->
                             <div class="row">
                                 <div class="form-group">
-                                    <label for="ct_fdc_date">Séléctionner la date</label>
-                                    <input required id="ct_fdc_date" name="ct_fdc_date" class="form-control datepicker"
+                                    <label for="ct_fitu_date">Séléctionner la date</label>
+                                    <input required id="ct_fitu_date" name="ct_fitu_date" class="form-control datepicker"
                                            value="{{ "now"|date("d/m/Y") }}" />
                                 </div>
                             </div>
@@ -46,8 +46,8 @@
                             <div class="{% if app.user.ctRole.id != constant('Ct\\Service\\MetierManagerBundle\\Utils\\RoleName::ID_ROLE_SUPERADMIN') %}hidden{% endif %}">
                                 <div class="row">
                                     <div class="form-group">
-                                        <label for="ct_fdc_centre">Séléctionner le centre</label>
-                                        <select id="ct_fdc_centre" name="ct_fdc_centre" class="form-control select2"
+                                        <label for="ct_fitu_centre">Séléctionner le centre</label>
+                                        <select id="ct_fitu_centre" name="ct_fitu_centre" class="form-control select2"
                                             style="width: 100%;" data-placeholder="Choisir" required>
                                             <option value="" selected="selected">
                                                 Choisir
@@ -101,6 +101,7 @@
                             <thead>
                             <tr>
                                 <th></th>
+                                <th>Réf. utilisation</th>
                                 <th>N° IT</th>
                                 <th>Type IT</th>
                                 <th>Motif utilisation</th>
@@ -113,6 +114,7 @@
                                     <td>
                                         <input type="checkbox" value="{{ itu_liste.id }}" name="delete[]" />
                                     </td>
+                                    <td>{{ itu_liste.ctControle }}</td>
                                     <td>{{ itu_liste.ituNumero }}</td>
                                     <td>{{ itu_liste.ctImprimeTech.nomImprimeTech }}</td>
                                     <td>{{ itu_liste.ituMotifUsed }}</td>
