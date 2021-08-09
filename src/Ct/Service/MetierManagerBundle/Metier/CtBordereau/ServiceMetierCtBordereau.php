@@ -236,7 +236,7 @@ class ServiceMetierCtBordereau
 
             case "CENTRE_RECEPTION_TECHNIQUE":
                                       $centre = array('LE CHEF DE CENTRE DE LA RECEPTION TECHNIQUE', 'ALASORA', 'CENTRE DE LA RECEPTION TECHNIQUE'); break;
-            default                 : $centre = array(NULL, NULL);
+            default                 : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', $ctrNom, 'CENTRE DE LA SECURITE ROUTIERE');
         }
         return $centre;
     }

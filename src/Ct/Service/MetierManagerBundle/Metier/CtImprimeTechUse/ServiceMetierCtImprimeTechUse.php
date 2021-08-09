@@ -68,19 +68,22 @@ class ServiceMetierCtImprimeTechUse
     public function getAllCtImprimeTechNoUsedOrder()
     {
         $_entity_bl = EntityName::CT_IMPRIME_TECH_USE;
+        $_entity_ctr = EntityName::CT_CENTRE;
 
         // Récuperer ID utilisateur
         $_user_connected= $this->_container->get('security.token_storage')->getToken()->getUser();
         $_ct_centre_id  = $_user_connected->getCtCentre();
+        $_ct_centre_code = $_user_connected->getCtCentre()->getCtrCode();
 
+        // $_sql = "SELECT t FROM $_entity_bl t WHERE t.ctCentre = :ct_centre_id AND t.ituUsed = :itu_Used ORDER BY t.ituNumero ASC";
         $_sql    = "SELECT t
                     FROM $_entity_bl t 
-                    WHERE   t.ctCentre = :ct_centre_id
+                    WHERE   t.ctCentre IN (SELECT tt.id FROM $_entity_ctr tt WHERE tt.ctrCode = :ct_centre_code )
                             AND t.ituUsed = :itu_Used
-                            ORDER BY t.ituNumero ASC
-                    ";
+                            ORDER BY t.ituNumero ASC";
         $_query  = $this->_entity_manager->createQuery($_sql);
-        $_query->setParameter('ct_centre_id', $_ct_centre_id);
+        // $_query->setParameter('ct_centre_id', $_ct_centre_id);
+        $_query->setParameter('ct_centre_code', $_ct_centre_code);
         $_query->setParameter('itu_Used', 0);
         $_result = $_query->getResult();
 
@@ -104,8 +107,7 @@ class ServiceMetierCtImprimeTechUse
                     WHERE   t.ctCentre = :ct_centre_id
                             AND t.ituMotifUsed != :ituMotifUsed
                             AND t.ituUsed = :ituUsed
-                            AND t.updatedAt LIKE :updatedAt
-                    ";
+                            AND t.updatedAt LIKE :updatedAt";
         $_query  = $this->_entity_manager->createQuery($_sql);
         $_query->setParameter('ct_centre_id', $_ct_centre_id);
         $_query->setParameter('ituUsed', TRUE);
@@ -138,10 +140,13 @@ class ServiceMetierCtImprimeTechUse
     public function saveCtImprimeTechUse($_imprime_tech_use, $_action, $_id)
     {
         // Récuperer ID utilisateur
-        
         $_user_connected = $this->_container->get('security.token_storage')->getToken()->getUser();
         $_imprime_tech_use->setCtUser($_user_connected);
-
+        // Récuperer ID centre de l'utilisateur en cours
+        $_ct_centre_id = $_user_connected->getCtCentre();
+        $ctCentre = $_imprime_tech_use->getCtCentre();
+        if ($_ct_centre_id !== $ctCentre)
+            $_imprime_tech_use->setCtCentre($_ct_centre_id);
         // Affecter 1 au itu_used si itu_motif_used est different de vide
         $ituMotifUsed = $_imprime_tech_use->getItuMotifUsed();
         if(!empty($ituMotifUsed))
@@ -248,13 +253,10 @@ class ServiceMetierCtImprimeTechUse
     public function getCtImprimeTechUseByNumero($_numero)
     {
         $_entity_bl = EntityName::CT_IMPRIME_TECH_USE;
-
-        $_sql   = " SELECT  t
-                    FROM    $_entity_bl t 
-                    WHERE   t.ituNumero = ?1";
+        $_sql = "SELECT t FROM $_entity_bl t WHERE t.ituNumero = ?1";
         $_query = $this->_entity_manager->createQuery($_sql);
         $_query->setParameter(1, '%'.$_numero.'%');
-        $_ret   = $_query->getResult();
+        $_ret = $_query->getResult();
         return $_ret;
     }
 
@@ -266,11 +268,8 @@ class ServiceMetierCtImprimeTechUse
     public function getCtImprimeTechUseByCtControle($_numero)
     {
         $_entity_bl = EntityName::CT_IMPRIME_TECH_USE;
-
-        $_sql   = " SELECT t
-                    FROM $_entity_bl t 
-                    WHERE t.ctControle = :i_numero";
-        $_query  = $this->_entity_manager->createQuery($_sql);
+        $_sql = "SELECT t FROM $_entity_bl t WHERE t.ctControle = :i_numero";
+        $_query = $this->_entity_manager->createQuery($_sql);
         $_query->setParameter('i_numero', $_numero);
         $_ret = $_query->getResult();
         return $_ret;
@@ -284,18 +283,22 @@ class ServiceMetierCtImprimeTechUse
      */
     public function getListNumeroIT($_ct_imprime_tech_id, $_itu_numero){
         $_entity_itu= EntityName::CT_IMPRIME_TECH_USE;
+        $_entity_ctr= EntityName::CT_CENTRE;
 
         // Récuperer ID utilisateur
         $_user_connected= $this->_container->get('security.token_storage')->getToken()->getUser();
         $_ct_centre_id  = $_user_connected->getCtCentre();
+        $_ct_centre_code  = $_user_connected->getCtCentre()->getCtrCode();
 
+        // $_sql = "SELECT t FROM $_entity_itu t WHERE t.ctCentre = :ct_centre_id AND t.ctImprimeTech = :ct_imprime_tech_id AND t.ituNumero LIKE :itu_numero";
         $_sql   = " SELECT  t
                     FROM    $_entity_itu t 
-                    WHERE       t.ctCentre      =       :ct_centre_id
+                    WHERE       t.ctCentre      IN      (SELECT tt.id FROM $_entity_ctr tt WHERE tt.ctrCode = :ct_centre_code )
                             AND t.ctImprimeTech =       :ct_imprime_tech_id
                             AND t.ituNumero     LIKE    :itu_numero";
         $_query  = $this->_entity_manager->createQuery($_sql);
-        $_query->setParameter('ct_centre_id', $_ct_centre_id);
+        $_query->setParameter('ct_centre_code', $_ct_centre_code);
+        // $_query->setParameter('ct_centre_id', $_ct_centre_id);
         $_query->setParameter('ct_imprime_tech_id', $_ct_imprime_tech_id);
         $_query->setParameter('itu_numero', $_itu_numero);
         $_ret = $_query->getResult();
@@ -436,12 +439,6 @@ class ServiceMetierCtImprimeTechUse
         $_imprimes_used = $this->getAllITUsedInDaybyCentre($_centre, $_date);
         $_nb_imprimes_used = count($_imprimes_used);
 
-        $_nbr_rebus = 0;
-        $_nbr_visite = 0;
-        $_nbr_contre = 0;
-        $_nbr_recep = 0;
-        $_nbr_cad = 0;
-        $_nbr_extra = 0;
         $_nbr_pvo = 0;
         $_nbr_pvm = 0;
         $_nbr_crt = 0;
@@ -514,6 +511,11 @@ class ServiceMetierCtImprimeTechUse
         $_template->setValue('total', number_format($_i, 0, ',', ' '));
 
         $_template->saveAs($_dest_tmp);
+
+        // Recuperer manager
+        $_em_cad = $this->_container->get(ServiceName::SRV_METIER_CONST_AV_DED);
+        // Convertir en PDF
+        $_dest_tmp = $_em_cad->convertToPdf($_path, $_file_without_ext);
 
         return array(
             'download_path' => $_dest_tmp,
