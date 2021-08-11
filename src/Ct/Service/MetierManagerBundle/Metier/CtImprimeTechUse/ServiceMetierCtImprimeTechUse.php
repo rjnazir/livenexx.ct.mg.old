@@ -388,7 +388,7 @@ class ServiceMetierCtImprimeTechUse
     }
 
     /**
-     * Générer bordereau de livraison
+     * Générer feuille d'utilisation des IT
      *  @param  $_centre : ID du centre exploitant
      *  @param  $_date : Date d'exploitation
      *  @return array  array()
@@ -523,4 +523,37 @@ class ServiceMetierCtImprimeTechUse
             // 'url_path'      => $_path_pdf
         );
     }
+
+    /**
+     *  Récuperer tous les imprimés techniques non utilisés par un centre dans une journée
+     *  @param  $_centre : ID du centre exploitation
+     *  @return $_result : array()
+     */
+    // public function getAllITNoUsedByCentre($centre)
+    // {
+    //     $_entity_itu = EntityName::CT_IMPRIME_TECH_USE;
+    //     $_dql = "SELECT t FROM $_entity_itu t WHERE t.ctCentre = :ct_centre_id AND t.ituUsed = 0";
+    //     $_query = $this->_entity_manager->createQuery($_dql);
+    //     $_query->setParameter('ct_centre_id', $centre);
+    //     $_res = $_query->getResult();
+
+    //     return $_result;
+    // }
+
+    /**
+     *  Générer feuille de stock des imprimés
+     *  techniques d'un centre à une date données
+     *  @param $centre : Identifiant du centre à traité
+     *  @param $date : Date de l'établissement de la feuille de stock
+     *  @return array : array()
+     */
+    // public function genererFeuilleStockIT($centre, $date)
+    // {
+
+    //     // return array(
+    //     //     'download_path' => $_dest_tmp,
+    //     //     'url_path'      => $_path_docx,
+    //     //     'url_path'      => $_path_pdf
+    //     // );
+    // }
 }

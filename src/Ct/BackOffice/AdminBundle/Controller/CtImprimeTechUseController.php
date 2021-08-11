@@ -226,7 +226,8 @@ class CtImprimeTechUseController extends Controller
     }
 
     /**
-     * Generer bordereau de livraison
+     * Generer feuille d'utilisation des IT
+     * d'un centre à une date donnée
      * @param Request $_request
      * @return Render page
      */
@@ -236,12 +237,33 @@ class CtImprimeTechUseController extends Controller
         $_bordereau_manager = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
 
         // Récupération données formulaires
-        $_data_forms    = $_request->request->all();
-        $_ct_centre_id  = array_key_exists('ct_centre_id', $_data_forms) ? $_data_forms['ct_centre_id'] : 0;
-        $_ct_fitu_date    = array_key_exists('ct_fitu_date', $_data_forms) ? $_data_forms['ct_fitu_date'] : 0;
+        $_data_forms = $_request->request->all();
+        $_ct_centre_id = array_key_exists('ct_centre_id', $_data_forms) ? $_data_forms['ct_centre_id'] : 0;
+        $_ct_fitu_date = array_key_exists('ct_fitu_date', $_data_forms) ? $_data_forms['ct_fitu_date'] : 0;
 
         // Formattage du bordereau de livraison
         $_link_download = $_bordereau_manager->genererFeuilleITUsed($_ct_centre_id, $_ct_fitu_date);
+
+        return new JsonResponse($_link_download);
+    }
+
+    /**
+     *  Génerer feuille de stock des IT
+     *  d'un centre à une date donnée
+     *  @param Request $_request
+     *  @return Render page
+     */
+    public function generateFeuilleStockITAction(Request $_request){
+        // Récupérer manager
+        $_bordereau_manager = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
+
+        // Récupération données formulaires
+        $_data_forms = $_request->request->all();
+        $_ct_centre_id = array_key_exists('ct_centre_id', $_data_forms) ? $_data_forms['ct_centre_id'] : 0;
+        $_ct_situ_date = array_key_exists('ct_situ_date', $_data_forms) ? $_data_forms['ct_situ_date'] : 0;
+
+        // Formattage du bordereau de livraison
+        $_link_download = $_bordereau_manager->genererFeuilleStockIT($_ct_centre_id, $_ct_situ_date);
 
         return new JsonResponse($_link_download);
     }

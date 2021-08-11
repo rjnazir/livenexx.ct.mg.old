@@ -83,6 +83,66 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-6">
+            <div class="box box-primary kl-bloc-visite">
+                <div class="box-header">
+                    <h3 class="box-title">Situation de stock des imprimés techniques</h3>
+                </div>
+
+                <div class="box-body">
+                    <form id="ct_fdc_form">
+                        <div class="modal-body">
+
+                            <!-- Année -->
+                            <div class="row">
+                                <div class="form-group">
+                                    <label for="ct_situ_date">Séléctionner la date</label>
+                                    <input required id="ct_situ_date" name="ct_situ_date" class="form-control datepicker"
+                                           value="{{ "now"|date("d/m/Y") }}" />
+                                </div>
+                            </div>
+
+                            <!-- Centre -->
+                            <div class="{% if app.user.ctRole.id != constant('Ct\\Service\\MetierManagerBundle\\Utils\\RoleName::ID_ROLE_SUPERADMIN') %}hidden{% endif %}">
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label for="ct_situ_centre">Séléctionner le centre</label>
+                                        <select id="ct_situ_centre" name="ct_situ_centre" class="form-control select2"
+                                            style="width: 100%;" data-placeholder="Choisir" required>
+                                            <option value="" selected="selected">
+                                                Choisir
+                                            </option>
+                                            {# {% for province in provinces %}
+                                            <optgroup label="{{ province.prvNom }}"> #}
+                                                {% for centre in centres %}
+                                                    {# {% if province.id == centre.ctProvince.id %} #}
+                                                        <option value="{{ centre.id }}">
+                                                            {{ centre.ctrNom|upper }}
+                                                        </option>
+                                                    {# {% endif %} #}
+                                                {% endfor %}
+                                            {# </optgroup>
+                                            {% endfor %} #}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <button type="submit" class="pull-left btn btn-primary" id="btn-generate-stock-it" style="">
+                                        Générer
+                                    </button>
+                                </div>
+                                <div class="col-md-5">
+                                    <span class="pull-left" id="link-download-stock-it"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="row">
@@ -166,6 +226,7 @@
         });
 
         var _generate_used_it_ajax_uri = "{{ path('imprimes_tech_generate_used_ajax') }}";
+        var _generate_stock_it_ajax_uri = "{{ path('imprimes_tech_stock_generate_ajax') }}";
     </script>
     <script src="{{ asset('backoffice/js/index.imprimes.js') }}"></script>
 {% endblock %}

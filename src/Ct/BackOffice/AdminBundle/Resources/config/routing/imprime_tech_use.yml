@@ -44,7 +44,12 @@ imprime_tech_use_show_numero_it_ajax:
     methods:  POST
 
 imprimes_tech_generate_used_ajax:
-    path:     /generate-feuille-it-ajax
+    path:     /generer-feuille-it-ajax
     defaults: { _controller: "AdminBundle:CtImprimeTechUse:generateFeuilleUsedIT" }
+    methods:  [GET, POST]
+
+imprimes_tech_stock_generate_ajax:
+    path:     /generer-feuille-stock-it-ajax
+    defaults: { _controller: "AdminBundle:CtImprimeTechUse:generateFeuilleStockIT" }
     methods:  [GET, POST]
     
