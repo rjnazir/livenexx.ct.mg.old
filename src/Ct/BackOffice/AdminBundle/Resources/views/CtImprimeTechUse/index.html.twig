@@ -52,17 +52,17 @@
                                             <option value="" selected="selected">
                                                 Choisir
                                             </option>
-                                            {# {% for province in provinces %}
-                                            <optgroup label="{{ province.prvNom }}"> #}
+                                            {% for province in provinces %}
+                                            <optgroup label="{{ province.prvNom }}">
                                                 {% for centre in centres %}
-                                                    {# {% if province.id == centre.ctProvince.id %} #}
+                                                    {% if province.id == centre.ctProvince.id %}
                                                         <option value="{{ centre.id }}">
                                                             {{ centre.ctrNom|upper }}
                                                         </option>
-                                                    {# {% endif %} #}
+                                                    {% endif %}
                                                 {% endfor %}
-                                            {# </optgroup>
-                                            {% endfor %} #}
+                                            </optgroup>
+                                            {% endfor %}
                                         </select>
                                     </div>
                                 </div>
@@ -83,7 +83,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        {# <div class="col-md-6">
             <div class="box box-primary kl-bloc-visite">
                 <div class="box-header">
                     <h3 class="box-title">Situation de stock des imprimés techniques</h3>
@@ -112,17 +112,17 @@
                                             <option value="" selected="selected">
                                                 Choisir
                                             </option>
-                                            {# {% for province in provinces %}
-                                            <optgroup label="{{ province.prvNom }}"> #}
+                                            {% for province in provinces %}
+                                            <optgroup label="{{ province.prvNom }}">
                                                 {% for centre in centres %}
-                                                    {# {% if province.id == centre.ctProvince.id %} #}
+                                                    {% if province.id == centre.ctProvince.id %}
                                                         <option value="{{ centre.id }}">
                                                             {{ centre.ctrNom|upper }}
                                                         </option>
-                                                    {# {% endif %} #}
+                                                    {% endif %}
                                                 {% endfor %}
-                                            {# </optgroup>
-                                            {% endfor %} #}
+                                            </optgroup>
+                                            {% endfor %}
                                         </select>
                                     </div>
                                 </div>
@@ -142,7 +142,7 @@
                     </form>
                 </div>
             </div>
-        </div>
+        </div> #}
     </div>
 
     <div class="row">
