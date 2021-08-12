@@ -141,7 +141,11 @@ class ServiceMetierCtBordereau
         $_sql   = " SELECT  t
                     FROM    $_entity_bl t 
                     WHERE   t.ctCentre = ?1
-                            AND t.blDebutNumero NOT IN (SELECT DISTINCT tt.ituNumero FROM $_entity_itu tt)
+                            AND t.blDebutNumero NOT IN (
+                                SELECT DISTINCT tt.ituNumero FROM $_entity_itu tt
+                                WHERE   t.id = tt.ctBordereau
+                                        AND t.ctImprimeTech = tt.ctImprimeTech
+                            )
                     ORDER BY t.id DESC";
         $_query  = $this->_entity_manager->createQuery($_sql);
         $_query->setParameter(1, $_ct_centre_id);
