@@ -88,21 +88,22 @@ class CtImprimeTechUseType extends AbstractType
                     'Authenticité' => 'Authenticité',
                     'Autres' => 'Autres',
                     'Caractéristique' => 'Caractéristique',
-                    'Constation' => 'Constation',
+                    'Constatation' => 'Constatation',
                     'Contre' => 'Contre',
+                    'Duplicata' => 'Duplicata',
                     'Mutation' => 'Mutation',
                     'Rébus' => 'Rébus',
                     'Réception' => 'Réception',
                     'Visite' => 'Visite',
                     'Spécial' => 'Spécial',
                 ],
-                'choice_attr' => [
-                    'Visite' => ['disabled' => true],
-                    'Contre' => ['disabled' => true],
-                    'Réception' => ['disabled' => true],
-                    'Réception' => ['disabled' => true],
-                    'Constation' => ['disabled' => true],
-                ],
+                // 'choice_attr' => [
+                //     'Visite' => ['disabled' => true],
+                //     'Contre' => ['disabled' => true],
+                //     'Réception' => ['disabled' => true],
+                //     'Réception' => ['disabled' => true],
+                //     'Constatation' => ['disabled' => true],
+                // ],
                 'placeholder'   => '- Séléctionner motif d\'utilisation -'
             ]
         );

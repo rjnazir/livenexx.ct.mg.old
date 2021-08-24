@@ -60,18 +60,18 @@ class CtBordereauController extends Controller
     public function ActivedAction($_id)
     {
         // Utilisateur connecté   
-        $_user_connected= $this->get('security.token_storage')->getToken()->getUser();
+        $_user_connected = $this->get('security.token_storage')->getToken()->getUser();
 
         // Récupérer manager
-        $_itu_manager   = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
-        $_bl_manager    = $this->get(ServiceName::SRV_METIER_BORDEREAU);
-        $_it_in_bl      = $_bl_manager->getCtBordereauById($_id);
+        $_itu_manager = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
+        $_bl_manager = $this->get(ServiceName::SRV_METIER_BORDEREAU);
+        $_it_in_bl = $_bl_manager->getCtBordereauById($_id);
         $_ct_bordereau_id = $_it_in_bl;
-        $_ct_centre_id  = $_it_in_bl->getCtCentre();
-        $_ct_imprime_tech_id  = $_it_in_bl->getCtImprimeTech();
-        $_nomImrpimeTech= $_it_in_bl->getCtImprimeTech()->getNomImprimeTech();
+        $_ct_centre_id = $_it_in_bl->getCtCentre();
+        $_ct_imprime_tech_id = $_it_in_bl->getCtImprimeTech();
+        $_nomImrpimeTech = $_it_in_bl->getCtImprimeTech()->getNomImprimeTech();
         $_start = $_it_in_bl->getBlDebutNumero();
-        $_ending= $_it_in_bl->getBlFinNumero();
+        $_ending = $_it_in_bl->getBlFinNumero();
         for($i = $_start; $i <= $_ending; $i++){
             $_itu_manager->save_CtImprimeTechUse($_ct_bordereau_id, $_ct_centre_id, $_ct_imprime_tech_id, $i);
         }

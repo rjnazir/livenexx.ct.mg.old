@@ -7,9 +7,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Ct\Service\MetierManagerBundle\Entity\CtCentre;
-
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class CtBordereauType extends AbstractType
@@ -22,6 +22,17 @@ class CtBordereauType extends AbstractType
         $builder
             ->add('blNumero', TextType::class, array(
                 'label'     => 'N° du bordereau',
+                'required'  => true
+            ))
+            ->add('refExpr', TextType::class, array(
+                'label'     => 'Réf. expression de besoin',
+                'required'  => true
+            ))
+            ->add('dateRefExpr', DateType::class, array(
+                'label'     => "Date réf. expression de besoin",
+                'widget'    => 'single_text',
+                'format'    => 'dd/MM/yyyy',
+                'attr'      => array('class' => 'datepicker'),
                 'required'  => true
             ))
             ->add('blDebutNumero', IntegerType::class, array(

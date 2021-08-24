@@ -107,7 +107,8 @@ class ServiceMetierCtImprimeTechUse
                     WHERE   t.ctCentre = :ct_centre_id
                             AND t.ituMotifUsed != :ituMotifUsed
                             AND t.ituUsed = :ituUsed
-                            AND t.updatedAt LIKE :updatedAt";
+                            AND t.updatedAt LIKE :updatedAt
+                            ORDER BY t.updatedAt DESC";
         $_query  = $this->_entity_manager->createQuery($_sql);
         $_query->setParameter('ct_centre_id', $_ct_centre_id);
         $_query->setParameter('ituUsed', TRUE);
@@ -207,7 +208,7 @@ class ServiceMetierCtImprimeTechUse
         $ImprimeTechUse->setItuNumero($_itu_numero);
         $ImprimeTechUse->setItuUsed(0);
         $ImprimeTechUse->setItuMotifUsed(NULL);
-        $ImprimeTechUse->setItuCreatedAt(new \DateTime());
+        $ImprimeTechUse->setItuCreatedAt(new DateTime());
         $ImprimeTechUse->setItuUpdatedAt(NULL);
         $this->_entity_manager->persist($ImprimeTechUse);
         $this->_entity_manager->flush();
@@ -308,6 +309,31 @@ class ServiceMetierCtImprimeTechUse
     }
 
     /**
+     *  Récuperer le numéro d'une imprimé technique utilisé spécifié
+     *  @param $_ct_controle_id : integer
+     *  @param $_type_it : string
+     *  @return $_num_it : string
+     */
+    public function getNumITByControleAndTypeIT($_ct_controle_id, $_type_it){
+        $_entity_it = EntityName::CT_IMPRIME_TECH;
+        $_entity_itu= EntityName::CT_IMPRIME_TECH_USE;
+        $_num_it = '-';
+        $_dql = " SELECT  itu
+                        FROM    $_entity_itu itu
+                                INNER JOIN $_entity_it it WITH itu.ctImprimeTech = it.id
+                        WHERE       itu.ctControle = :ct_controle_id
+                                AND it.nomImprimeTech = :type_it";
+        $_query = $this->_entity_manager->createQuery($_dql);
+        $_query->setParameter('ct_controle_id', $_ct_controle_id);
+        $_query->setParameter('type_it', $_type_it);
+        $_res = $_query->getResult();
+        foreach($_res as $_res){
+            !empty($_res->getItuNumero()) ? $_num_it = $_res->getItuNumero() : $_num_it = '-';
+        }
+        return $_num_it;
+    }
+
+    /**
      *  Récuperer tous les imprimés techniques utilisés par un centre dans une journée
      *  @param  $_centre : ID du centre exploitation
      *  @param  $_date : date d'exploitation
@@ -317,13 +343,17 @@ class ServiceMetierCtImprimeTechUse
     {
         $_date = implode('-',array_reverse  (explode('/', $_date)));
         $_entity_itu = EntityName::CT_IMPRIME_TECH_USE;
-        $_dql = " SELECT  it
-                        FROM    $_entity_itu it
-                        WHERE       it.ctCentre     =       :ct_centre_id
-                                AND it.updatedAt    LIKE    :updated_at
-                        ORDER BY    it.ituMotifUsed ASC, it.updatedAt    ASC";
+        $_entity_it = EntityName::CT_IMPRIME_TECH;
+        $_dql = " SELECT  itu
+                        FROM    $_entity_itu itu
+                                INNER JOIN $_entity_it it WITH itu.ctImprimeTech = it.id
+                        WHERE       itu.ctCentre     =       :ct_centre_id
+                                AND itu.updatedAt    LIKE    :updated_at
+                                AND it.nomImprimeTech    LIKE    :type_it
+                        ORDER BY    itu.ituNumero    ASC";
         $_query = $this->_entity_manager->createQuery($_dql);
         $_query->setParameter('ct_centre_id', $_centre);
+        $_query->setParameter('type_it', '%PV%');
         $_query->setParameter('updated_at', $_date.'%');
         $_res = $_query->getResult();
         $_result = [];
@@ -364,23 +394,80 @@ class ServiceMetierCtImprimeTechUse
                     $_result[$_j]->imm = $ctConstatation->getCadImmatriculation();
                     break;
                 default :
-                    $_result[$_j]->ref = $_re->getCtControle();
+                    $code_centre = $_re->getCtCentre()->getCtrCode();
+                    switch($code_centre){
+                        case '001'  : $abbrev_ctr = '-CENSERO/ANT/'.date('y');break;
+                        case '002'  : $abbrev_ctr = '-CENSERO/BLG/'.date('y');break;
+                        case '003'  : $abbrev_ctr = '-CENSERO/NNA/'.date('y');break;
+                        case '004'  : $abbrev_ctr = '-CENSERO/ALS/'.date('y');break;
+                        case '005'  : $abbrev_ctr = '-CENSERO/TNA/'.date('y');break;
+                        case '007'  : $abbrev_ctr = '-CENSERO/FNR/'.date('y');break;
+                        case '008'  : $abbrev_ctr = '-CENSERO/TLR/'.date('y');break;
+                        case '009'  : $abbrev_ctr = '-CENSERO/ANA/'.date('y');break;
+                        case '010'  : $abbrev_ctr = '-CENSERO/IVT/'.date('y');break;
+                        case '011'  : $abbrev_ctr = '-CENSERO/MVA/'.date('y');break;
+                        case '013'  : $abbrev_ctr = '-CENSERO/TRO/'.date('y');break;
+                        case '014'  : $abbrev_ctr = '-CENSERO/ABA/'.date('y');break;
+                        case '015'  : $abbrev_ctr = '-CENSERO/ATR/'.date('y');break;
+                        case '016'  : $abbrev_ctr = '-CENSERO/AKA/'.date('y');break;
+                        case '017'  : $abbrev_ctr = '-CENSERO/FVE/'.date('y');break;
+                        case '017'  : $abbrev_ctr = '-CENSERO/FVE/'.date('y');break;
+                        case '018'  : $abbrev_ctr = '-CENSERO/MOG/'.date('y');break;
+                        case '019'  : $abbrev_ctr = '-CENSERO/SVA/'.date('y');break;
+                        case '020'  : $abbrev_ctr = '-CENSERO/MGA/'.date('y');break;
+                        case '021'  : $abbrev_ctr = '-CENSERO/MRA/'.date('y');break;
+                        case '022'  : $abbrev_ctr = '-CENSERO/FNA/'.date('y');break;
+                        case '023'  : $abbrev_ctr = '-CENSERO/ABE/'.date('y');break;
+                        case '024'  : $abbrev_ctr = '-CENSERO/CRT/ANT/'.date('y');break;
+                        case '025'  : $abbrev_ctr = '-CENSERO/IHO/'.date('y');break;
+                        case '026'  : $abbrev_ctr = '-CENSERO/ATH/'.date('y');break;
+                        case '027'  : $abbrev_ctr = '-CENSERO/TDD/'.date('y');break;
+                        case '029'  : $abbrev_ctr = '-CENSERO/NSB/'.date('y');break;
+                        default     : $abbrev_ctr = '-DGSR/DOR/'.date('y');break;
+                    }
+                    $_result[$_j]->ref = $_re->getCtControle().$abbrev_ctr;
                     $_result[$_j]->imm = '-';
                     break;
             }
-            $_result[$_j]->used = $_used;
 
-            $_type = $_re->getCtImprimeTech()->getNomImprimeTech();
-            preg_match('/PVO/', $_type) ? $_result[$_j]->npvo = $_re->getItuNumero() : $_result[$_j]->npvo = '-';
-            preg_match('/PVM/', $_type) ? $_result[$_j]->npvm = $_re->getItuNumero() : $_result[$_j]->npvm = '-';
-            preg_match('/Carnet/', $_type) ? $_result[$_j]->ncrt = $_re->getItuNumero() : $_result[$_j]->ncrt = '-';
-            preg_match('/Carte jaune/', $_type) ? $_result[$_j]->ncjn = $_re->getItuNumero() : $_result[$_j]->ncjn = '-';
-            preg_match('/Carte rouge/', $_type) ? $_result[$_j]->ncrg = $_re->getItuNumero() : $_result[$_j]->ncrg = '-';
-            preg_match('/barrée/', $_type) ? $_result[$_j]->ncbr = $_re->getItuNumero() : $_result[$_j]->ncbr = '-';
-            preg_match('/auto/', $_type) ? $_result[$_j]->ncae = $_re->getItuNumero() : $_result[$_j]->ncae = '-';
-            preg_match('/CIM 31/', $_type) ? $_result[$_j]->ncim31 = $_re->getItuNumero() : $_result[$_j]->ncim31 = '-';
-            preg_match('/Bis/', $_type) ? $_result[$_j]->ncim31b = $_re->getItuNumero() : $_result[$_j]->ncim31b = '-';
-            preg_match('/32/', $_type) ? $_result[$_j]->ncim32 = $_re->getItuNumero() : $_result[$_j]->ncim32 = '-';
+            $ncrt = $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'Carnet d\'entretien');
+            $_result[$_j]->ncrt = !in_array($ncrt, array_column($_result, 'ncrt')) ? $ncrt : '-';
+
+            $ncbl = $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'Carte blanche');
+            $_result[$_j]->ncbl = !in_array($ncbl, array_column($_result, 'ncbl')) ? $ncbl : '-';
+
+            $nbbr = $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'Carte blanche barrée rouge');
+            $_result[$_j]->nbbr = !in_array($nbbr, array_column($_result, 'nbbr')) ? $nbbr : '-';
+
+            $ncjn = $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'Carte jaune');
+            $_result[$_j]->ncjn = !in_array($ncjn, array_column($_result, 'ncjn')) ? $ncjn : '-';
+
+            $njbr = $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'Carte jaune barrée rouge');
+            $_result[$_j]->njbr = !in_array($njbr, array_column($_result, 'njbr')) ? $njbr : '-';
+
+            $ncrg = $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'Carte rouge');
+            $_result[$_j]->ncrg = !in_array($ncrg, array_column($_result, 'ncrg')) ? $ncrg : '-';
+
+            $ncae = $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'Carte auto-école');
+            $_result[$_j]->ncae = !in_array($ncae, array_column($_result, 'ncae')) ? $ncae : '-';
+
+            $plch = $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'Plaque chassis');
+            $_result[$_j]->plch = !in_array($plch, array_column($_result, 'plch')) ? $plch : '-';
+
+            $ncim31 = $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'CIM 31');
+            $_result[$_j]->ncim31 = !in_array($ncim31, array_column($_result, 'ncim31')) ? $ncim31 : '-';
+
+            $ncim31b = $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'CIM 31 Bis');
+            $_result[$_j]->ncim31b = !in_array($ncim31b, array_column($_result, 'ncim31b')) ? $ncim31b : '-';
+            
+            $ncim32 = $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'CIM 32');
+            $_result[$_j]->ncim32 = !in_array($ncim32, array_column($_result, 'ncim32')) ? $ncim32 : '-';
+
+            $_result[$_j]->npvo = preg_match('/PVO/', $_re->getCtImprimeTech()->getNomImprimeTech()) ? $_re->getItuNumero() : '-';
+            $_result[$_j]->npvm = preg_match('/PVM/', $_re->getCtImprimeTech()->getNomImprimeTech()) ? $_re->getItuNumero() : '-';
+            $_result[$_j]->npcm = preg_match('/PVMC/', $_re->getCtImprimeTech()->getNomImprimeTech()) ? $_re->getItuNumero() : '-';
+
+            $_result[$_j]->used = $_used;
 
             ++$_j;
         }
@@ -439,16 +526,20 @@ class ServiceMetierCtImprimeTechUse
         $_imprimes_used = $this->getAllITUsedInDaybyCentre($_centre, $_date);
         $_nb_imprimes_used = count($_imprimes_used);
 
-        $_nbr_pvo = 0;
-        $_nbr_pvm = 0;
         $_nbr_crt = 0;
+        $_nbr_cbl = 0;
+        $_nbr_bbr = 0;
         $_nbr_cjn = 0;
+        $_nbr_jbr = 0;
         $_nbr_crg = 0;
-        $_nbr_cbr = 0;
         $_nbr_cae = 0;
+        $_nbr_pch = 0;
         $_nbr_cim31 = 0;
         $_nbr_cim31b = 0;
         $_nbr_cim32 = 0;
+        $_nbr_pvo = 0;
+        $_nbr_pvm = 0;
+        $_nbr_pcm = 0;
 
         $_i = 0;
         $_k = 0;
@@ -467,46 +558,58 @@ class ServiceMetierCtImprimeTechUse
             }
 
             // Récuperer nombre des IT utilisés pour chaque type
-            $_imprime_used->npvo != '-' ? $_nbr_pvo++:$_nbr_pvo;
-            $_imprime_used->npvm != '-' ? $_nbr_pvm++:$_nbr_pvm;
-            $_imprime_used->ncrt != '-' ? $_nbr_crt++:$_nbr_crt;
-            $_imprime_used->ncjn != '-' ? $_nbr_cjn++:$_nbr_cjn;
-            $_imprime_used->ncrg != '-' ? $_nbr_crg++:$_nbr_crg;
-            $_imprime_used->ncbr != '-' ? $_nbr_cbr++:$_nbr_cbr;
-            $_imprime_used->ncae != '-' ? $_nbr_cae++:$_nbr_cae;
-            $_imprime_used->ncim31 != '-' ? $_nbr_cim31++:$_nbr_cim31;
+            $_imprime_used->ncrt != '-' ? $_nbr_crt++ : $_nbr_crt;
+            $_imprime_used->ncbl != '-' ? $_nbr_cbl++ : $_nbr_cbl;
+            $_imprime_used->nbbr != '-' ? $_nbr_bbr++ : $_nbr_bbr;
+            $_imprime_used->ncjn != '-' ? $_nbr_cjn++ : $_nbr_cjn;
+            $_imprime_used->njbr != '-' ? $_nbr_jbr++ : $_nbr_jbr;
+            $_imprime_used->ncrg != '-' ? $_nbr_crg++ : $_nbr_crg;
+            $_imprime_used->ncae != '-' ? $_nbr_cae++ : $_nbr_cae;
+            $_imprime_used->plch != '-' ? $_nbr_pch++ : $_nbr_pch;
+            $_imprime_used->ncim31 != '-' ? $_nbr_cim31++ : $_nbr_cim31;
             $_imprime_used->ncim31b != '-' ? $_nbr_cim31b++:$_nbr_cim31b;
             $_imprime_used->ncim32 != '-' ? $_nbr_cim32++:$_nbr_cim32;
+            $_imprime_used->npvo != '-' ? $_nbr_pvo++ : $_nbr_pvo;
+            $_imprime_used->npvm != '-' ? $_nbr_pvm++ : $_nbr_pvm;
+            $_imprime_used->npcm != '-' ? $_nbr_pcm++ : $_nbr_pcm;
 
             $_template->setValue('i#' . $_i, $_i);
             $_template->setValue('ref#' . $_i, strtoupper($_imprime_used->ref));
             $_template->setValue('imm#' . $_i, $_imprime_used->imm);
             $_template->setValue('used#' . $_i, $_imprime_used->used);
-            $_template->setValue('npvo#' . $_i, $_imprime_used->npvo);
-            $_template->setValue('npvm#' . $_i, $_imprime_used->npvm);
             $_template->setValue('ncrt#' . $_i, $_imprime_used->ncrt);
+            $_template->setValue('ncbl#' . $_i, $_imprime_used->ncbl);
+            $_template->setValue('nbbr#' . $_i, $_imprime_used->nbbr);
             $_template->setValue('ncjn#' . $_i, $_imprime_used->ncjn);
+            $_template->setValue('njbr#' . $_i, $_imprime_used->njbr);
             $_template->setValue('ncrg#' . $_i, $_imprime_used->ncrg);
-            $_template->setValue('ncbr#' . $_i, $_imprime_used->ncbr);
             $_template->setValue('ncae#' . $_i, $_imprime_used->ncae);
+            $_template->setValue('plch#' . $_i, $_imprime_used->plch);
             $_template->setValue('ncim31#' . $_i, $_imprime_used->ncim31);
             $_template->setValue('ncim31b#' . $_i, $_imprime_used->ncim31b);
             $_template->setValue('ncim32#' . $_i, $_imprime_used->ncim32);
+            $_template->setValue('npvo#' . $_i, $_imprime_used->npvo);
+            $_template->setValue('npvm#' . $_i, $_imprime_used->npvm);
+            $_template->setValue('npcm#' . $_i, $_imprime_used->npcm);
         }
 
         $_template->setValue('nbr_ct', number_format($_k, 0, ',', ' '));
 
-        $_template->setValue('nbr_pvo', number_format($_nbr_pvo, 0, ',', ' '));
-        $_template->setValue('nbr_pvm', number_format($_nbr_pvm, 0, ',', ' '));
-        $_template->setValue('nbr_crt', number_format($_nbr_crt, 0, ',', ' '));
-        $_template->setValue('nbr_cjn', number_format($_nbr_cjn, 0, ',', ' '));
-        $_template->setValue('nbr_crg', number_format($_nbr_crg, 0, ',', ' '));
-        $_template->setValue('nbr_cbr', number_format($_nbr_cbr, 0, ',', ' '));
-        $_template->setValue('nbr_cae', number_format($_nbr_cae, 0, ',', ' '));
-        $_template->setValue('nbr_cim31', number_format($_nbr_cim31, 0, ',', ' '));
-        $_template->setValue('nbr_cim31', number_format($_nbr_cim31, 0, ',', ' '));
-        $_template->setValue('nbr_cim31b', number_format($_nbr_cim31b, 0, ',', ' '));
-        $_template->setValue('nbr_cim32', number_format($_nbr_cim32, 0, ',', ' '));
+        $_template->setValue('nbrcrt', number_format($_nbr_crt, 0, ',', ' '));
+        $_template->setValue('nbrcbl', number_format($_nbr_cbl, 0, ',', ' '));
+        $_template->setValue('nbrbbr', number_format($_nbr_bbr, 0, ',', ' '));
+        $_template->setValue('nbrcjn', number_format($_nbr_cjn, 0, ',', ' '));
+        $_template->setValue('nbrjbr', number_format($_nbr_jbr, 0, ',', ' '));
+        $_template->setValue('nbrcrg', number_format($_nbr_crg, 0, ',', ' '));
+        $_template->setValue('nbrcae', number_format($_nbr_cae, 0, ',', ' '));
+        $_template->setValue('nbrpch', number_format($_nbr_pch, 0, ',', ' '));
+        $_template->setValue('nbrcim31', number_format($_nbr_cim31, 0, ',', ' '));
+        $_template->setValue('nbrcim31', number_format($_nbr_cim31, 0, ',', ' '));
+        $_template->setValue('nbrcim31b', number_format($_nbr_cim31b, 0, ',', ' '));
+        $_template->setValue('nbrcim32', number_format($_nbr_cim32, 0, ',', ' '));
+        $_template->setValue('nbrpvo', number_format($_nbr_pvo, 0, ',', ' '));
+        $_template->setValue('nbrpvm', number_format($_nbr_pvm, 0, ',', ' '));
+        $_template->setValue('nbrpcm', number_format($_nbr_pcm, 0, ',', ' '));
 
         $_template->setValue('total', number_format($_i, 0, ',', ' '));
 

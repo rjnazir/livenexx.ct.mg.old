@@ -47,14 +47,14 @@
                         <table id="liste-imprime-tech-bl" class="table table-bordered table-striped table-condensed">
                             <thead>
                             <tr>
-                                <th></th>
-                                <th>N° bordereau</th>
-                                <th>Nom centre</th>
-                                <th>Nom IT</th>
-                                <th>Unité</th>
-                                <th>Début N° IT</th>
-                                <th>Fin N° IT</th>
-                                <th>Action</th>
+                                <th width="1%"></th>
+                                <th width="22%">N° bordereau</th>
+                                <th width="15%">Nom centre</th>
+                                <th width="15%">Nom IT</th>
+                                <th width="5%">Unité</th>
+                                <th width="10%">N° IT</th>
+                                <th width="23%">Réf. demande</th>
+                                <th width="7%">Action</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -67,14 +67,14 @@
                                     <td>{{ it_in_bl.ctCentre.ctrNom }}</td>
                                     <td>{{ it_in_bl.ctImprimeTech.nomImprimeTech }}</td>
                                     <td>{{ it_in_bl.ctImprimeTech.uteImprimeTech }}</td>
-                                    <td>{{ it_in_bl.blDebutNumero }}</td>
-                                    <td>{{ it_in_bl.blFinNumero }}</td>
+                                    <td>{{ it_in_bl.blDebutNumero }} {% if (it_in_bl.blFinNumero) %} à {{ it_in_bl.blFinNumero }} {% endif %}</td>
+                                    <td>{{ it_in_bl.refExpr }} du {{ it_in_bl.dateRefExpr|date('d/m/Y') }}</td>
                                     <td>
-                                        <a class="btn btn-primary" title="Modifier"
+                                        <a class="btn btn-sm btn-primary" title="Modifier"
                                            href="{{ path('bordereau_edit', { 'id': it_in_bl.id }) }}">
                                             <i class="fa fa-edit"></i>
                                         </a>
-                                        <a class="btn btn-danger remove-elt" title="Supprimer"
+                                        <a class="btn btn-sm btn-danger remove-elt" title="Supprimer"
                                            href="{{ path('bordereau_delete', { 'id': it_in_bl.id }) }}">
                                             <i class="fa fa-trash"></i>
                                         </a>

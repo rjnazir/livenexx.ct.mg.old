@@ -8,6 +8,7 @@ use Symfony\Component\DependencyInjection\Container;
 use Ct\Service\MetierManagerBundle\Utils\PathReportingName;
 use PhpOffice\PhpWord\PhpWord;
 use Ct\Service\MetierManagerBundle\Utils\ServiceName;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 class ServiceMetierCtBordereau
 {
@@ -240,7 +241,7 @@ class ServiceMetierCtBordereau
 
             case "CENTRE_RECEPTION_TECHNIQUE":
                                       $centre = array('LE CHEF DE CENTRE DE LA RECEPTION TECHNIQUE', 'ALASORA', 'CENTRE DE LA RECEPTION TECHNIQUE'); break;
-            default                 : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', $ctrNom, 'CENTRE DE LA SECURITE ROUTIERE');
+            default                 : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', $ctrNom, 'CENTRE DE LA SECURITE ROUTIERE', );
         }
         return $centre;
     }
@@ -271,7 +272,7 @@ class ServiceMetierCtBordereau
         $_bl_numero     = str_replace('/', '_', $numero);
         $_path          = $_bl_directory . PathReportingName::GENERATE_BORDEREAU;
 
-        $_num_bl        = 'BL_' . $_bl_numero;
+        $_num_bl        = 'BE_' . $_bl_numero;
         $_filename      = strtoupper($_num_bl);
 
         $_dest_tmp          = $_path . $_filename . '.docx';
@@ -294,12 +295,23 @@ class ServiceMetierCtBordereau
         $_total          = 0;
 
         $_template->cloneRow('i', $_nbr_it);
+        // $_template->cloneRow('nature', $_nbr_it);
+        // $_template->cloneRow('reference', $_nbr_it);
 
         $_i = 0;
         foreach($_bordereau as $_imprime_tech)
         {
             ++$_i;
             $_template->setValue('i#' . $_i, $_i);
+            if($_i == 1){
+                $_nature = 'Imprimé<w:br/>technique';
+                $_reference = '« POUR ATTRIBUTION »<w:br/>REF. : '.$_imprime_tech->getRefExpr().'<w:br/>du '.$_imprime_tech->getDateRefExpr()->format('d/m/Y');
+            }else{
+                $_nature = '';
+                $_reference = '';
+            }
+            $_template->setValue('nature#' . $_i, $_nature);
+            $_template->setValue('reference#' . $_i, $_reference);
             $_nomImprimeTech = $_imprime_tech->getCtImprimeTech()->getNomImprimeTech();
             $_numDebut = $_imprime_tech->getBlDebutNumero();
             $_numFin = $_imprime_tech->getBlFinNumero();

@@ -25,7 +25,7 @@ function ajaxGenerateBordereauLivraison() {
         data: { 'ct_centre_id' : _ct_centre_id, 'bl_numero' : _bl_numero},
         success: function(data) {
 
-            var _link_download = "<a href='" + data.url_path + "' title='Télécharger' target='_blank' class='btn btn-success kl-download'>Télécharger</a>"
+            var _link_download = "<a href='" + data.url_path + "' title='Télécharger' target='_blank' class='btn btn-warning kl-download'>Télécharger</a>"
 
             $('#link-download-bordereau-livraison').html(_link_download);
         }

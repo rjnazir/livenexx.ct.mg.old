@@ -1616,13 +1616,13 @@ class ServiceMetierCtVisite
             $_template->setValue('hors', 0);
             $_template->setValue('TVA', 0);
         } else {
-            $_total_montant_f     = number_format($_total_montant, 0, ',', ' ');
-            $_droit_f     = number_format($_droit, 0, ',', ' ');
-            $_carnet_f     = number_format($_carnet, 0, ',', ' ');
-            $_pv_f     = number_format($_pv, 0, ',', ' ');
-            $_carte_f     = number_format($_carte, 0, ',', ' ');
-            $_tht_f     = number_format($_tht, 0, ',', ' ');
-            $_taxe_f     = number_format($_taxe, 0, ',', ' ');
+            $_total_montant_f = number_format($_total_montant, 0, ',', ' ');
+            $_droit_f = number_format($_droit, 0, ',', ' ');
+            $_carnet_f = number_format($_carnet, 0, ',', ' ');
+            $_pv_f = number_format($_pv, 0, ',', ' ');
+            $_carte_f = number_format($_carte, 0, ',', ' ');
+            $_tht_f = number_format($_tht, 0, ',', ' ');
+            $_taxe_f = number_format($_taxe, 0, ',', ' ');
 
             $_template->setValue('total', $_total_montant_f);
             $_template->setValue('usage', $_droit_f);

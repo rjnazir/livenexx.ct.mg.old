@@ -47,6 +47,20 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
     private $blNumero;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="ref_expr", type="string", length=64, nullable=true)
+     */
+    private $refExpr;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_ref_expr", type="datetime", nullable=true)
+     */
+    private $dateRefExpr;
+
+    /**
      * @var int
      *
      * @ORM\Column(name="bl_debut_numero", type="integer")
@@ -78,7 +92,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
     /**
      * @var \CtImprimeTech
-     * 
      * @ORM\ManyToOne(
      *  targetEntity="Ct\Service\MetierManagerBundle\Entity\CtImprimeTech",
      *  inversedBy="ct_imprime_tech"
@@ -94,7 +107,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
     /**
      * @var \CtUser
-     * 
      * @ORM\ManyToOne(targetEntity="Ct\Service\UserBundle\Entity\User")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="ct_user_id", referencedColumnName="id")
@@ -104,14 +116,12 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
     /**
      * @var \DateTime
-     *
      * @ORM\Column(name="bl_created_at", type="datetime", nullable=true)
      */
     private $blCreatedAt;
 
     /**
      * @var \DateTime
-     *
      * @ORM\Column(name="bl_updated_at", type="datetime", nullable=true)
      */
     private $blUpdatedAt;
@@ -119,7 +129,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
     /**
      * Get id
-     *
      * @return int
      */
     public function getId()
@@ -128,22 +137,59 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
     }
 
     /**
+     *  Set refExpr
+     *  @param string $refExpr
+     *  @return CtBordereau
+     */
+    public function setRefExpr($refExpr)
+    {
+        $this->refExpr = $refExpr;
+        return $this;
+    }
+
+    /**
+     * Get refExpr
+     * @return string
+     */
+    public function getRefExpr()
+    {
+        return $this->refExpr;
+    }
+
+    /**
+     *  Set dateRefExpr
+     *  @param \Datetime $dateRefExpr
+     *  @return CtBordereau
+     */
+    public function setDateRefExpr($dateRefExpr)
+    {
+        $this->dateRefExpr = $dateRefExpr;
+        return $this;
+    }
+
+
+    /**
+     * Get dateRefExpr
+     * @return \Datetime
+     */
+    public function getDateRefExpr()
+    {
+        return $this->dateRefExpr;
+    }
+
+    /**
      * Set blNumero
-     *
      * @param string $blNumero
-     *
      * @return CtBordereau
      */
     public function setBlNumero($blNumero)
     {
         $this->blNumero = $blNumero;
-
         return $this;
     }
 
     /**
      * Get blNumero
-     *
      * @return string
      */
     public function getBlNumero()
@@ -153,21 +199,17 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
     /**
      * Set ctCentre
-     *
      * @param integer $ctCentre
-     *
      * @return CtBordereau
      */
     public function setCtCentre($ctCentre)
     {
         $this->ctCentre = $ctCentre;
-
         return $this;
     }
 
     /**
      * Get ctCentre
-     *
      * @return int
      */
     public function getCtCentre()
@@ -177,21 +219,17 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
     /**
      * Set ctImprimeTech
-     *
      * @param \Ct\Service\MetierManagerBundle\Entity\CtImprimeTech $ctImprimeTech
-     *
      * @return CtBordereau
      */
     public function setCtImprimeTech(\Ct\Service\MetierManagerBundle\Entity\CtImprimeTech $ctImprimeTech = null)
     {
         $this->ctImprimeTech = $ctImprimeTech;
-
         return $this;
     }
 
     /**
      * Get ctImprimeTech
-     *
      * @return \Ct\Service\MetierManagerBundle\Entity\CtImprmeTech
      */
     public function getCtImprimeTech()
@@ -201,21 +239,17 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
     /**
      * Set ctUser
-     *
      * @param \Ct\Service\UserBundle\Entity\User $ctUser
-     *
      * @return CtBordereau
      */
     public function setCtUser(\Ct\Service\UserBundle\Entity\User $ctUser = null)
     {
         $this->ctUser = $ctUser;
-
         return $this;
     }
 
     /**
      * Get ctUser
-     *
      * @return \Ct\Service\UserBundle\Entity\User
      */
     public function getCtUser()
@@ -225,21 +259,17 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
     /**
      * Set blDebutNumero
-     *
      * @param integer $blDebutNumero
-     *
      * @return CtBordereau
      */
     public function setBlDebutNumero($blDebutNumero)
     {
         $this->blDebutNumero = $blDebutNumero;
-
         return $this;
     }
 
     /**
      * Get blDebutNumero
-     *
      * @return int
      */
     public function getBlDebutNumero()
@@ -249,21 +279,17 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
     /**
      * Set blFinNumero
-     *
      * @param integer $blFinNumero
-     *
      * @return CtBordereau
      */
     public function setBlFinNumero($blFinNumero)
     {
         $this->blFinNumero = $blFinNumero;
-
         return $this;
     }
 
     /**
      * Get blFinNumero
-     *
      * @return int
      */
     public function getBlFinNumero()
@@ -273,21 +299,17 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
     /**
      * Set blCreatedAt
-     *
      * @param \DateTime $blCreatedAt
-     *
      * @return CtBordereau
      */
     public function setBlCreatedAt($blCreatedAt)
     {
         $this->blCreatedAt = $blCreatedAt;
-
         return $this;
     }
 
     /**
      * Get blCreatedAt
-     *
      * @return \DateTime
      */
     public function getBlCreatedAt()
@@ -297,21 +319,17 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
     /**
      * Set blUpdatedAt
-     *
      * @param \DateTime $blUpdatedAt
-     *
      * @return CtBordereau
      */
     public function setBlUpdatedAt($blUpdatedAt)
     {
         $this->blUpdatedAt = $blUpdatedAt;
-
         return $this;
     }
 
     /**
      * Get blUpdatedAt
-     *
      * @return \DateTime
      */
     public function getBlUpdatedAt()

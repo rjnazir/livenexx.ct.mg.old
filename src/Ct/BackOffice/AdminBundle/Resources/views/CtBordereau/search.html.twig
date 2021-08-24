@@ -108,7 +108,7 @@
                         <div class="col-md-2">
                             <div class="box-body">
                                 <div class="form-group">
-                                    <button type="submit" class="pull-left btn btn-primary"
+                                    <button type="submit" class="pull-left btn btn-success"
                                             id="btn-generate-bordereau-livraison" style="">
                                         Générer
                                     </button>
@@ -138,27 +138,28 @@
                                 <table id="liste-imprime-tech-bl" class="table table-bordered table-striped table-condensed">
                                     <thead>
                                     <tr>
-                                        <th></th>
-                                        <th>N° bordereau</th>
-                                        <th>Nom centre</th>
-                                        <th>Nom IT</th>
-                                        <th>Unité</th>
-                                        <th>Début N° IT</th>
-                                        <th>Fin N° IT</th>
+                                        {# <th width="5%"></th> #}
+                                        <th width="22%">N° bordereau</th>
+                                        <th width="15%">Nom centre</th>
+                                        <th width="15%">Nom IT</th>
+                                        <th width="8%">Unité</th>
+                                        <th width="13%">N° IT</th>
+                                        <th width="27%">Réf. expression de besoin</th>
+                                        {# <th width="10%">Action</th> #}
                                     </tr>
                                     </thead>
                                     <tbody>
                                     {% for list_in_it in list_in_its %}
                                         <tr>
-                                            <td>
+                                            {# <td>
                                                 <input type="checkbox" value="{{ list_in_it.id }}" name="delete[]" />
-                                            </td>
+                                            </td> #}
                                             <td>{{ list_in_it.blNumero }}</td>
                                             <td>{{ list_in_it.ctCentre.ctrNom }}</td>
                                             <td>{{ list_in_it.ctImprimeTech.nomImprimeTech }}</td>
                                             <td>{{ list_in_it.ctImprimeTech.uteImprimeTech }}</td>
-                                            <td>{{ list_in_it.blDebutNumero }}</td>
-                                            <td>{{ list_in_it.blFinNumero }}</td>
+                                            <td>{{ list_in_it.blDebutNumero }} {% if (list_in_it.blFinNumero) %} à {{ list_in_it.blFinNumero }} {% endif %}</td>
+                                            <td>{{ list_in_it.refExpr }} du {{ list_in_it.dateRefExpr|date('d/m/Y') }}</td>
                                         </tr>
                                     {% endfor %}
                                     </tbody>
