@@ -632,16 +632,17 @@ class ServiceMetierCtImprimeTechUse
      *  @param  $_centre : ID du centre exploitation
      *  @return $_result : array()
      */
-    // public function getAllITNoUsedByCentre($centre)
-    // {
-    //     $_entity_itu = EntityName::CT_IMPRIME_TECH_USE;
-    //     $_dql = "SELECT t FROM $_entity_itu t WHERE t.ctCentre = :ct_centre_id AND t.ituUsed = 0";
-    //     $_query = $this->_entity_manager->createQuery($_dql);
-    //     $_query->setParameter('ct_centre_id', $centre);
-    //     $_res = $_query->getResult();
+    public function getAllITNoUsedByCentre($centre)
+    {
+        $_entity_it = EntityName::CT_IMPRIME_TECH;
+        $_entity_itu = EntityName::CT_IMPRIME_TECH_USE;
+        $_dql = "SELECT t FROM $_entity_itu t INNER JOIN $_entity_it tt WITH t.ctImprimeTech = tt.id WHERE t.ctCentre = :ct_centre_id AND t.ituUsed = 0";
+        $_query = $this->_entity_manager->createQuery($_dql);
+        $_query->setParameter('ct_centre_id', $centre);
+        $_res = $_query->getResult();
 
-    //     return $_result;
-    // }
+        return $_result;
+    }
 
     /**
      *  Générer feuille de stock des imprimés

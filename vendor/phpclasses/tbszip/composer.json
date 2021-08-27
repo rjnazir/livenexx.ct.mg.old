@@ -1,0 +1,6 @@
+{
+	"autoload":
+	{
+		"classmap": ["tbszip.php"]
+	}
+}
