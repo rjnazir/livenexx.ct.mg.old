@@ -307,28 +307,115 @@ class __TwigTemplate_e2f4ae5038589338963f1ba697b5fd9f683498e21d2879162e6abc43705
         echo $this->env->getRuntime('Symfony\Bridge\Twig\Form\TwigRenderer')->searchAndRenderBlock($this->getAttribute(($context["edit_form"] ?? null), "ctUtilisation", array()), 'row');
         echo "
                         </div>
-                        <div class=\"box-footer\">
-                            <input type=\"submit\" class=\"btn btn-primary\" value=\"Modifier\" name=\"update_type_reception\"/>
-                            <a href=\"";
-        // line 129
-        echo $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("reception_index");
-        echo "\"
-                               class=\"btn btn-default pull-left btn-mini-rectif\" >
-                                Retour à la liste
-                            </a>
-                            <a href=\"";
-        // line 133
-        echo twig_escape_filter($this->env, $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("reception_generer_pv", array("id" => $this->getAttribute(($context["reception"] ?? null), "id", array()))), "html", null, true);
-        echo "\"
-                               class=\"btn btn-warning\" target=\"_blank\">
-                                Générer PV
-                            </a>
+";
+        // line 138
+        echo "
+                    </div>
+
+                    ";
+        // line 142
+        echo "                    <div class=\"box box-warning\">
+                        <div class=\"box-header\">
+                            <h3 class=\"box-title\">Informations imprimés techniques utilisés</h3>
                         </div>
 
+                        <div class=\"row\">
+                            <div class=\"box-body\">
+                                <div class=\"form-group\" style=\"margin: 0 8px 0 8px; padding:  0 8px 0 8px;\">
+                                    <label for=\"ct_imprime_tech_use\">Séléctionner les N° imprimés utilisés</label>
+                                    <select id=\"ct_imprime_tech_use\" name=\"ct_imprime_tech_use[]\" class=\"form-control select2 mx-6\"
+                                        style=\"width: 100%;\" data-placeholder=\"  Choisir\" multiple=\"\" ";
+        // line 152
+        echo ">
+                                        ";
+        // line 153
+        $context['_parent'] = $context;
+        $context['_seq'] = twig_ensure_traversable(($context["imprimes_use"] ?? null));
+        foreach ($context['_seq'] as $context["_key"] => $context["imprime_use"]) {
+            // line 154
+            echo "                                            <option value=\"";
+            echo twig_escape_filter($this->env, $this->getAttribute($context["imprime_use"], "id", array()), "html", null, true);
+            echo "\" selected>
+                                                ";
+            // line 155
+            echo twig_escape_filter($this->env, $this->getAttribute($context["imprime_use"], "ituNumero", array()), "html", null, true);
+            echo "
+                                            </option>
+                                        ";
+        }
+        $_parent = $context['_parent'];
+        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['imprime_use'], $context['_parent'], $context['loop']);
+        $context = array_intersect_key($context, $_parent) + $_parent;
+        // line 158
+        echo "                                        ";
+        $context['_parent'] = $context;
+        $context['_seq'] = twig_ensure_traversable(($context["imprimes_tech"] ?? null));
+        foreach ($context['_seq'] as $context["_key"] => $context["imprime_tech"]) {
+            // line 159
+            echo "                                        <optgroup label=\"";
+            echo twig_escape_filter($this->env, twig_upper_filter($this->env, $this->getAttribute($context["imprime_tech"], "nomImprimeTech", array())), "html", null, true);
+            echo "\">
+                                            ";
+            // line 160
+            $context['_parent'] = $context;
+            $context['_seq'] = twig_ensure_traversable(($context["imprimes_tech_use"] ?? null));
+            foreach ($context['_seq'] as $context["_key"] => $context["imprime_tech_use"]) {
+                // line 161
+                echo "                                                ";
+                if (($this->getAttribute($context["imprime_tech"], "id", array()) == $this->getAttribute($this->getAttribute($context["imprime_tech_use"], "ctImprimeTech", array()), "id", array()))) {
+                    // line 162
+                    echo "                                                <option value=\"";
+                    echo twig_escape_filter($this->env, $this->getAttribute($context["imprime_tech_use"], "id", array()), "html", null, true);
+                    echo "\">
+                                                    ";
+                    // line 163
+                    echo twig_escape_filter($this->env, twig_upper_filter($this->env, $this->getAttribute($context["imprime_tech_use"], "ituNumero", array())), "html", null, true);
+                    echo "
+                                                </option>
+                                                ";
+                }
+                // line 166
+                echo "                                            ";
+            }
+            $_parent = $context['_parent'];
+            unset($context['_seq'], $context['_iterated'], $context['_key'], $context['imprime_tech_use'], $context['_parent'], $context['loop']);
+            $context = array_intersect_key($context, $_parent) + $_parent;
+            // line 167
+            echo "                                        </optgroup>
+                                        ";
+        }
+        $_parent = $context['_parent'];
+        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['imprime_tech'], $context['_parent'], $context['loop']);
+        $context = array_intersect_key($context, $_parent) + $_parent;
+        // line 169
+        echo "                                    </select>
+                                </div>
+                            </div>
+
+                            <div class=\"box-footer\">
+                                <div class=\"box-footer\">
+                                    <input type=\"submit\" class=\"btn btn-primary\" value=\"Modifier\" name=\"update_type_reception\"/>
+                                    <a href=\"";
+        // line 176
+        echo $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("reception_index");
+        echo "\"
+                                    class=\"btn btn-default pull-left btn-mini-rectif\" >
+                                        Retour à la liste
+                                    </a>
+                                    <a href=\"";
+        // line 180
+        echo twig_escape_filter($this->env, $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("reception_generer_pv", array("id" => $this->getAttribute(($context["reception"] ?? null), "id", array()))), "html", null, true);
+        echo "\"
+                                    class=\"btn btn-warning\" target=\"_blank\">
+                                        Générer PV
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 ";
-        // line 141
+        // line 189
         echo         $this->env->getRuntime('Symfony\Bridge\Twig\Form\TwigRenderer')->renderBlock(($context["edit_form"] ?? null), 'form_end');
         echo "
             </div>
@@ -339,22 +426,22 @@ class __TwigTemplate_e2f4ae5038589338963f1ba697b5fd9f683498e21d2879162e6abc43705
 ";
     }
 
-    // line 149
+    // line 197
     public function block_javascripts($context, array $blocks = array())
     {
-        // line 150
+        // line 198
         echo "    ";
         $this->displayParentBlock("javascripts", $context, $blocks);
         echo "
 
     <!-- JQuery UI -->
     <script src=\"";
-        // line 153
+        // line 201
         echo twig_escape_filter($this->env, $this->env->getExtension('Symfony\Bridge\Twig\Extension\AssetExtension')->getAssetUrl("plugins/jquery-ui-1.12.1/jquery-ui.js"), "html", null, true);
         echo "\" ></script>
 
     <script src=\"";
-        // line 155
+        // line 203
         echo twig_escape_filter($this->env, $this->env->getExtension('Symfony\Bridge\Twig\Extension\AssetExtension')->getAssetUrl("backoffice/js/edit.reception.js"), "html", null, true);
         echo "\"></script>
 ";
@@ -372,7 +459,7 @@ class __TwigTemplate_e2f4ae5038589338963f1ba697b5fd9f683498e21d2879162e6abc43705
 
     public function getDebugInfo()
     {
-        return array (  358 => 155,  353 => 153,  346 => 150,  343 => 149,  332 => 141,  321 => 133,  314 => 129,  307 => 125,  303 => 124,  299 => 123,  295 => 122,  291 => 121,  288 => 120,  286 => 117,  282 => 116,  278 => 115,  274 => 114,  270 => 113,  261 => 106,  252 => 99,  248 => 98,  244 => 97,  240 => 96,  235 => 94,  231 => 93,  227 => 92,  223 => 91,  219 => 90,  215 => 89,  211 => 88,  207 => 87,  203 => 86,  199 => 84,  197 => 78,  193 => 77,  188 => 75,  179 => 68,  175 => 66,  169 => 63,  166 => 62,  157 => 59,  154 => 58,  149 => 57,  140 => 54,  137 => 53,  132 => 52,  129 => 51,  122 => 46,  116 => 43,  109 => 40,  106 => 39,  101 => 35,  99 => 34,  97 => 33,  91 => 30,  89 => 29,  87 => 28,  85 => 27,  83 => 26,  78 => 23,  71 => 22,  69 => 21,  63 => 20,  59 => 18,  56 => 16,  54 => 15,  51 => 14,  47 => 1,  45 => 49,  43 => 48,  41 => 12,  39 => 11,  37 => 10,  35 => 9,  33 => 8,  31 => 6,  29 => 3,  11 => 1,);
+        return array (  445 => 203,  440 => 201,  433 => 198,  430 => 197,  419 => 189,  407 => 180,  400 => 176,  391 => 169,  384 => 167,  378 => 166,  372 => 163,  367 => 162,  364 => 161,  360 => 160,  355 => 159,  350 => 158,  341 => 155,  336 => 154,  332 => 153,  329 => 152,  317 => 142,  312 => 138,  307 => 125,  303 => 124,  299 => 123,  295 => 122,  291 => 121,  288 => 120,  286 => 117,  282 => 116,  278 => 115,  274 => 114,  270 => 113,  261 => 106,  252 => 99,  248 => 98,  244 => 97,  240 => 96,  235 => 94,  231 => 93,  227 => 92,  223 => 91,  219 => 90,  215 => 89,  211 => 88,  207 => 87,  203 => 86,  199 => 84,  197 => 78,  193 => 77,  188 => 75,  179 => 68,  175 => 66,  169 => 63,  166 => 62,  157 => 59,  154 => 58,  149 => 57,  140 => 54,  137 => 53,  132 => 52,  129 => 51,  122 => 46,  116 => 43,  109 => 40,  106 => 39,  101 => 35,  99 => 34,  97 => 33,  91 => 30,  89 => 29,  87 => 28,  85 => 27,  83 => 26,  78 => 23,  71 => 22,  69 => 21,  63 => 20,  59 => 18,  56 => 16,  54 => 15,  51 => 14,  47 => 1,  45 => 49,  43 => 48,  41 => 12,  39 => 11,  37 => 10,  35 => 9,  33 => 8,  31 => 6,  29 => 3,  11 => 1,);
     }
 
     /** @deprecated since 1.27 (to be removed in 2.0). Use getSourceContext() instead */

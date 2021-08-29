@@ -242,46 +242,31 @@ class __TwigTemplate_fecbdf9471006eb78d27a7cbbd53a416e3dec4ae980314fb859158e9c25
                                                 Choisir
                                             </option>
                                             ";
-        // line 115
+        // line 117
+        echo "                                                ";
         $context['_parent'] = $context;
-        $context['_seq'] = twig_ensure_traversable(($context["provinces"] ?? null));
-        foreach ($context['_seq'] as $context["_key"] => $context["province"]) {
-            // line 116
-            echo "                                            <optgroup label=\"";
-            echo twig_escape_filter($this->env, $this->getAttribute($context["province"], "prvNom", array()), "html", null, true);
+        $context['_seq'] = twig_ensure_traversable(($context["centres"] ?? null));
+        foreach ($context['_seq'] as $context["_key"] => $context["centre"]) {
+            // line 118
+            echo "                                                    ";
+            // line 119
+            echo "                                                        <option value=\"";
+            echo twig_escape_filter($this->env, $this->getAttribute($context["centre"], "id", array()), "html", null, true);
             echo "\">
-                                                ";
-            // line 117
-            $context['_parent'] = $context;
-            $context['_seq'] = twig_ensure_traversable(($context["centres"] ?? null));
-            foreach ($context['_seq'] as $context["_key"] => $context["centre"]) {
-                // line 118
-                echo "                                                    ";
-                if (($this->getAttribute($context["province"], "id", array()) == $this->getAttribute($this->getAttribute($context["centre"], "ctProvince", array()), "id", array()))) {
-                    // line 119
-                    echo "                                                        <option value=\"";
-                    echo twig_escape_filter($this->env, $this->getAttribute($context["centre"], "id", array()), "html", null, true);
-                    echo "\">
                                                             ";
-                    // line 120
-                    echo twig_escape_filter($this->env, twig_upper_filter($this->env, $this->getAttribute($context["centre"], "ctrNom", array())), "html", null, true);
-                    echo "
+            // line 120
+            echo twig_escape_filter($this->env, twig_upper_filter($this->env, $this->getAttribute($context["centre"], "ctrNom", array())), "html", null, true);
+            echo "
                                                         </option>
                                                     ";
-                }
-                // line 123
-                echo "                                                ";
-            }
-            $_parent = $context['_parent'];
-            unset($context['_seq'], $context['_iterated'], $context['_key'], $context['centre'], $context['_parent'], $context['loop']);
-            $context = array_intersect_key($context, $_parent) + $_parent;
-            // line 124
-            echo "                                            </optgroup>
-                                            ";
+            // line 123
+            echo "                                                ";
         }
         $_parent = $context['_parent'];
-        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['province'], $context['_parent'], $context['loop']);
+        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['centre'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
+        // line 124
+        echo "                                            ";
         // line 126
         echo "                                        </select>
                                     </div>
@@ -343,47 +328,32 @@ class __TwigTemplate_fecbdf9471006eb78d27a7cbbd53a416e3dec4ae980314fb859158e9c25
                                                 <option value=\"\" selected=\"selected\">
                                                     Choisir
                                                 </option>
-                                            ";
-        // line 180
+                                                ";
+        // line 182
+        echo "                                                        ";
         $context['_parent'] = $context;
-        $context['_seq'] = twig_ensure_traversable(($context["provinces"] ?? null));
-        foreach ($context['_seq'] as $context["_key"] => $context["province"]) {
-            // line 181
-            echo "                                                <optgroup label=\"";
-            echo twig_escape_filter($this->env, $this->getAttribute($context["province"], "prvNom", array()), "html", null, true);
+        $context['_seq'] = twig_ensure_traversable(($context["centres"] ?? null));
+        foreach ($context['_seq'] as $context["_key"] => $context["centre"]) {
+            // line 183
+            echo "                                                            ";
+            // line 184
+            echo "                                                                <option value=\"";
+            echo twig_escape_filter($this->env, $this->getAttribute($context["centre"], "id", array()), "html", null, true);
             echo "\">
-                                                    ";
-            // line 182
-            $context['_parent'] = $context;
-            $context['_seq'] = twig_ensure_traversable(($context["centres"] ?? null));
-            foreach ($context['_seq'] as $context["_key"] => $context["centre"]) {
-                // line 183
-                echo "                                                        ";
-                if (($this->getAttribute($context["province"], "id", array()) == $this->getAttribute($this->getAttribute($context["centre"], "ctProvince", array()), "id", array()))) {
-                    // line 184
-                    echo "                                                            <option value=\"";
-                    echo twig_escape_filter($this->env, $this->getAttribute($context["centre"], "id", array()), "html", null, true);
-                    echo "\">
-                                                                ";
-                    // line 185
-                    echo twig_escape_filter($this->env, twig_upper_filter($this->env, $this->getAttribute($context["centre"], "ctrNom", array())), "html", null, true);
-                    echo "
-                                                            </option>
-                                                        ";
-                }
-                // line 188
-                echo "                                                    ";
-            }
-            $_parent = $context['_parent'];
-            unset($context['_seq'], $context['_iterated'], $context['_key'], $context['centre'], $context['_parent'], $context['loop']);
-            $context = array_intersect_key($context, $_parent) + $_parent;
-            // line 189
-            echo "                                                </optgroup>
-                                            ";
+                                                                    ";
+            // line 185
+            echo twig_escape_filter($this->env, twig_upper_filter($this->env, $this->getAttribute($context["centre"], "ctrNom", array())), "html", null, true);
+            echo "
+                                                                </option>
+                                                            ";
+            // line 188
+            echo "                                                        ";
         }
         $_parent = $context['_parent'];
-        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['province'], $context['_parent'], $context['loop']);
+        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['centre'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
+        // line 189
+        echo "                                                    ";
         // line 191
         echo "                                        </select>
                                     </div>
@@ -399,21 +369,21 @@ class __TwigTemplate_fecbdf9471006eb78d27a7cbbd53a416e3dec4ae980314fb859158e9c25
                                             <option value=\"\" selected=\"selected\">
                                                 Choisir
                                             </option>
-                                        ";
+                                            ";
         // line 205
         $context['_parent'] = $context;
         $context['_seq'] = twig_ensure_traversable(($context["verificateurs"] ?? null));
         foreach ($context['_seq'] as $context["_key"] => $context["verif"]) {
             // line 206
-            echo "                                            <option value=\"";
+            echo "                                                <option value=\"";
             echo twig_escape_filter($this->env, $this->getAttribute($context["verif"], "id", array()), "html", null, true);
             echo "\">
-                                                ";
+                                                    ";
             // line 207
             echo twig_escape_filter($this->env, twig_upper_filter($this->env, $this->getAttribute($context["verif"], "usrName", array())), "html", null, true);
             echo "
-                                            </option>
-                                        ";
+                                                </option>
+                                            ";
         }
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['verif'], $context['_parent'], $context['loop']);
@@ -479,46 +449,31 @@ class __TwigTemplate_fecbdf9471006eb78d27a7cbbd53a416e3dec4ae980314fb859158e9c25
                                                     Choisir
                                                 </option>
                                                 ";
-        // line 260
+        // line 262
+        echo "                                                        ";
         $context['_parent'] = $context;
-        $context['_seq'] = twig_ensure_traversable(($context["provinces"] ?? null));
-        foreach ($context['_seq'] as $context["_key"] => $context["province"]) {
-            // line 261
-            echo "                                                    <optgroup label=\"";
-            echo twig_escape_filter($this->env, $this->getAttribute($context["province"], "prvNom", array()), "html", null, true);
+        $context['_seq'] = twig_ensure_traversable(($context["centres"] ?? null));
+        foreach ($context['_seq'] as $context["_key"] => $context["centre"]) {
+            // line 263
+            echo "                                                            ";
+            // line 264
+            echo "                                                                <option value=\"";
+            echo twig_escape_filter($this->env, $this->getAttribute($context["centre"], "id", array()), "html", null, true);
             echo "\">
-                                                        ";
-            // line 262
-            $context['_parent'] = $context;
-            $context['_seq'] = twig_ensure_traversable(($context["centres"] ?? null));
-            foreach ($context['_seq'] as $context["_key"] => $context["centre"]) {
-                // line 263
-                echo "                                                            ";
-                if (($this->getAttribute($context["province"], "id", array()) == $this->getAttribute($this->getAttribute($context["centre"], "ctProvince", array()), "id", array()))) {
-                    // line 264
-                    echo "                                                                <option value=\"";
-                    echo twig_escape_filter($this->env, $this->getAttribute($context["centre"], "id", array()), "html", null, true);
-                    echo "\">
                                                                     ";
-                    // line 265
-                    echo twig_escape_filter($this->env, twig_upper_filter($this->env, $this->getAttribute($context["centre"], "ctrNom", array())), "html", null, true);
-                    echo "
+            // line 265
+            echo twig_escape_filter($this->env, twig_upper_filter($this->env, $this->getAttribute($context["centre"], "ctrNom", array())), "html", null, true);
+            echo "
                                                                 </option>
                                                             ";
-                }
-                // line 268
-                echo "                                                        ";
-            }
-            $_parent = $context['_parent'];
-            unset($context['_seq'], $context['_iterated'], $context['_key'], $context['centre'], $context['_parent'], $context['loop']);
-            $context = array_intersect_key($context, $_parent) + $_parent;
-            // line 269
-            echo "                                                    </optgroup>
-                                                ";
+            // line 268
+            echo "                                                        ";
         }
         $_parent = $context['_parent'];
-        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['province'], $context['_parent'], $context['loop']);
+        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['centre'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
+        // line 269
+        echo "                                                    ";
         // line 271
         echo "                                        </select>
                                     </div>
@@ -866,11 +821,74 @@ class __TwigTemplate_fecbdf9471006eb78d27a7cbbd53a416e3dec4ae980314fb859158e9c25
         echo "
                         </div>
                     </div>
+                    
+                    ";
+        // line 450
+        echo "                    <div class=\"box box-warning\">
+                        <div class=\"box-header\">
+                            <h3 class=\"box-title\">Informations imprimés techniques utilisés</h3>
+                        </div>
+
+                        <div class=\"row\">
+                            <div class=\"box-body\">
+                                <div class=\"form-group\" style=\"margin: 0 8px 0 8px; padding:  0 8px 0 8px;\">
+                                    <label for=\"ct_imprime_tech_use\">Séléctionner les N° imprimés utilisés</label>
+                                    <select id=\"ct_imprime_tech_use\" name=\"ct_imprime_tech_use[]\" class=\"form-control select2 mx-6\"
+                                        style=\"width: 100%;\" data-placeholder=\"  Choisir\" multiple=\"\" ";
+        // line 460
+        echo ">
+                                        ";
+        // line 461
+        $context['_parent'] = $context;
+        $context['_seq'] = twig_ensure_traversable(($context["imprimes_tech"] ?? null));
+        foreach ($context['_seq'] as $context["_key"] => $context["imprime_tech"]) {
+            // line 462
+            echo "                                        <optgroup label=\"";
+            echo twig_escape_filter($this->env, twig_upper_filter($this->env, $this->getAttribute($context["imprime_tech"], "nomImprimeTech", array())), "html", null, true);
+            echo "\">
+                                            ";
+            // line 463
+            $context['_parent'] = $context;
+            $context['_seq'] = twig_ensure_traversable(($context["imprimes_tech_use"] ?? null));
+            foreach ($context['_seq'] as $context["_key"] => $context["imprime_tech_use"]) {
+                // line 464
+                echo "                                                ";
+                if (($this->getAttribute($context["imprime_tech"], "id", array()) == $this->getAttribute($this->getAttribute($context["imprime_tech_use"], "ctImprimeTech", array()), "id", array()))) {
+                    // line 465
+                    echo "                                                <option value=\"";
+                    echo twig_escape_filter($this->env, $this->getAttribute($context["imprime_tech_use"], "id", array()), "html", null, true);
+                    echo "\">
+                                                    ";
+                    // line 466
+                    echo twig_escape_filter($this->env, twig_upper_filter($this->env, $this->getAttribute($context["imprime_tech_use"], "ituNumero", array())), "html", null, true);
+                    echo "
+                                                </option>
+                                                ";
+                }
+                // line 469
+                echo "                                            ";
+            }
+            $_parent = $context['_parent'];
+            unset($context['_seq'], $context['_iterated'], $context['_key'], $context['imprime_tech_use'], $context['_parent'], $context['loop']);
+            $context = array_intersect_key($context, $_parent) + $_parent;
+            // line 470
+            echo "                                        </optgroup>
+                                        ";
+        }
+        $_parent = $context['_parent'];
+        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['imprime_tech'], $context['_parent'], $context['loop']);
+        $context = array_intersect_key($context, $_parent) + $_parent;
+        // line 472
+        echo "                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             ";
-        // line 452
+        // line 481
         echo "            <div class=\"row\">
                 <div class=\"col-md-12\">
                     <div class=\"box box-success\">
@@ -879,16 +897,16 @@ class __TwigTemplate_fecbdf9471006eb78d27a7cbbd53a416e3dec4ae980314fb859158e9c25
                                 <div class=\"col-md-4\">
                                     <input type=\"submit\" class=\"btn btn-primary\" value=\"Enregistrer\" name=\"new_visite\"/>
                                     ";
-        // line 460
+        // line 489
         echo "                                           ";
-        // line 461
+        // line 490
         echo "                                </div>
                                 ";
-        // line 463
+        // line 492
         echo "                                    ";
-        // line 464
+        // line 493
         echo "                                ";
-        // line 465
+        // line 494
         echo "                                <div class=\"col-md-4\">
                                     <input type=\"button\" class=\"btn btn-success\" id=\"btn-generate-reporting-add\"
                                            value=\"Générer la carte visite\" name=\"generate_carte_visite-add\"/>
@@ -899,17 +917,17 @@ class __TwigTemplate_fecbdf9471006eb78d27a7cbbd53a416e3dec4ae980314fb859158e9c25
                 </div>
             </div>
         ";
-        // line 474
+        // line 503
         echo         $this->env->getRuntime('Symfony\Bridge\Twig\Form\TwigRenderer')->renderBlock(($context["form"] ?? null), 'form_end');
         echo "
     </div>
 ";
     }
 
-    // line 478
+    // line 507
     public function block_javascripts($context, array $blocks = array())
     {
-        // line 479
+        // line 508
         echo "    ";
         $this->displayParentBlock("javascripts", $context, $blocks);
         echo "
@@ -917,53 +935,53 @@ class __TwigTemplate_fecbdf9471006eb78d27a7cbbd53a416e3dec4ae980314fb859158e9c25
     <!-- Vérification existence carte grise -->
     <!-- JQuery UI -->
     <script src=\"";
-        // line 483
+        // line 512
         echo twig_escape_filter($this->env, $this->env->getExtension('Symfony\Bridge\Twig\Extension\AssetExtension')->getAssetUrl("plugins/jquery-ui-1.12.1/jquery-ui.js"), "html", null, true);
         echo "\" ></script>
     <script>
         var _fill_form_carte_grise_ajax_uri = \"";
-        // line 485
+        // line 514
         echo $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("carte_grise_fill_info_by_immatriculation_ajax");
         echo "\";
         var _autocomplete_numero_serie_ajax_uri = \"";
-        // line 486
+        // line 515
         echo $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("carte_grise_show_numero_serie_ajax");
         echo "\";
         var _autocomplete_numero_immatriculation_ajax_uri = \"";
-        // line 487
+        // line 516
         echo $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("carte_grise_show_numero_immatriculation_ajax");
         echo "\";
         var _generate_reporting_ajax_uri = \"";
-        // line 488
+        // line 517
         echo $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("visite_generate_reporting_ajax");
         echo "\";
         var _generate_feuille_caisse_ajax_uri = \"";
-        // line 489
+        // line 518
         echo $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("visite_generate_reporting_feuille_caisse_ajax");
         echo "\";
         var _select_verif_by_centre_ajax_uri = \"";
-        // line 490
+        // line 519
         echo $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("visite_select_verificateur_by_centre_ajax");
         echo "\";
         var _generate_fiche_ctrl_verif_ajax_uri = \"";
-        // line 491
+        // line 520
         echo $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("visite_generate_reporting_fiche_controle_ajax");
         echo "\";
         var _generate_liste_anomalies_ajax_uri = \"";
-        // line 492
+        // line 521
         echo $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("visite_generate_liste_anomalies_ajax");
         echo "\"
         var _select_usage_by_type_visite_ajax_uri = \"";
-        // line 493
+        // line 522
         echo $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("visite_select_usage_by_type_visite_ajax");
         echo "\";
         var _select_expiration_by_usage_ajax_uri = \"";
-        // line 494
+        // line 523
         echo $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("visite_select_expiration_by_usage_ajax");
         echo "\";
     </script>
     <script src=\"";
-        // line 496
+        // line 525
         echo twig_escape_filter($this->env, $this->env->getExtension('Symfony\Bridge\Twig\Extension\AssetExtension')->getAssetUrl("backoffice/js/add.visite.js"), "html", null, true);
         echo "\"></script>
 ";
@@ -981,7 +999,7 @@ class __TwigTemplate_fecbdf9471006eb78d27a7cbbd53a416e3dec4ae980314fb859158e9c25
 
     public function getDebugInfo()
     {
-        return array (  967 => 496,  962 => 494,  958 => 493,  954 => 492,  950 => 491,  946 => 490,  942 => 489,  938 => 488,  934 => 487,  930 => 486,  926 => 485,  921 => 483,  913 => 479,  910 => 478,  903 => 474,  892 => 465,  890 => 464,  888 => 463,  885 => 461,  883 => 460,  874 => 452,  865 => 445,  861 => 444,  858 => 443,  856 => 440,  851 => 438,  846 => 436,  842 => 435,  838 => 434,  833 => 432,  828 => 430,  822 => 429,  813 => 422,  805 => 416,  801 => 415,  798 => 414,  796 => 413,  794 => 412,  791 => 410,  789 => 409,  785 => 407,  780 => 405,  776 => 404,  772 => 403,  768 => 402,  764 => 401,  760 => 400,  756 => 399,  752 => 397,  747 => 393,  745 => 389,  741 => 388,  737 => 387,  733 => 386,  729 => 385,  725 => 384,  721 => 383,  717 => 382,  713 => 381,  709 => 380,  705 => 379,  701 => 378,  697 => 377,  689 => 371,  682 => 366,  678 => 365,  674 => 363,  672 => 360,  668 => 359,  664 => 358,  658 => 355,  654 => 354,  650 => 353,  646 => 352,  641 => 350,  636 => 348,  632 => 347,  628 => 346,  623 => 345,  619 => 343,  614 => 341,  610 => 340,  605 => 338,  600 => 336,  594 => 335,  586 => 329,  580 => 325,  549 => 296,  523 => 271,  516 => 269,  510 => 268,  504 => 265,  499 => 264,  496 => 263,  492 => 262,  487 => 261,  483 => 260,  469 => 251,  461 => 246,  445 => 232,  422 => 210,  413 => 207,  408 => 206,  404 => 205,  388 => 191,  381 => 189,  375 => 188,  369 => 185,  364 => 184,  361 => 183,  357 => 182,  352 => 181,  348 => 180,  334 => 171,  313 => 152,  286 => 126,  279 => 124,  273 => 123,  267 => 120,  262 => 119,  259 => 118,  255 => 117,  250 => 116,  246 => 115,  232 => 106,  224 => 100,  221 => 99,  212 => 96,  207 => 95,  202 => 94,  200 => 93,  185 => 81,  167 => 65,  164 => 63,  155 => 60,  152 => 59,  147 => 58,  138 => 55,  135 => 54,  130 => 53,  127 => 52,  121 => 46,  114 => 43,  111 => 42,  104 => 40,  99 => 36,  97 => 35,  95 => 34,  89 => 31,  87 => 30,  85 => 29,  83 => 28,  81 => 27,  76 => 24,  69 => 23,  67 => 22,  61 => 21,  57 => 19,  54 => 17,  52 => 16,  49 => 15,  45 => 1,  43 => 50,  41 => 49,  39 => 13,  37 => 12,  35 => 11,  33 => 10,  31 => 9,  29 => 3,  11 => 1,);
+        return array (  985 => 525,  980 => 523,  976 => 522,  972 => 521,  968 => 520,  964 => 519,  960 => 518,  956 => 517,  952 => 516,  948 => 515,  944 => 514,  939 => 512,  931 => 508,  928 => 507,  921 => 503,  910 => 494,  908 => 493,  906 => 492,  903 => 490,  901 => 489,  892 => 481,  882 => 472,  875 => 470,  869 => 469,  863 => 466,  858 => 465,  855 => 464,  851 => 463,  846 => 462,  842 => 461,  839 => 460,  827 => 450,  820 => 445,  816 => 444,  813 => 443,  811 => 440,  806 => 438,  801 => 436,  797 => 435,  793 => 434,  788 => 432,  783 => 430,  777 => 429,  768 => 422,  760 => 416,  756 => 415,  753 => 414,  751 => 413,  749 => 412,  746 => 410,  744 => 409,  740 => 407,  735 => 405,  731 => 404,  727 => 403,  723 => 402,  719 => 401,  715 => 400,  711 => 399,  707 => 397,  702 => 393,  700 => 389,  696 => 388,  692 => 387,  688 => 386,  684 => 385,  680 => 384,  676 => 383,  672 => 382,  668 => 381,  664 => 380,  660 => 379,  656 => 378,  652 => 377,  644 => 371,  637 => 366,  633 => 365,  629 => 363,  627 => 360,  623 => 359,  619 => 358,  613 => 355,  609 => 354,  605 => 353,  601 => 352,  596 => 350,  591 => 348,  587 => 347,  583 => 346,  578 => 345,  574 => 343,  569 => 341,  565 => 340,  560 => 338,  555 => 336,  549 => 335,  541 => 329,  535 => 325,  504 => 296,  478 => 271,  476 => 269,  470 => 268,  465 => 265,  460 => 264,  458 => 263,  453 => 262,  439 => 251,  431 => 246,  415 => 232,  392 => 210,  383 => 207,  378 => 206,  374 => 205,  358 => 191,  356 => 189,  350 => 188,  345 => 185,  340 => 184,  338 => 183,  333 => 182,  319 => 171,  298 => 152,  271 => 126,  269 => 124,  263 => 123,  258 => 120,  253 => 119,  251 => 118,  246 => 117,  232 => 106,  224 => 100,  221 => 99,  212 => 96,  207 => 95,  202 => 94,  200 => 93,  185 => 81,  167 => 65,  164 => 63,  155 => 60,  152 => 59,  147 => 58,  138 => 55,  135 => 54,  130 => 53,  127 => 52,  121 => 46,  114 => 43,  111 => 42,  104 => 40,  99 => 36,  97 => 35,  95 => 34,  89 => 31,  87 => 30,  85 => 29,  83 => 28,  81 => 27,  76 => 24,  69 => 23,  67 => 22,  61 => 21,  57 => 19,  54 => 17,  52 => 16,  49 => 15,  45 => 1,  43 => 50,  41 => 49,  39 => 13,  37 => 12,  35 => 11,  33 => 10,  31 => 9,  29 => 3,  11 => 1,);
     }
 
     /** @deprecated since 1.27 (to be removed in 2.0). Use getSourceContext() instead */

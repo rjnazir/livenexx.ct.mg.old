@@ -3327,6 +3327,17 @@ class appProdProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBundle\R
                     }
                     not_imprime_tech_use_delete:
 
+                    // imprime_tech_use_reset
+                    if (preg_match('#^/admin/imprime\\-tech\\-use/(?P<id>[^/]++)/reset$#s', $pathinfo, $matches)) {
+                        if (!in_array($canonicalMethod, array('GET', 'PUT'))) {
+                            $allow = array_merge($allow, array('GET', 'PUT'));
+                            goto not_imprime_tech_use_reset;
+                        }
+
+                        return $this->mergeDefaults(array_replace($matches, array('_route' => 'imprime_tech_use_reset')), array (  '_controller' => 'Ct\\BackOffice\\AdminBundle\\Controller\\CtImprimeTechUseController::resetAction',));
+                    }
+                    not_imprime_tech_use_reset:
+
                     // imprime_tech_use_delete_group
                     if ('/admin/imprime-tech-use/delete-group' === $pathinfo) {
                         if ('POST' !== $canonicalMethod) {
@@ -3337,6 +3348,50 @@ class appProdProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBundle\R
                         return array (  '_controller' => 'Ct\\BackOffice\\AdminBundle\\Controller\\CtImprimeTechUseController::deleteGroupAction',  '_route' => 'imprime_tech_use_delete_group',);
                     }
                     not_imprime_tech_use_delete_group:
+
+                    // imprime_tech_use_search
+                    if ('/admin/imprime-tech-use/search' === $pathinfo) {
+                        if (!in_array($canonicalMethod, array('GET', 'POST'))) {
+                            $allow = array_merge($allow, array('GET', 'POST'));
+                            goto not_imprime_tech_use_search;
+                        }
+
+                        return array (  '_controller' => 'Ct\\BackOffice\\AdminBundle\\Controller\\CtImprimeTechUseController::searchAction',  '_route' => 'imprime_tech_use_search',);
+                    }
+                    not_imprime_tech_use_search:
+
+                    // imprime_tech_use_show_numero_it_ajax
+                    if ('/admin/imprime-tech-use/show-numero-it-ajax' === $pathinfo) {
+                        if ('POST' !== $canonicalMethod) {
+                            $allow[] = 'POST';
+                            goto not_imprime_tech_use_show_numero_it_ajax;
+                        }
+
+                        return array (  '_controller' => 'Ct\\BackOffice\\AdminBundle\\Controller\\CtImprimeTechUseController::showNumeroITAjaxAction',  '_route' => 'imprime_tech_use_show_numero_it_ajax',);
+                    }
+                    not_imprime_tech_use_show_numero_it_ajax:
+
+                    // imprimes_tech_generate_used_ajax
+                    if ('/admin/imprime-tech-use/generer-feuille-it-ajax' === $pathinfo) {
+                        if (!in_array($canonicalMethod, array('GET', 'POST'))) {
+                            $allow = array_merge($allow, array('GET', 'POST'));
+                            goto not_imprimes_tech_generate_used_ajax;
+                        }
+
+                        return array (  '_controller' => 'Ct\\BackOffice\\AdminBundle\\Controller\\CtImprimeTechUseController::generateFeuilleUsedITAction',  '_route' => 'imprimes_tech_generate_used_ajax',);
+                    }
+                    not_imprimes_tech_generate_used_ajax:
+
+                    // imprimes_tech_stock_generate_ajax
+                    if ('/admin/imprime-tech-use/generer-feuille-stock-it-ajax' === $pathinfo) {
+                        if (!in_array($canonicalMethod, array('GET', 'POST'))) {
+                            $allow = array_merge($allow, array('GET', 'POST'));
+                            goto not_imprimes_tech_stock_generate_ajax;
+                        }
+
+                        return array (  '_controller' => 'Ct\\BackOffice\\AdminBundle\\Controller\\CtImprimeTechUseController::generateFeuilleStockITAction',  '_route' => 'imprimes_tech_stock_generate_ajax',);
+                    }
+                    not_imprimes_tech_stock_generate_ajax:
 
                 }
 

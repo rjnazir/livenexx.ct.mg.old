@@ -1747,7 +1747,7 @@ array_key_exists("menu_visite_extra_type", $context)) || array_key_exists("menu_
 
             ";
         // line 873
-        if ((($this->env->getExtension('Symfony\Bridge\Twig\Extension\SecurityExtension')->isGranted("ROLE_SUPERADMIN") || $this->env->getExtension('Symfony\Bridge\Twig\Extension\SecurityExtension')->isGranted("ROLE_ADMIN")) || $this->env->getExtension('Symfony\Bridge\Twig\Extension\SecurityExtension')->isGranted("ROLE_APPROVISIONNEMENT"))) {
+        if ((((($this->env->getExtension('Symfony\Bridge\Twig\Extension\SecurityExtension')->isGranted("ROLE_SUPERADMIN") || $this->env->getExtension('Symfony\Bridge\Twig\Extension\SecurityExtension')->isGranted("ROLE_ADMIN")) || $this->env->getExtension('Symfony\Bridge\Twig\Extension\SecurityExtension')->isGranted("ROLE_APPROVISIONNEMENT")) || $this->env->getExtension('Symfony\Bridge\Twig\Extension\SecurityExtension')->isGranted("ROLE_RECEPTION")) || $this->env->getExtension('Symfony\Bridge\Twig\Extension\SecurityExtension')->isGranted("ROLE_VISITE"))) {
             // line 874
             echo "                ";
             // line 875
@@ -1760,7 +1760,7 @@ array_key_exists("menu_visite_extra_type", $context)) || array_key_exists("menu_
             echo "\">
                     <a href=\"#\">
                         <i class=\"fa fa-shopping-basket\"></i>
-                        <span>Approvisionnement</span>
+                        <span>Imprimés techniques</span>
                         <span class=\"pull-right-container\">
                             <i class=\"fa fa-angle-left pull-right\"></i>
                         </span>
@@ -1790,10 +1790,57 @@ array_key_exists("menu_visite_extra_type", $context)) || array_key_exists("menu_
             echo "
                         ";
             // line 892
-            if ($this->env->getExtension('Symfony\Bridge\Twig\Extension\SecurityExtension')->isGranted("ROLE_APPROVISIONNEMENT")) {
+            if ((($this->env->getExtension('Symfony\Bridge\Twig\Extension\SecurityExtension')->isGranted("ROLE_ADMIN") || $this->env->getExtension('Symfony\Bridge\Twig\Extension\SecurityExtension')->isGranted("ROLE_RECEPTION")) || $this->env->getExtension('Symfony\Bridge\Twig\Extension\SecurityExtension')->isGranted("ROLE_VISITE"))) {
                 // line 893
                 echo "                        ";
                 // line 894
+                echo "                        <li class=\"treeview ";
+                if (array_key_exists("menu_imprime_tech_use", $context)) {
+                    echo twig_escape_filter($this->env, ($context["active"] ?? null), "html", null, true);
+                }
+                echo "\">
+                            <a href=\"#\">
+                                <i class=\"fa fa-archive\"></i>
+                                <span>Utilisation IT</span>
+                                <span class=\"pull-right-container\">
+                                    <i class=\"fa fa-angle-left pull-right\"></i>
+                                </span>
+                            </a>
+                            <ul class=\"treeview-menu\">
+                                <li class=\"";
+                // line 903
+                if (array_key_exists("menu_imprime_tech_use_list", $context)) {
+                    echo twig_escape_filter($this->env, ($context["active"] ?? null), "html", null, true);
+                }
+                echo "\">
+                                    <a href=\"";
+                // line 904
+                echo $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("imprime_tech_use_index");
+                echo "\"><i class=\"fa fa-search\"></i> Liste des IT utilisés</a>
+                                </li>
+                                <li class=\"";
+                // line 906
+                if (array_key_exists("menu_imprime_tech_use_search", $context)) {
+                    echo twig_escape_filter($this->env, ($context["active"] ?? null), "html", null, true);
+                }
+                echo "\">
+                                    <a href=\"";
+                // line 907
+                echo $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("imprime_tech_use_search");
+                echo "\"><i class=\"fa fa-list-ol\"></i> Mise à jour utilisation IT</a>
+                                </li>
+                            </ul>
+                        </li>
+                        ";
+            }
+            // line 912
+            echo "
+                        ";
+            // line 913
+            if ($this->env->getExtension('Symfony\Bridge\Twig\Extension\SecurityExtension')->isGranted("ROLE_APPROVISIONNEMENT")) {
+                // line 914
+                echo "                        ";
+                // line 915
                 echo "                        <li class=\"treeview ";
                 if (array_key_exists("menu_bordereau", $context)) {
                     echo twig_escape_filter($this->env, ($context["active"] ?? null), "html", null, true);
@@ -1808,35 +1855,35 @@ array_key_exists("menu_visite_extra_type", $context)) || array_key_exists("menu_
                             </a>
                             <ul class=\"treeview-menu\">
                                 <li class=\"";
-                // line 903
+                // line 924
                 if (array_key_exists("menu_bordereau_search", $context)) {
                     echo twig_escape_filter($this->env, ($context["active"] ?? null), "html", null, true);
                 }
                 echo "\">
                                     <a href=\"";
-                // line 904
+                // line 925
                 echo $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("bordereau_search");
                 echo "\"><i class=\"fa fa-search\"></i> Rechercher</a>
                                 </li>
                                 <li class=\"";
-                // line 906
+                // line 927
                 if (array_key_exists("menu_bordereau_list", $context)) {
                     echo twig_escape_filter($this->env, ($context["active"] ?? null), "html", null, true);
                 }
                 echo "\">
                                     <a href=\"";
-                // line 907
+                // line 928
                 echo $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("bordereau_index");
                 echo "\"><i class=\"fa fa-list-ol\"></i> Liste</a>
                                 </li>
                                 <li class=\"";
-                // line 909
+                // line 930
                 if (array_key_exists("menu_bordereau_create", $context)) {
                     echo twig_escape_filter($this->env, ($context["active"] ?? null), "html", null, true);
                 }
                 echo "\">
                                     <a href=\"";
-                // line 910
+                // line 931
                 echo $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("bordereau_new");
                 echo "\"><i class=\"fa fa-plus\"></i> Créer</a>
                                 </li>
@@ -1844,14 +1891,14 @@ array_key_exists("menu_visite_extra_type", $context)) || array_key_exists("menu_
                         </li>
                         ";
             }
-            // line 915
+            // line 936
             echo "
                         ";
-            // line 916
+            // line 937
             if ($this->env->getExtension('Symfony\Bridge\Twig\Extension\SecurityExtension')->isGranted("ROLE_SUPERADMIN")) {
-                // line 917
+                // line 938
                 echo "                        ";
-                // line 918
+                // line 939
                 echo "                        <li class=\"treeview ";
                 if (array_key_exists("menu_imprime_tech", $context)) {
                     echo twig_escape_filter($this->env, ($context["active"] ?? null), "html", null, true);
@@ -1866,24 +1913,24 @@ array_key_exists("menu_visite_extra_type", $context)) || array_key_exists("menu_
                             </a>
                             <ul class=\"treeview-menu\">
                                 <li class=\"";
-                // line 927
+                // line 948
                 if (array_key_exists("menu_imprime_tech_list", $context)) {
                     echo twig_escape_filter($this->env, ($context["active"] ?? null), "html", null, true);
                 }
                 echo "\">
                                     <a href=\"";
-                // line 928
+                // line 949
                 echo $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("imprime_tech_index");
                 echo "\"><i class=\"fa fa-circle-o\"></i> Liste</a>
                                 </li>
                                 <li class=\"";
-                // line 930
+                // line 951
                 if (array_key_exists("menu_imprime_tech_create", $context)) {
                     echo twig_escape_filter($this->env, ($context["active"] ?? null), "html", null, true);
                 }
                 echo "\">
                                     <a href=\"";
-                // line 931
+                // line 952
                 echo $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("imprime_tech_new");
                 echo "\"><i class=\"fa fa-circle-o\"></i> Créer</a>
                                 </li>
@@ -1891,12 +1938,12 @@ array_key_exists("menu_visite_extra_type", $context)) || array_key_exists("menu_
                         </li>
                         ";
             }
-            // line 936
+            // line 957
             echo "                    </ul>
                 </li>
             ";
         }
-        // line 939
+        // line 960
         echo "        </ul>
     </section>
 </aside>";
@@ -1914,7 +1961,7 @@ array_key_exists("menu_visite_extra_type", $context)) || array_key_exists("menu_
 
     public function getDebugInfo()
     {
-        return array (  1900 => 939,  1895 => 936,  1887 => 931,  1881 => 930,  1876 => 928,  1870 => 927,  1855 => 918,  1853 => 917,  1851 => 916,  1848 => 915,  1840 => 910,  1834 => 909,  1829 => 907,  1823 => 906,  1818 => 904,  1812 => 903,  1797 => 894,  1795 => 893,  1793 => 892,  1790 => 891,  1784 => 888,  1775 => 887,  1773 => 886,  1771 => 885,  1756 => 876,  1754 => 875,  1752 => 874,  1750 => 873,  1746 => 871,  1736 => 864,  1730 => 863,  1725 => 861,  1719 => 860,  1704 => 851,  1694 => 843,  1688 => 842,  1683 => 840,  1677 => 839,  1662 => 830,  1654 => 824,  1648 => 823,  1643 => 821,  1637 => 820,  1622 => 811,  1607 => 801,  1599 => 795,  1593 => 794,  1588 => 792,  1582 => 791,  1567 => 782,  1557 => 774,  1551 => 773,  1546 => 771,  1540 => 770,  1525 => 761,  1517 => 755,  1511 => 754,  1506 => 752,  1500 => 751,  1485 => 742,  1470 => 732,  1460 => 724,  1454 => 723,  1449 => 721,  1443 => 720,  1428 => 711,  1420 => 705,  1414 => 704,  1409 => 702,  1403 => 701,  1388 => 692,  1380 => 686,  1374 => 685,  1369 => 683,  1363 => 682,  1348 => 673,  1333 => 663,  1323 => 655,  1317 => 654,  1312 => 652,  1306 => 651,  1291 => 642,  1283 => 636,  1277 => 635,  1272 => 633,  1266 => 632,  1251 => 623,  1236 => 613,  1226 => 605,  1220 => 604,  1215 => 602,  1209 => 601,  1194 => 592,  1186 => 586,  1180 => 585,  1175 => 583,  1169 => 582,  1154 => 573,  1139 => 563,  1130 => 556,  1124 => 555,  1119 => 553,  1113 => 552,  1098 => 543,  1090 => 537,  1084 => 536,  1079 => 534,  1073 => 533,  1058 => 524,  1043 => 514,  1035 => 508,  1029 => 507,  1024 => 505,  1018 => 504,  1003 => 495,  995 => 489,  989 => 488,  984 => 486,  978 => 485,  963 => 476,  955 => 470,  949 => 469,  944 => 467,  938 => 466,  923 => 457,  915 => 451,  909 => 450,  904 => 448,  898 => 447,  883 => 438,  873 => 430,  867 => 429,  860 => 425,  854 => 424,  839 => 415,  829 => 407,  823 => 406,  818 => 404,  812 => 403,  797 => 394,  789 => 388,  783 => 387,  778 => 385,  772 => 384,  757 => 375,  742 => 365,  729 => 355,  727 => 354,  726 => 353,  725 => 352,  724 => 351,  723 => 350,  722 => 349,  721 => 348,  720 => 347,  717 => 346,  715 => 345,  713 => 344,  710 => 343,  702 => 338,  696 => 337,  681 => 328,  679 => 327,  677 => 326,  674 => 325,  664 => 318,  658 => 317,  653 => 315,  647 => 314,  632 => 305,  629 => 303,  621 => 298,  615 => 297,  610 => 295,  604 => 294,  589 => 285,  587 => 284,  585 => 283,  570 => 274,  568 => 273,  566 => 272,  563 => 271,  555 => 266,  549 => 265,  534 => 256,  532 => 255,  530 => 254,  527 => 253,  517 => 246,  510 => 245,  508 => 244,  506 => 243,  491 => 233,  483 => 227,  477 => 226,  472 => 224,  465 => 223,  463 => 222,  461 => 221,  446 => 211,  438 => 205,  431 => 204,  429 => 203,  427 => 202,  412 => 192,  409 => 190,  401 => 185,  395 => 184,  390 => 182,  384 => 181,  369 => 172,  367 => 171,  365 => 170,  350 => 161,  348 => 160,  346 => 159,  343 => 158,  335 => 153,  329 => 152,  314 => 143,  312 => 142,  310 => 141,  307 => 140,  297 => 133,  291 => 132,  286 => 130,  280 => 129,  275 => 127,  269 => 126,  254 => 117,  251 => 115,  243 => 110,  237 => 109,  232 => 107,  226 => 106,  211 => 97,  209 => 96,  207 => 95,  192 => 86,  190 => 85,  188 => 84,  185 => 83,  177 => 78,  171 => 77,  156 => 68,  154 => 67,  152 => 66,  149 => 65,  144 => 62,  136 => 57,  130 => 56,  125 => 54,  119 => 53,  104 => 44,  102 => 43,  100 => 42,  92 => 37,  86 => 36,  81 => 34,  75 => 33,  60 => 24,  45 => 14,  43 => 13,  41 => 12,  33 => 7,  27 => 6,  21 => 2,  19 => 1,);
+        return array (  1947 => 960,  1942 => 957,  1934 => 952,  1928 => 951,  1923 => 949,  1917 => 948,  1902 => 939,  1900 => 938,  1898 => 937,  1895 => 936,  1887 => 931,  1881 => 930,  1876 => 928,  1870 => 927,  1865 => 925,  1859 => 924,  1844 => 915,  1842 => 914,  1840 => 913,  1837 => 912,  1829 => 907,  1823 => 906,  1818 => 904,  1812 => 903,  1797 => 894,  1795 => 893,  1793 => 892,  1790 => 891,  1784 => 888,  1775 => 887,  1773 => 886,  1771 => 885,  1756 => 876,  1754 => 875,  1752 => 874,  1750 => 873,  1746 => 871,  1736 => 864,  1730 => 863,  1725 => 861,  1719 => 860,  1704 => 851,  1694 => 843,  1688 => 842,  1683 => 840,  1677 => 839,  1662 => 830,  1654 => 824,  1648 => 823,  1643 => 821,  1637 => 820,  1622 => 811,  1607 => 801,  1599 => 795,  1593 => 794,  1588 => 792,  1582 => 791,  1567 => 782,  1557 => 774,  1551 => 773,  1546 => 771,  1540 => 770,  1525 => 761,  1517 => 755,  1511 => 754,  1506 => 752,  1500 => 751,  1485 => 742,  1470 => 732,  1460 => 724,  1454 => 723,  1449 => 721,  1443 => 720,  1428 => 711,  1420 => 705,  1414 => 704,  1409 => 702,  1403 => 701,  1388 => 692,  1380 => 686,  1374 => 685,  1369 => 683,  1363 => 682,  1348 => 673,  1333 => 663,  1323 => 655,  1317 => 654,  1312 => 652,  1306 => 651,  1291 => 642,  1283 => 636,  1277 => 635,  1272 => 633,  1266 => 632,  1251 => 623,  1236 => 613,  1226 => 605,  1220 => 604,  1215 => 602,  1209 => 601,  1194 => 592,  1186 => 586,  1180 => 585,  1175 => 583,  1169 => 582,  1154 => 573,  1139 => 563,  1130 => 556,  1124 => 555,  1119 => 553,  1113 => 552,  1098 => 543,  1090 => 537,  1084 => 536,  1079 => 534,  1073 => 533,  1058 => 524,  1043 => 514,  1035 => 508,  1029 => 507,  1024 => 505,  1018 => 504,  1003 => 495,  995 => 489,  989 => 488,  984 => 486,  978 => 485,  963 => 476,  955 => 470,  949 => 469,  944 => 467,  938 => 466,  923 => 457,  915 => 451,  909 => 450,  904 => 448,  898 => 447,  883 => 438,  873 => 430,  867 => 429,  860 => 425,  854 => 424,  839 => 415,  829 => 407,  823 => 406,  818 => 404,  812 => 403,  797 => 394,  789 => 388,  783 => 387,  778 => 385,  772 => 384,  757 => 375,  742 => 365,  729 => 355,  727 => 354,  726 => 353,  725 => 352,  724 => 351,  723 => 350,  722 => 349,  721 => 348,  720 => 347,  717 => 346,  715 => 345,  713 => 344,  710 => 343,  702 => 338,  696 => 337,  681 => 328,  679 => 327,  677 => 326,  674 => 325,  664 => 318,  658 => 317,  653 => 315,  647 => 314,  632 => 305,  629 => 303,  621 => 298,  615 => 297,  610 => 295,  604 => 294,  589 => 285,  587 => 284,  585 => 283,  570 => 274,  568 => 273,  566 => 272,  563 => 271,  555 => 266,  549 => 265,  534 => 256,  532 => 255,  530 => 254,  527 => 253,  517 => 246,  510 => 245,  508 => 244,  506 => 243,  491 => 233,  483 => 227,  477 => 226,  472 => 224,  465 => 223,  463 => 222,  461 => 221,  446 => 211,  438 => 205,  431 => 204,  429 => 203,  427 => 202,  412 => 192,  409 => 190,  401 => 185,  395 => 184,  390 => 182,  384 => 181,  369 => 172,  367 => 171,  365 => 170,  350 => 161,  348 => 160,  346 => 159,  343 => 158,  335 => 153,  329 => 152,  314 => 143,  312 => 142,  310 => 141,  307 => 140,  297 => 133,  291 => 132,  286 => 130,  280 => 129,  275 => 127,  269 => 126,  254 => 117,  251 => 115,  243 => 110,  237 => 109,  232 => 107,  226 => 106,  211 => 97,  209 => 96,  207 => 95,  192 => 86,  190 => 85,  188 => 84,  185 => 83,  177 => 78,  171 => 77,  156 => 68,  154 => 67,  152 => 66,  149 => 65,  144 => 62,  136 => 57,  130 => 56,  125 => 54,  119 => 53,  104 => 44,  102 => 43,  100 => 42,  92 => 37,  86 => 36,  81 => 34,  75 => 33,  60 => 24,  45 => 14,  43 => 13,  41 => 12,  33 => 7,  27 => 6,  21 => 2,  19 => 1,);
     }
 
     /** @deprecated since 1.27 (to be removed in 2.0). Use getSourceContext() instead */

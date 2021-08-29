@@ -155,31 +155,45 @@ class __TwigTemplate_098291ca26626dfc4c858466ef3eb9688097839b07b6c23eb700c68da0c
         echo $this->env->getRuntime('Symfony\Bridge\Twig\Form\TwigRenderer')->searchAndRenderBlock($this->getAttribute(($context["form"] ?? null), "blNumero", array()), 'row');
         echo "
                 </div>
-                
+
                 <div class=\"box-body\">
                     ";
         // line 63
-        echo $this->env->getRuntime('Symfony\Bridge\Twig\Form\TwigRenderer')->searchAndRenderBlock($this->getAttribute(($context["form"] ?? null), "ctCentre", array()), 'row');
+        echo $this->env->getRuntime('Symfony\Bridge\Twig\Form\TwigRenderer')->searchAndRenderBlock($this->getAttribute(($context["form"] ?? null), "refExpr", array()), 'row');
         echo "
                 </div>
 
                 <div class=\"box-body\">
                     ";
         // line 67
-        echo $this->env->getRuntime('Symfony\Bridge\Twig\Form\TwigRenderer')->searchAndRenderBlock($this->getAttribute(($context["form"] ?? null), "ctImprimeTech", array()), 'row');
+        echo $this->env->getRuntime('Symfony\Bridge\Twig\Form\TwigRenderer')->searchAndRenderBlock($this->getAttribute(($context["form"] ?? null), "dateRefExpr", array()), 'row');
         echo "
                 </div>
-
+                
                 <div class=\"box-body\">
                     ";
         // line 71
-        echo $this->env->getRuntime('Symfony\Bridge\Twig\Form\TwigRenderer')->searchAndRenderBlock($this->getAttribute(($context["form"] ?? null), "blDebutNumero", array()), 'row');
+        echo $this->env->getRuntime('Symfony\Bridge\Twig\Form\TwigRenderer')->searchAndRenderBlock($this->getAttribute(($context["form"] ?? null), "ctCentre", array()), 'row');
         echo "
                 </div>
 
                 <div class=\"box-body\">
                     ";
         // line 75
+        echo $this->env->getRuntime('Symfony\Bridge\Twig\Form\TwigRenderer')->searchAndRenderBlock($this->getAttribute(($context["form"] ?? null), "ctImprimeTech", array()), 'row');
+        echo "
+                </div>
+
+                <div class=\"box-body\">
+                    ";
+        // line 79
+        echo $this->env->getRuntime('Symfony\Bridge\Twig\Form\TwigRenderer')->searchAndRenderBlock($this->getAttribute(($context["form"] ?? null), "blDebutNumero", array()), 'row');
+        echo "
+                </div>
+
+                <div class=\"box-body\">
+                    ";
+        // line 83
         echo $this->env->getRuntime('Symfony\Bridge\Twig\Form\TwigRenderer')->searchAndRenderBlock($this->getAttribute(($context["form"] ?? null), "blFinNumero", array()), 'row');
         echo "
                 </div>
@@ -187,7 +201,7 @@ class __TwigTemplate_098291ca26626dfc4c858466ef3eb9688097839b07b6c23eb700c68da0c
                 <div class=\"box-footer\">
                     <input type=\"submit\" class=\"btn btn-primary\" value=\"Enregistrer\" name=\"new_it_in_bl\"/>
                     <a href=\"";
-        // line 80
+        // line 88
         echo $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("bordereau_index");
         echo "\"
                         class=\"btn btn-default pull-left btn-mini-rectif\" >
@@ -195,7 +209,7 @@ class __TwigTemplate_098291ca26626dfc4c858466ef3eb9688097839b07b6c23eb700c68da0c
                     </a>
                 </div>
                 ";
-        // line 85
+        // line 93
         echo         $this->env->getRuntime('Symfony\Bridge\Twig\Form\TwigRenderer')->renderBlock(($context["form"] ?? null), 'form_end');
         echo "
             </div>
@@ -216,7 +230,7 @@ class __TwigTemplate_098291ca26626dfc4c858466ef3eb9688097839b07b6c23eb700c68da0c
 
     public function getDebugInfo()
     {
-        return array (  199 => 85,  191 => 80,  183 => 75,  176 => 71,  169 => 67,  162 => 63,  155 => 59,  146 => 53,  140 => 49,  131 => 46,  128 => 45,  123 => 44,  114 => 41,  111 => 40,  106 => 39,  103 => 38,  96 => 33,  91 => 29,  89 => 28,  87 => 27,  81 => 24,  79 => 23,  77 => 22,  75 => 21,  73 => 20,  68 => 17,  61 => 16,  59 => 15,  53 => 14,  49 => 12,  46 => 10,  44 => 9,  41 => 8,  37 => 1,  35 => 36,  33 => 35,  31 => 6,  29 => 5,  27 => 3,  11 => 1,);
+        return array (  213 => 93,  205 => 88,  197 => 83,  190 => 79,  183 => 75,  176 => 71,  169 => 67,  162 => 63,  155 => 59,  146 => 53,  140 => 49,  131 => 46,  128 => 45,  123 => 44,  114 => 41,  111 => 40,  106 => 39,  103 => 38,  96 => 33,  91 => 29,  89 => 28,  87 => 27,  81 => 24,  79 => 23,  77 => 22,  75 => 21,  73 => 20,  68 => 17,  61 => 16,  59 => 15,  53 => 14,  49 => 12,  46 => 10,  44 => 9,  41 => 8,  37 => 1,  35 => 36,  33 => 35,  31 => 6,  29 => 5,  27 => 3,  11 => 1,);
     }
 
     /** @deprecated since 1.27 (to be removed in 2.0). Use getSourceContext() instead */

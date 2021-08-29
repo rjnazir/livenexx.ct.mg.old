@@ -83,7 +83,7 @@
                 </div>
             </div>
         </div>
-        {# <div class="col-md-6">
+        <div class="col-md-6">
             <div class="box box-primary kl-bloc-visite">
                 <div class="box-header">
                     <h3 class="box-title">Situation de stock des imprimés techniques</h3>
@@ -96,7 +96,7 @@
                             <!-- Année -->
                             <div class="row">
                                 <div class="form-group">
-                                    <label for="ct_situ_date">Séléctionner la date</label>
+                                    <label for="ct_situ_date">Séléctionner la date début traitement</label>
                                     <input required id="ct_situ_date" name="ct_situ_date" class="form-control datepicker"
                                            value="{{ "now"|date("d/m/Y") }}" />
                                 </div>
@@ -112,17 +112,17 @@
                                             <option value="" selected="selected">
                                                 Choisir
                                             </option>
-                                            {% for province in provinces %}
-                                            <optgroup label="{{ province.prvNom }}">
+                                            {# {% for province in provinces %}
+                                            <optgroup label="{{ province.prvNom }}"> #}
                                                 {% for centre in centres %}
-                                                    {% if province.id == centre.ctProvince.id %}
+                                                    {# {% if province.id == centre.ctProvince.id %} #}
                                                         <option value="{{ centre.id }}">
                                                             {{ centre.ctrNom|upper }}
                                                         </option>
-                                                    {% endif %}
+                                                    {# {% endif %} #}
                                                 {% endfor %}
-                                            </optgroup>
-                                            {% endfor %}
+                                            {# </optgroup>
+                                            {% endfor %} #}
                                         </select>
                                     </div>
                                 </div>
@@ -142,7 +142,7 @@
                     </form>
                 </div>
             </div>
-        </div> #}
+        </div>
     </div>
 
     <div class="row">

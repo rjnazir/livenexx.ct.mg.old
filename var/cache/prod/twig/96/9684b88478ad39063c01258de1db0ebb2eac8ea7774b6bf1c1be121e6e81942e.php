@@ -129,47 +129,62 @@ class __TwigTemplate_d417e8c200bc4b258c4c06590c8712fb95aa95eff00d0112e7d7ad417bd
                         <table id=\"list-const-av-ded\" class=\"table table-bordered table-striped table-condensed\">
                             <thead>
                             <tr>
-                                <th></th>
-                                <th>Provenance</th>
-                                <th>Action</th>
+                                <th width=\"5%\"></th>
+                                <th width=\"25%\">N° PV</th>
+                                <th width=\"15%\">Provenance</th>
+                                <th width=\"40%\">Proprietaire</th>
+                                <th width=\"10%\">N° imm.</th>
+                                <th width=\"15%\">Action</th>
                             </tr>
                             </thead>
                             <tbody>
                             ";
-        // line 56
+        // line 59
         $context['_parent'] = $context;
         $context['_seq'] = twig_ensure_traversable(($context["constatations"] ?? null));
         foreach ($context['_seq'] as $context["_key"] => $context["constatation"]) {
-            // line 57
+            // line 60
             echo "                                <tr>
                                     <td>
                                         <input type=\"checkbox\" value=\"";
-            // line 59
+            // line 62
             echo twig_escape_filter($this->env, $this->getAttribute($context["constatation"], "id", array()), "html", null, true);
             echo "\" name=\"delete[]\" />
                                     </td>
                                     <td>";
-            // line 61
+            // line 64
+            echo twig_escape_filter($this->env, $this->getAttribute($context["constatation"], "cadNumero", array()), "html", null, true);
+            echo "</td>
+                                    <td>";
+            // line 65
             echo twig_escape_filter($this->env, $this->getAttribute($context["constatation"], "cadProvenance", array()), "html", null, true);
+            echo "</td>
+                                    <td>";
+            // line 66
+            echo twig_escape_filter($this->env, $this->getAttribute($context["constatation"], "cadProprietaireNom", array()), "html", null, true);
+            echo "</td>
+                                    <td>";
+            // line 67
+            echo twig_escape_filter($this->env, $this->getAttribute($context["constatation"], "cadImmatriculation", array()), "html", null, true);
             echo "</td>
                                     <td>
                                         <a class=\"btn btn-primary\" title=\"Modifier\"
                                            href=\"";
-            // line 64
+            // line 70
             echo twig_escape_filter($this->env, $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("const_av_ded_edit", array("id" => $this->getAttribute($context["constatation"], "id", array()))), "html", null, true);
             echo "\">
                                             <i class=\"fa fa-edit\"></i>
                                         </a>
                                         <a class=\"btn btn-danger remove-elt\" title=\"Supprimer\"
                                            href=\"";
-            // line 68
+            // line 74
             echo twig_escape_filter($this->env, $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("const_av_ded_delete", array("id" => $this->getAttribute($context["constatation"], "id", array()))), "html", null, true);
             echo "\">
                                             <i class=\"fa fa-trash\"></i>
                                         </a>
                                         <a class=\"btn btn-warning\" title=\"Voir\"
                                            href=\"";
-            // line 72
+            // line 78
             echo twig_escape_filter($this->env, $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("const_av_ded_view", array("id" => $this->getAttribute($context["constatation"], "id", array()))), "html", null, true);
             echo "\">
                                             <i class=\"fa fa-eye\"></i>
@@ -181,12 +196,12 @@ class __TwigTemplate_d417e8c200bc4b258c4c06590c8712fb95aa95eff00d0112e7d7ad417bd
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['constatation'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 78
+        // line 84
         echo "                            </tbody>
                         </table>
 
                         ";
-        // line 82
+        // line 88
         echo "                        <a href=\"#\">
                             <button type=\"submit\" name=\"_group_delete\" class=\"btn btn-danger delete-btn\">
                                 <i class=\"fa fa-trash\"></i>
@@ -201,10 +216,10 @@ class __TwigTemplate_d417e8c200bc4b258c4c06590c8712fb95aa95eff00d0112e7d7ad417bd
 ";
     }
 
-    // line 95
+    // line 101
     public function block_javascripts($context, array $blocks = array())
     {
-        // line 96
+        // line 102
         echo "    ";
         $this->displayParentBlock("javascripts", $context, $blocks);
         echo "
@@ -248,7 +263,7 @@ class __TwigTemplate_d417e8c200bc4b258c4c06590c8712fb95aa95eff00d0112e7d7ad417bd
 
     public function getDebugInfo()
     {
-        return array (  208 => 96,  205 => 95,  190 => 82,  185 => 78,  173 => 72,  166 => 68,  159 => 64,  153 => 61,  148 => 59,  144 => 57,  140 => 56,  126 => 45,  115 => 37,  112 => 36,  100 => 25,  91 => 22,  86 => 21,  82 => 20,  79 => 19,  70 => 16,  67 => 15,  62 => 14,  53 => 11,  50 => 10,  45 => 9,  42 => 8,  35 => 3,  31 => 1,  29 => 6,  27 => 5,  11 => 1,);
+        return array (  223 => 102,  220 => 101,  205 => 88,  200 => 84,  188 => 78,  181 => 74,  174 => 70,  168 => 67,  164 => 66,  160 => 65,  156 => 64,  151 => 62,  147 => 60,  143 => 59,  126 => 45,  115 => 37,  112 => 36,  100 => 25,  91 => 22,  86 => 21,  82 => 20,  79 => 19,  70 => 16,  67 => 15,  62 => 14,  53 => 11,  50 => 10,  45 => 9,  42 => 8,  35 => 3,  31 => 1,  29 => 6,  27 => 5,  11 => 1,);
     }
 
     /** @deprecated since 1.27 (to be removed in 2.0). Use getSourceContext() instead */

@@ -303,72 +303,71 @@ class __TwigTemplate_db48d3b1f398f90b9f589d2fbaa9533b83891acc2f26248f835bdf45068
                     ";
         // line 122
         echo "                    <div class=\"hidden\">
-                        <input type=\"text\" name=\"ct-visite-id\" id=\"ct-visite-id\"
-                               value=\"";
-        // line 124
+                        <input type=\"text\" name=\"ct-visite-id\" id=\"ct-visite-id\" value=\"";
+        // line 123
         echo twig_escape_filter($this->env, $this->getAttribute(($context["visite"] ?? null), "id", array()), "html", null, true);
         echo "\" />
                         ";
-        // line 125
+        // line 124
         echo $this->env->getRuntime('Symfony\Bridge\Twig\Form\TwigRenderer')->searchAndRenderBlock($this->getAttribute($this->getAttribute($this->getAttribute(($context["edit_form"] ?? null), "ctCarteGrise", array()), "ctVehicule", array()), "vhcPuissance", array()), 'row');
         echo "
                         ";
-        // line 126
+        // line 125
         echo $this->env->getRuntime('Symfony\Bridge\Twig\Form\TwigRenderer')->searchAndRenderBlock($this->getAttribute($this->getAttribute($this->getAttribute(($context["edit_form"] ?? null), "ctCarteGrise", array()), "ctVehicule", array()), "vhcCylindre", array()), 'row');
         echo "
                         ";
-        // line 127
+        // line 126
         echo $this->env->getRuntime('Symfony\Bridge\Twig\Form\TwigRenderer')->searchAndRenderBlock($this->getAttribute($this->getAttribute($this->getAttribute(($context["edit_form"] ?? null), "ctCarteGrise", array()), "ctVehicule", array()), "vhcHauteur", array()), 'row');
         echo "
                         ";
-        // line 128
+        // line 127
         echo $this->env->getRuntime('Symfony\Bridge\Twig\Form\TwigRenderer')->searchAndRenderBlock($this->getAttribute($this->getAttribute($this->getAttribute(($context["edit_form"] ?? null), "ctCarteGrise", array()), "ctVehicule", array()), "vhcLongueur", array()), 'row');
         echo "
                         ";
-        // line 129
+        // line 128
         echo $this->env->getRuntime('Symfony\Bridge\Twig\Form\TwigRenderer')->searchAndRenderBlock($this->getAttribute($this->getAttribute($this->getAttribute(($context["edit_form"] ?? null), "ctCarteGrise", array()), "ctVehicule", array()), "vhcLargeur", array()), 'row');
         echo "
                         ";
-        // line 130
+        // line 129
         echo $this->env->getRuntime('Symfony\Bridge\Twig\Form\TwigRenderer')->searchAndRenderBlock($this->getAttribute($this->getAttribute($this->getAttribute(($context["edit_form"] ?? null), "ctCarteGrise", array()), "ctVehicule", array()), "vhcProvenance", array()), 'row');
         echo "
                         ";
-        // line 131
+        // line 130
         echo $this->env->getRuntime('Symfony\Bridge\Twig\Form\TwigRenderer')->searchAndRenderBlock($this->getAttribute($this->getAttribute(($context["edit_form"] ?? null), "ctCarteGrise", array()), "cgNbrDebout", array()), 'row');
         echo "
                         <hr>
                         ";
-        // line 133
+        // line 132
         echo $this->env->getRuntime('Symfony\Bridge\Twig\Form\TwigRenderer')->searchAndRenderBlock($this->getAttribute($this->getAttribute(($context["edit_form"] ?? null), "ctCarteGrise", array()), "cgRta", array()), 'row');
         echo "
                         ";
-        // line 134
+        // line 133
         echo $this->env->getRuntime('Symfony\Bridge\Twig\Form\TwigRenderer')->searchAndRenderBlock($this->getAttribute($this->getAttribute(($context["edit_form"] ?? null), "ctCarteGrise", array()), "cgPatente", array()), 'row');
         echo "
                         ";
-        // line 135
+        // line 134
         echo $this->env->getRuntime('Symfony\Bridge\Twig\Form\TwigRenderer')->searchAndRenderBlock($this->getAttribute($this->getAttribute(($context["edit_form"] ?? null), "ctCarteGrise", array()), "cgAni", array()), 'row');
         echo "
                         <hr>
                         ";
-        // line 137
+        // line 136
         echo $this->env->getRuntime('Symfony\Bridge\Twig\Form\TwigRenderer')->searchAndRenderBlock($this->getAttribute($this->getAttribute(($context["edit_form"] ?? null), "ctCarteGrise", array()), "cgNumCarteViolette", array()), 'row');
         echo "
                         ";
-        // line 138
+        // line 137
         echo $this->env->getRuntime('Symfony\Bridge\Twig\Form\TwigRenderer')->searchAndRenderBlock($this->getAttribute($this->getAttribute(($context["edit_form"] ?? null), "ctCarteGrise", array()), "cgLieuCarteViolette", array()), 'row');
         echo "
                         ";
-        // line 139
+        // line 138
         echo $this->env->getRuntime('Symfony\Bridge\Twig\Form\TwigRenderer')->searchAndRenderBlock($this->getAttribute($this->getAttribute(($context["edit_form"] ?? null), "ctCarteGrise", array()), "cgDateCarteViolette", array()), 'row');
         echo "
                         <hr>
                         ";
-        // line 141
+        // line 140
         echo $this->env->getRuntime('Symfony\Bridge\Twig\Form\TwigRenderer')->searchAndRenderBlock($this->getAttribute($this->getAttribute(($context["edit_form"] ?? null), "ctCarteGrise", array()), "cgDateVignette", array()), 'row');
         echo "
                         ";
-        // line 142
+        // line 141
         echo $this->env->getRuntime('Symfony\Bridge\Twig\Form\TwigRenderer')->searchAndRenderBlock($this->getAttribute($this->getAttribute(($context["edit_form"] ?? null), "ctCarteGrise", array()), "cgLieuVignette", array()), 'row');
         echo "
                     </div>
@@ -376,7 +375,7 @@ class __TwigTemplate_db48d3b1f398f90b9f589d2fbaa9533b83891acc2f26248f835bdf45068
             </div>
     
             ";
-        // line 148
+        // line 147
         echo "            <div class=\"col-md-6\">
                 <div class=\"box box-primary\">
                     <div class=\"box-header\">
@@ -385,70 +384,152 @@ class __TwigTemplate_db48d3b1f398f90b9f589d2fbaa9533b83891acc2f26248f835bdf45068
     
                     <div class=\"box-body\">
                         <div class=\"";
-        // line 155
+        // line 154
         if (($this->getAttribute($this->getAttribute($this->getAttribute(($context["app"] ?? null), "user", array()), "ctRole", array()), "id", array()) != twig_constant("Ct\\Service\\MetierManagerBundle\\Utils\\RoleName::ID_ROLE_SUPERADMIN"))) {
             echo "hidden";
         }
         echo "\">
                             ";
-        // line 156
+        // line 155
         echo $this->env->getRuntime('Symfony\Bridge\Twig\Form\TwigRenderer')->searchAndRenderBlock($this->getAttribute(($context["edit_form"] ?? null), "ctCentre", array()), 'row');
         echo "
                         </div>
                         ";
-        // line 158
+        // line 157
         echo $this->env->getRuntime('Symfony\Bridge\Twig\Form\TwigRenderer')->searchAndRenderBlock($this->getAttribute(($context["edit_form"] ?? null), "ctTypeVisite", array()), 'row');
         echo "
                         <hr>
                         ";
-        // line 160
+        // line 159
         echo $this->env->getRuntime('Symfony\Bridge\Twig\Form\TwigRenderer')->searchAndRenderBlock($this->getAttribute(($context["edit_form"] ?? null), "ctUsage", array()), 'row');
         echo "
                         ";
-        // line 161
+        // line 160
         echo $this->env->getRuntime('Symfony\Bridge\Twig\Form\TwigRenderer')->searchAndRenderBlock($this->getAttribute(($context["edit_form"] ?? null), "ctUtilisation", array()), 'row');
         echo "
                         ";
-        // line 162
+        // line 161
         echo $this->env->getRuntime('Symfony\Bridge\Twig\Form\TwigRenderer')->searchAndRenderBlock($this->getAttribute(($context["edit_form"] ?? null), "ctAnomalie", array()), 'row');
         echo "
                         <div id=\"form-duree-reparation\" class=\"";
-        // line 163
+        // line 162
         if ((twig_length_filter($this->env, $this->getAttribute(($context["visite"] ?? null), "ctAnomalie", array())) == 0)) {
             echo "hidden";
         }
         echo "\">
                             ";
-        // line 164
+        // line 163
         echo $this->env->getRuntime('Symfony\Bridge\Twig\Form\TwigRenderer')->searchAndRenderBlock($this->getAttribute(($context["edit_form"] ?? null), "vstDureeReparation", array()), 'row');
         echo "
                         </div>
                         ";
-        // line 166
+        // line 165
         echo $this->env->getRuntime('Symfony\Bridge\Twig\Form\TwigRenderer')->searchAndRenderBlock($this->getAttribute(($context["edit_form"] ?? null), "vstDateExpiration", array()), 'row');
         echo "
                         ";
-        // line 167
+        // line 166
         echo $this->env->getRuntime('Symfony\Bridge\Twig\Form\TwigRenderer')->searchAndRenderBlock($this->getAttribute(($context["edit_form"] ?? null), "ctVerificateur", array()), 'row');
         echo "
                         ";
-        // line 168
+        // line 167
         echo $this->env->getRuntime('Symfony\Bridge\Twig\Form\TwigRenderer')->searchAndRenderBlock($this->getAttribute(($context["edit_form"] ?? null), "ctVisiteExtra", array()), 'row');
         echo "
+                    </div>
+                </div>
+            
+                ";
+        // line 172
+        echo "                <div class=\"box box-warning\">
+                    <div class=\"box-header\">
+                        <h3 class=\"box-title\">Informations imprimés techniques utilisés</h3>
+                    </div>
+
+                    <div class=\"row\">
+                        <div class=\"box-body\">
+                            <div class=\"form-group\" style=\"margin: 0 8px 0 8px; padding:  0 8px 0 8px;\">
+                                <label for=\"ct_imprime_tech_use\">Séléctionner les N° imprimés utilisés</label>
+                                <select id=\"ct_imprime_tech_use\" name=\"ct_imprime_tech_use[]\" class=\"form-control select2 mx-6\"
+                                    style=\"width: 100%;\" data-placeholder=\" Choisir\" multiple=\"\" ";
+        // line 182
+        echo " >
+                                    ";
+        // line 183
+        $context['_parent'] = $context;
+        $context['_seq'] = twig_ensure_traversable(($context["imprimes_use"] ?? null));
+        foreach ($context['_seq'] as $context["_key"] => $context["imprime_use"]) {
+            // line 184
+            echo "                                        <option value=\"";
+            echo twig_escape_filter($this->env, $this->getAttribute($context["imprime_use"], "id", array()), "html", null, true);
+            echo "\" selected>
+                                            ";
+            // line 185
+            echo twig_escape_filter($this->env, $this->getAttribute($context["imprime_use"], "ituNumero", array()), "html", null, true);
+            echo "
+                                        </option>
+                                    ";
+        }
+        $_parent = $context['_parent'];
+        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['imprime_use'], $context['_parent'], $context['loop']);
+        $context = array_intersect_key($context, $_parent) + $_parent;
+        // line 188
+        echo "                                    ";
+        $context['_parent'] = $context;
+        $context['_seq'] = twig_ensure_traversable(($context["imprimes_tech"] ?? null));
+        foreach ($context['_seq'] as $context["_key"] => $context["imprime_tech"]) {
+            // line 189
+            echo "                                    <optgroup label=\"";
+            echo twig_escape_filter($this->env, twig_upper_filter($this->env, $this->getAttribute($context["imprime_tech"], "nomImprimeTech", array())), "html", null, true);
+            echo "\">
+                                        ";
+            // line 190
+            $context['_parent'] = $context;
+            $context['_seq'] = twig_ensure_traversable(($context["imprimes_tech_use"] ?? null));
+            foreach ($context['_seq'] as $context["_key"] => $context["imprime_tech_use"]) {
+                // line 191
+                echo "                                            ";
+                if (($this->getAttribute($context["imprime_tech"], "id", array()) == $this->getAttribute($this->getAttribute($context["imprime_tech_use"], "ctImprimeTech", array()), "id", array()))) {
+                    // line 192
+                    echo "                                            <option value=\"";
+                    echo twig_escape_filter($this->env, $this->getAttribute($context["imprime_tech_use"], "id", array()), "html", null, true);
+                    echo "\">
+                                                ";
+                    // line 193
+                    echo twig_escape_filter($this->env, twig_upper_filter($this->env, $this->getAttribute($context["imprime_tech_use"], "ituNumero", array())), "html", null, true);
+                    echo "
+                                            </option>
+                                            ";
+                }
+                // line 196
+                echo "                                        ";
+            }
+            $_parent = $context['_parent'];
+            unset($context['_seq'], $context['_iterated'], $context['_key'], $context['imprime_tech_use'], $context['_parent'], $context['loop']);
+            $context = array_intersect_key($context, $_parent) + $_parent;
+            // line 197
+            echo "                                    </optgroup>
+                                    ";
+        }
+        $_parent = $context['_parent'];
+        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['imprime_tech'], $context['_parent'], $context['loop']);
+        $context = array_intersect_key($context, $_parent) + $_parent;
+        // line 199
+        echo "                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     
         ";
-        // line 175
+        // line 208
         echo "        <div class=\"row\">
             <div class=\"box box-success\">
                 <div class=\"box-body\">
                     <div class=\"col-md-4\">
                         <input type=\"submit\" class=\"btn btn-primary\" value=\"Modifier\" name=\"update_visite\"/>
                         <a href=\"";
-        // line 180
+        // line 213
         echo $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("visite_new");
         echo "\"
                            class=\"btn btn-default pull-left btn-mini-rectif\" >
@@ -465,68 +546,73 @@ class __TwigTemplate_db48d3b1f398f90b9f589d2fbaa9533b83891acc2f26248f835bdf45068
                                value=\"Générer PV\" name=\"generate_pv_visite\"/>
                         <span class=\"kl-edit-link-download-pv\" id=\"link-download-pv\"></span>
                         ";
-        // line 195
+        // line 228
         echo "                    </div>
                 </div>
             </div>
         </div>
     ";
-        // line 199
+        // line 232
         echo         $this->env->getRuntime('Symfony\Bridge\Twig\Form\TwigRenderer')->renderBlock(($context["edit_form"] ?? null), 'form_end');
         echo "
 ";
     }
 
-    // line 202
+    // line 235
     public function block_javascripts($context, array $blocks = array())
     {
-        // line 203
+        // line 236
         echo "    ";
         $this->displayParentBlock("javascripts", $context, $blocks);
         echo "
 
+
     <!-- Vérification existence carte grise -->
     <!-- JQuery UI -->
     <script src=\"";
-        // line 207
+        // line 241
         echo twig_escape_filter($this->env, $this->env->getExtension('Symfony\Bridge\Twig\Extension\AssetExtension')->getAssetUrl("plugins/jquery-ui-1.12.1/jquery-ui.js"), "html", null, true);
         echo "\" ></script>
     <script>
+        \$(\".ct_imprime_tech_use\").select2({
+            tags: true,
+            tokenSeparators: [',', ' ']
+        })
         var _fill_form_carte_grise_ajax_uri = \"";
-        // line 209
+        // line 247
         echo $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("carte_grise_fill_info_by_immatriculation_ajax");
         echo "\";
         var _autocomplete_numero_serie_ajax_uri = \"";
-        // line 210
+        // line 248
         echo $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("carte_grise_show_numero_serie_ajax");
         echo "\";
         var _autocomplete_numero_immatriculation_ajax_uri = \"";
-        // line 211
+        // line 249
         echo $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("carte_grise_show_numero_immatriculation_ajax");
         echo "\";
         var _generate_reporting_ajax_uri = \"";
-        // line 212
+        // line 250
         echo $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("visite_generate_reporting_ajax");
         echo "\";
         var _generate_pv_visite_ajax_uri = \"";
-        // line 213
+        // line 251
         echo $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("visite_generate_pv_visite_ajax");
         echo "\"
         var _select_verif_by_centre_ajax_uri = \"";
-        // line 214
+        // line 252
         echo $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("visite_select_verificateur_by_centre_ajax");
         echo "\";
         var _select_usage_by_type_visite_ajax_uri = \"";
-        // line 215
+        // line 253
         echo $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("visite_select_usage_by_type_visite_ajax");
         echo "\";
         var _select_expiration_by_usage_ajax_uri = \"";
-        // line 216
+        // line 254
         echo $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("visite_select_expiration_by_usage_ajax");
         echo "\";
     </script>
     <script src=\"";
-        // line 218
+        // line 256
         echo twig_escape_filter($this->env, $this->env->getExtension('Symfony\Bridge\Twig\Extension\AssetExtension')->getAssetUrl("backoffice/js/add.visite.js"), "html", null, true);
         echo "\"></script>
 ";
@@ -544,7 +630,7 @@ class __TwigTemplate_db48d3b1f398f90b9f589d2fbaa9533b83891acc2f26248f835bdf45068
 
     public function getDebugInfo()
     {
-        return array (  530 => 218,  525 => 216,  521 => 215,  517 => 214,  513 => 213,  509 => 212,  505 => 211,  501 => 210,  497 => 209,  492 => 207,  484 => 203,  481 => 202,  475 => 199,  469 => 195,  452 => 180,  445 => 175,  436 => 168,  432 => 167,  428 => 166,  423 => 164,  417 => 163,  413 => 162,  409 => 161,  405 => 160,  400 => 158,  395 => 156,  389 => 155,  380 => 148,  372 => 142,  368 => 141,  363 => 139,  359 => 138,  355 => 137,  350 => 135,  346 => 134,  342 => 133,  337 => 131,  333 => 130,  329 => 129,  325 => 128,  321 => 127,  317 => 126,  313 => 125,  309 => 124,  305 => 122,  300 => 118,  298 => 114,  294 => 113,  290 => 112,  286 => 111,  282 => 110,  278 => 109,  274 => 108,  270 => 107,  266 => 106,  262 => 105,  258 => 104,  254 => 103,  250 => 102,  242 => 96,  234 => 90,  230 => 89,  226 => 88,  222 => 87,  216 => 86,  212 => 85,  207 => 83,  203 => 82,  199 => 81,  194 => 80,  190 => 78,  185 => 76,  181 => 75,  177 => 73,  175 => 70,  170 => 68,  164 => 67,  156 => 61,  150 => 57,  147 => 56,  138 => 53,  135 => 52,  130 => 51,  121 => 48,  118 => 47,  113 => 46,  110 => 45,  103 => 40,  98 => 36,  96 => 35,  94 => 34,  88 => 31,  86 => 30,  84 => 29,  82 => 28,  80 => 27,  75 => 24,  68 => 23,  66 => 22,  60 => 21,  56 => 19,  53 => 17,  51 => 16,  48 => 15,  44 => 1,  42 => 43,  40 => 42,  38 => 13,  36 => 12,  34 => 11,  32 => 10,  30 => 9,  28 => 3,  11 => 1,);
+        return array (  616 => 256,  611 => 254,  607 => 253,  603 => 252,  599 => 251,  595 => 250,  591 => 249,  587 => 248,  583 => 247,  574 => 241,  565 => 236,  562 => 235,  556 => 232,  550 => 228,  533 => 213,  526 => 208,  516 => 199,  509 => 197,  503 => 196,  497 => 193,  492 => 192,  489 => 191,  485 => 190,  480 => 189,  475 => 188,  466 => 185,  461 => 184,  457 => 183,  454 => 182,  442 => 172,  435 => 167,  431 => 166,  427 => 165,  422 => 163,  416 => 162,  412 => 161,  408 => 160,  404 => 159,  399 => 157,  394 => 155,  388 => 154,  379 => 147,  371 => 141,  367 => 140,  362 => 138,  358 => 137,  354 => 136,  349 => 134,  345 => 133,  341 => 132,  336 => 130,  332 => 129,  328 => 128,  324 => 127,  320 => 126,  316 => 125,  312 => 124,  308 => 123,  305 => 122,  300 => 118,  298 => 114,  294 => 113,  290 => 112,  286 => 111,  282 => 110,  278 => 109,  274 => 108,  270 => 107,  266 => 106,  262 => 105,  258 => 104,  254 => 103,  250 => 102,  242 => 96,  234 => 90,  230 => 89,  226 => 88,  222 => 87,  216 => 86,  212 => 85,  207 => 83,  203 => 82,  199 => 81,  194 => 80,  190 => 78,  185 => 76,  181 => 75,  177 => 73,  175 => 70,  170 => 68,  164 => 67,  156 => 61,  150 => 57,  147 => 56,  138 => 53,  135 => 52,  130 => 51,  121 => 48,  118 => 47,  113 => 46,  110 => 45,  103 => 40,  98 => 36,  96 => 35,  94 => 34,  88 => 31,  86 => 30,  84 => 29,  82 => 28,  80 => 27,  75 => 24,  68 => 23,  66 => 22,  60 => 21,  56 => 19,  53 => 17,  51 => 16,  48 => 15,  44 => 1,  42 => 43,  40 => 42,  38 => 13,  36 => 12,  34 => 11,  32 => 10,  30 => 9,  28 => 3,  11 => 1,);
     }
 
     /** @deprecated since 1.27 (to be removed in 2.0). Use getSourceContext() instead */

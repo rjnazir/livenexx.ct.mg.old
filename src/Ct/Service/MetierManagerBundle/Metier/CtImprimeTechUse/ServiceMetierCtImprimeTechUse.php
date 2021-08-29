@@ -630,18 +630,135 @@ class ServiceMetierCtImprimeTechUse
     /**
      *  Récuperer tous les imprimés techniques non utilisés par un centre dans une journée
      *  @param  $_centre : ID du centre exploitation
-     *  @return $_result : array()
+     *  @param  $_typeit : ID de l'imprimé technique
+     *  @param  $_dateuse : date d'utilisation de l'imprimé technique
+     *  @param  $_used : est déjà utilisé ou pas
+     *  @return $_result : integer
      */
-    public function getAllITNoUsedByCentre($centre)
+    public function getCompteITwithCondition($_centre, $_dateuse, $_used, $_typeit, $_position)
     {
         $_entity_it = EntityName::CT_IMPRIME_TECH;
         $_entity_itu = EntityName::CT_IMPRIME_TECH_USE;
-        $_dql = "SELECT t FROM $_entity_itu t INNER JOIN $_entity_it tt WITH t.ctImprimeTech = tt.id WHERE t.ctCentre = :ct_centre_id AND t.ituUsed = 0";
+        if(is_null($_position)){
+            if(!is_null($_used)){
+                $_dql = "SELECT t
+                                FROM $_entity_itu t
+                                INNER JOIN $_entity_it tt WITH t.ctImprimeTech = tt.id
+                        WHERE   t.ctCentre = :ct_centre_id
+                                AND t.ctImprimeTech = :ct_imprimetech_id
+                                AND t.ituUsed = :ct_used_it";
+            }else{
+                $_dql = "SELECT t
+                                FROM $_entity_itu t
+                                INNER JOIN $_entity_it tt WITH t.ctImprimeTech = tt.id
+                        WHERE   t.ctCentre = :ct_centre_id
+                                AND t.ctImprimeTech = :ct_imprimetech_id";
+            }
+        }else{
+            if($_position === '<'){
+                if(!is_null($_used)){
+                    $_dql = "SELECT t
+                                    FROM $_entity_itu t
+                                    INNER JOIN $_entity_it tt WITH t.ctImprimeTech = tt.id
+                            WHERE   t.ctCentre = :ct_centre_id
+                                    AND t.ctImprimeTech = :ct_imprimetech_id
+                                    AND t.ituUsed = :ct_used_it
+                                    AND t.createdAt < :ct_create_at";
+                }else{
+                    $_dql = "SELECT t
+                                    FROM $_entity_itu t
+                                    INNER JOIN $_entity_it tt WITH t.ctImprimeTech = tt.id
+                            WHERE   t.ctCentre = :ct_centre_id
+                                    AND t.ctImprimeTech = :ct_imprimetech_id
+                                    AND t.createdAt < :ct_create_at";
+                }
+            }else if($_position === '>'){
+                if(!is_null($_used)){
+                    $_dql = "SELECT t
+                                    FROM $_entity_itu t
+                                    INNER JOIN $_entity_it tt WITH t.ctImprimeTech = tt.id
+                            WHERE   t.ctCentre = :ct_centre_id
+                                    AND t.ctImprimeTech = :ct_imprimetech_id
+                                    AND t.ituUsed = :ct_used_it
+                                    AND t.createdAt > :ct_create_at";
+                }else{
+                    $_dql = "SELECT t
+                                    FROM $_entity_itu t
+                                    INNER JOIN $_entity_it tt WITH t.ctImprimeTech = tt.id
+                            WHERE   t.ctCentre = :ct_centre_id
+                                    AND t.ctImprimeTech = :ct_imprimetech_id
+                                    AND t.createdAt > :ct_create_at";
+                }
+            }
+        }
         $_query = $this->_entity_manager->createQuery($_dql);
-        $_query->setParameter('ct_centre_id', $centre);
+        $_query->setParameter('ct_centre_id', $_centre);
+        $_query->setParameter('ct_imprimetech_id', $_typeit);
+        if(!is_null($_position)) $_query->setParameter('ct_create_at', $_dateuse);
+        if(!is_null($_used)) $_query->setParameter('ct_used_it', $_used);
         $_res = $_query->getResult();
-
+        $_result = count($_res);
         return $_result;
+    }
+
+    /**
+     *  Récupération du numéro minimum ou maximum d'une imprimé technique non utilisée pour un centre
+     *  @param $_centre : ID du centre
+     *  @param $_used   : 0 si l'imprimé est non utilisé et 1 dans le cas contraire
+     *  @param $_typeit : type d'imprimé technique à chercher
+     *  @param $_range  : type d'imprimé technique à chercher
+     *  @return $_itu_numero : Numéro de l'imprimé technique récupéré
+     */
+    public function getMinOrMaxNumImprimeTech($_centre, $_used, $_typeit, $_range)
+    {
+        $_itu_numero = '-';
+        $_entity_itu = EntityName::CT_IMPRIME_TECH_USE;
+        $_dql = "SELECT t
+                        FROM $_entity_itu t
+                WHERE   t.ctCentre = :ct_centre_id
+                        AND t.ctImprimeTech = :ct_imprimetech_id
+                        AND t.ituUsed = :ct_used_it
+                ORDER BY t.ituNumero $_range";
+        $_query = $this->_entity_manager->createQuery($_dql);
+        $_query->setParameter('ct_centre_id', $_centre);
+        $_query->setParameter('ct_imprimetech_id', $_typeit);
+        $_query->setParameter('ct_used_it', $_used);
+        $_query->setMaxResults(1);
+        $_res = $_query->getResult();
+        foreach($_res as $_res) { $_itu_numero = $_res->getItuNumero(); }
+        return $_itu_numero;
+    }
+
+    /**
+     *  Récupération des stock des imprimés techniques existant
+     *  @param $_centre : ID centre detenteur
+     *  @param $_dateuse: Date debut de traitement de stock
+     *  @return $result : liste des imprimés techniques avec nombres en stock
+     */
+    public function getStockByImprimeTech($_centre, $_dateuse)
+    {
+
+        $_entity_it = EntityName::CT_IMPRIME_TECH;
+        $_dql = "SELECT DISTINCT t FROM $_entity_it t";
+        $_query = $this->_entity_manager->createQuery($_dql);
+        $_res = $_query->getResult();
+        $result = [];
+        $j = 0;
+        foreach($_res as $_type_it)
+        {
+            $result[$j] = new \stdClass();
+            $result[$j]->imprimeTech = $_type_it->getNomImprimeTech();
+            $_typeit = $_type_it->getId();
+            $result[$j]->initial = $this->getCompteITwithCondition($_centre, $_dateuse, 0, $_typeit, '<');
+            $result[$j]->input = $this->getCompteITwithCondition($_centre, $_dateuse, 0, $_typeit, '>');
+            $result[$j]->output = $this->getCompteITwithCondition($_centre, $_dateuse, 1, $_typeit, '>');
+            $result[$j]->instock = $this->getCompteITwithCondition($_centre, $_dateuse, 0, $_typeit, NULL);
+            $result[$j]->ndebut = $this->getMinOrMaxNumImprimeTech($_centre, 0, $_typeit, 'ASC');
+            $result[$j]->nfin = $this->getMinOrMaxNumImprimeTech($_centre, 0, $_typeit, 'DESC');;
+            $j++;
+        }
+
+        return $result;
     }
 
     /**
@@ -651,13 +768,82 @@ class ServiceMetierCtImprimeTechUse
      *  @param $date : Date de l'établissement de la feuille de stock
      *  @return array : array()
      */
-    // public function genererFeuilleStockIT($centre, $date)
-    // {
+    public function genererFeuilleStockIT($_centre, $_date)
+    {
+        // Récupérer manager
+        $_centre_manager= $this->_container->get(ServiceName::SRV_METIER_CENTRE);
+        $_bordereau_manager= $this->_container->get(ServiceName::SRV_METIER_BORDEREAU);
 
-    //     // return array(
-    //     //     'download_path' => $_dest_tmp,
-    //     //     'url_path'      => $_path_docx,
-    //     //     'url_path'      => $_path_pdf
-    //     // );
-    // }
+        if(empty($_centre)) 
+            $_ct_user_id= $this->_container->get('security.token_storage')->getToken()->getUser();
+            $_centre    = $_ct_user_id->getCtCentre();
+
+        $_centre = $_centre_manager->getCtCentreById($_centre);
+
+        /* Récupération informations chef de centre et lieu centre */
+        $_nom_centre     = $_centre->getCtrNom();
+
+        $_centre_formatted = $_bordereau_manager->transformcenter($_nom_centre);
+        $_lieu_centre    = $_centre_formatted[1];
+        $_nom_centre     = $_centre_formatted[2];
+
+        // Récupérer répertoire modèle Word
+        $_fuit_directory    = $this->_container->getParameter('reporting_template_directory');
+        $_template_src      = $_fuit_directory . PathReportingName::TEMPLATE_FEUILLE_STOCK_IT;
+        $_date_filename     = str_replace('/', '', $_date);
+        $_path              = $_fuit_directory . PathReportingName::GENERATE_FEUILLE_STOCK_IT;
+
+        $_fichier           = 'FEUILLE_STOCK_IT_' . $_date_filename;
+        $_filename          = strtoupper($_fichier);
+
+        $_dest_tmp          = $_path . $_filename . '.docx';
+        $_file_without_ext  = $_filename;
+
+        $_url_scheme    = $this->_container->get('request_stack')->getCurrentRequest()->server->get('HTTP_HOST');
+        $_path_docx     = 'http://' . $_url_scheme . '/reporting/' . PathReportingName::GENERATE_FEUILLE_STOCK_IT . $_filename . '.docx';
+        $_path_pdf      = 'http://' . $_url_scheme . '/reporting/' . PathReportingName::GENERATE_FEUILLE_STOCK_IT . $_filename . '.pdf';
+
+        $_php_word      = new PhpWord();
+        $_template      = $_php_word->loadTemplate($_template_src);
+
+        $_fin = new \DateTime();
+        $_fin = $_fin->format('Y-m-d');
+        $_fin = implode('/',array_reverse  (explode('-', $_fin)));
+
+        // Centre, lieu centre et numéro BL
+        $_template->setValue('centre', $_nom_centre);
+        $_template->setValue('lieu', $_lieu_centre);
+        $_template->setValue('debut', $_date);
+        $_template->setValue('fin', $_fin);
+
+        $stocks = $this->getStockByImprimeTech($_centre, implode('-', array_reverse(explode('/', $_date))));
+        $nstock = count($stocks);
+        $_i = 0;
+        $_template->cloneRow('i', $nstock);
+        foreach($stocks as $instock)
+        {
+            ++$_i;
+            $_template->setValue('i#'.$_i, $_i);
+            $_template->setValue('imprime_technique#'.$_i, $instock->imprimeTech);
+            $_template->setValue('initial#'.$_i, $instock->initial);
+            $_template->setValue('input#'.$_i, $instock->input);
+            $_template->setValue('output#'.$_i, $instock->output);
+            $_template->setValue('instock#'.$_i, $instock->instock);
+            $_template->setValue('ndebut#'.$_i, $instock->ndebut);
+            $_template->setValue('nfin#'.$_i, $instock->nfin);
+        }
+
+        $_template->saveAs($_dest_tmp);
+
+        // Recuperer manager
+        $_em_cad = $this->_container->get(ServiceName::SRV_METIER_CONST_AV_DED);
+        // Convertir en PDF
+        $_dest_tmp = $_em_cad->convertToPdf($_path, $_file_without_ext);
+
+        return array(
+            'download_path' => $_dest_tmp,
+            'url_path'      => $_path_docx,
+            // 'url_path'      => $_path_pdf
+        );
+    }
 }

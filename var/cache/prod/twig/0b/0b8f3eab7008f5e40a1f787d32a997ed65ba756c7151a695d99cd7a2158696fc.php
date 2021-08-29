@@ -218,7 +218,7 @@ class __TwigTemplate_b325fa63169b39be92a4a875c7545e03f57c83583cd78680c1b254da941
                                 <div class=\"form-group\">
                                     <label for=\"ct_numero_serie\">Par numéro dans la série du type</label>
                                     <select required id=\"ct_numero_serie\"
-                                            name=\"ct_numero_serie\" class=\"form-control select2\">
+                                        name=\"ct_numero_serie\" class=\"form-control select2\">
                                         <option value=\"\" disabled selected>Séléctionner numéro série</option>
                                         ";
         // line 101
@@ -530,45 +530,108 @@ class __TwigTemplate_b325fa63169b39be92a4a875c7545e03f57c83583cd78680c1b254da941
                             </div>
                         </div>
                     </div>
+
+                    ";
+        // line 228
+        echo "                    <div class=\"box box-warning\">
+                        <div class=\"box-header\">
+                            <h3 class=\"box-title\">Informations imprimés techniques utilisés</h3>
+                        </div>
+
+                        <div class=\"row\">
+                            <div class=\"box-body\">
+                                <div class=\"form-group\" style=\"margin: 0 8px 0 8px; padding:  0 8px 0 8px;\">
+                                    <label for=\"ct_imprime_tech_use\">Séléctionner les N° imprimés utilisés</label>
+                                    <select id=\"ct_imprime_tech_use\" name=\"ct_imprime_tech_use[]\" class=\"form-control select2 mx-6\"
+                                        style=\"width: 100%;\" data-placeholder=\"  Choisir\" multiple=\"\" ";
+        // line 238
+        echo ">
+                                        ";
+        // line 239
+        $context['_parent'] = $context;
+        $context['_seq'] = twig_ensure_traversable(($context["imprimes_tech"] ?? null));
+        foreach ($context['_seq'] as $context["_key"] => $context["imprime_tech"]) {
+            // line 240
+            echo "                                        <optgroup label=\"";
+            echo twig_escape_filter($this->env, twig_upper_filter($this->env, $this->getAttribute($context["imprime_tech"], "nomImprimeTech", array())), "html", null, true);
+            echo "\">
+                                            ";
+            // line 241
+            $context['_parent'] = $context;
+            $context['_seq'] = twig_ensure_traversable(($context["imprimes_tech_use"] ?? null));
+            foreach ($context['_seq'] as $context["_key"] => $context["imprime_tech_use"]) {
+                // line 242
+                echo "                                                ";
+                if (($this->getAttribute($context["imprime_tech"], "id", array()) == $this->getAttribute($this->getAttribute($context["imprime_tech_use"], "ctImprimeTech", array()), "id", array()))) {
+                    // line 243
+                    echo "                                                <option value=\"";
+                    echo twig_escape_filter($this->env, $this->getAttribute($context["imprime_tech_use"], "id", array()), "html", null, true);
+                    echo "\">
+                                                    ";
+                    // line 244
+                    echo twig_escape_filter($this->env, twig_upper_filter($this->env, $this->getAttribute($context["imprime_tech_use"], "ituNumero", array())), "html", null, true);
+                    echo "
+                                                </option>
+                                                ";
+                }
+                // line 247
+                echo "                                            ";
+            }
+            $_parent = $context['_parent'];
+            unset($context['_seq'], $context['_iterated'], $context['_key'], $context['imprime_tech_use'], $context['_parent'], $context['loop']);
+            $context = array_intersect_key($context, $_parent) + $_parent;
+            // line 248
+            echo "                                        </optgroup>
+                                        ";
+        }
+        $_parent = $context['_parent'];
+        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['imprime_tech'], $context['_parent'], $context['loop']);
+        $context = array_intersect_key($context, $_parent) + $_parent;
+        // line 250
+        echo "                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             ";
-        // line 230
+        // line 259
         echo "            ";
-        // line 231
+        // line 260
         echo "                ";
-        // line 232
+        // line 261
         echo "                    ";
-        // line 233
+        // line 262
         echo "                        ";
-        // line 234
+        // line 263
         echo "                            ";
-        // line 235
+        // line 264
         echo "                                ";
-        // line 236
+        // line 265
         echo "                                    ";
-        // line 237
+        // line 266
         echo "                                    ";
-        // line 238
+        // line 267
         echo "                                           ";
-        // line 239
+        // line 268
         echo "                                ";
-        // line 240
+        // line 269
         echo "                                ";
-        // line 241
+        // line 270
         echo "                                    ";
-        // line 242
+        // line 271
         echo "                                ";
-        // line 243
+        // line 272
         echo "                        ";
-        // line 244
+        // line 273
         echo "                    ";
-        // line 245
+        // line 274
         echo "                ";
-        // line 246
+        // line 275
         echo "            ";
-        // line 247
+        // line 276
         echo "        ";
         echo         $this->env->getRuntime('Symfony\Bridge\Twig\Form\TwigRenderer')->renderBlock(($context["form"] ?? null), 'form_end');
         echo "
@@ -576,10 +639,10 @@ class __TwigTemplate_b325fa63169b39be92a4a875c7545e03f57c83583cd78680c1b254da941
 ";
     }
 
-    // line 251
+    // line 280
     public function block_javascripts($context, array $blocks = array())
     {
-        // line 252
+        // line 281
         echo "    ";
         $this->displayParentBlock("javascripts", $context, $blocks);
         echo "
@@ -587,29 +650,29 @@ class __TwigTemplate_b325fa63169b39be92a4a875c7545e03f57c83583cd78680c1b254da941
     <!-- Vérification existence carte grise -->
     <!-- JQuery UI -->
     <script src=\"";
-        // line 256
+        // line 285
         echo twig_escape_filter($this->env, $this->env->getExtension('Symfony\Bridge\Twig\Extension\AssetExtension')->getAssetUrl("plugins/jquery-ui-1.12.1/jquery-ui.js"), "html", null, true);
         echo "\" ></script>
     <script>
         var _autocomplete_numero_serie_ajax_uri = \"";
-        // line 258
+        // line 287
         echo $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("carte_grise_show_numero_serie_ajax");
         echo "\";
         var _autocomplete_numero_immatriculation_ajax_uri = \"";
-        // line 259
+        // line 288
         echo $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("carte_grise_show_numero_immatriculation_ajax");
         echo "\";
         var _select_verif_by_centre_ajax_uri = \"";
-        // line 260
+        // line 289
         echo $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("visite_select_verificateur_by_centre_ajax");
         echo "\";
         var _select_expiration_by_usage_ajax_uri = \"";
-        // line 261
+        // line 290
         echo $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("visite_select_expiration_by_usage_ajax");
         echo "\";
     </script>
     <script src=\"";
-        // line 263
+        // line 292
         echo twig_escape_filter($this->env, $this->env->getExtension('Symfony\Bridge\Twig\Extension\AssetExtension')->getAssetUrl("backoffice/js/add.contre.visite.js"), "html", null, true);
         echo "\"></script>
 ";
@@ -627,7 +690,7 @@ class __TwigTemplate_b325fa63169b39be92a4a875c7545e03f57c83583cd78680c1b254da941
 
     public function getDebugInfo()
     {
-        return array (  613 => 263,  608 => 261,  604 => 260,  600 => 259,  596 => 258,  591 => 256,  583 => 252,  580 => 251,  572 => 247,  570 => 246,  568 => 245,  566 => 244,  564 => 243,  562 => 242,  560 => 241,  558 => 240,  556 => 239,  554 => 238,  552 => 237,  550 => 236,  548 => 235,  546 => 234,  544 => 233,  542 => 232,  540 => 231,  538 => 230,  528 => 222,  523 => 220,  519 => 219,  515 => 218,  511 => 217,  506 => 215,  500 => 214,  491 => 207,  483 => 201,  479 => 200,  475 => 199,  470 => 197,  466 => 196,  461 => 194,  457 => 193,  453 => 192,  448 => 190,  444 => 189,  440 => 188,  435 => 186,  431 => 185,  427 => 184,  423 => 183,  419 => 182,  415 => 181,  411 => 180,  407 => 178,  400 => 173,  396 => 172,  392 => 171,  388 => 170,  383 => 168,  378 => 166,  374 => 165,  370 => 164,  366 => 163,  362 => 162,  358 => 161,  354 => 160,  350 => 159,  346 => 158,  342 => 157,  338 => 156,  334 => 155,  330 => 154,  322 => 148,  315 => 143,  311 => 142,  307 => 141,  302 => 140,  298 => 138,  293 => 136,  289 => 135,  284 => 133,  279 => 131,  273 => 130,  265 => 124,  259 => 120,  243 => 106,  234 => 103,  229 => 102,  225 => 101,  216 => 95,  206 => 87,  197 => 84,  192 => 83,  188 => 82,  179 => 76,  167 => 66,  164 => 64,  155 => 61,  152 => 60,  147 => 59,  138 => 56,  135 => 55,  130 => 54,  127 => 53,  121 => 47,  114 => 44,  111 => 43,  104 => 40,  99 => 36,  97 => 35,  95 => 34,  89 => 31,  87 => 30,  85 => 29,  83 => 28,  81 => 27,  76 => 24,  69 => 23,  67 => 22,  61 => 21,  57 => 19,  54 => 17,  52 => 16,  49 => 15,  45 => 1,  43 => 51,  41 => 50,  39 => 13,  37 => 12,  35 => 11,  33 => 10,  31 => 9,  29 => 3,  11 => 1,);
+        return array (  676 => 292,  671 => 290,  667 => 289,  663 => 288,  659 => 287,  654 => 285,  646 => 281,  643 => 280,  635 => 276,  633 => 275,  631 => 274,  629 => 273,  627 => 272,  625 => 271,  623 => 270,  621 => 269,  619 => 268,  617 => 267,  615 => 266,  613 => 265,  611 => 264,  609 => 263,  607 => 262,  605 => 261,  603 => 260,  601 => 259,  591 => 250,  584 => 248,  578 => 247,  572 => 244,  567 => 243,  564 => 242,  560 => 241,  555 => 240,  551 => 239,  548 => 238,  536 => 228,  528 => 222,  523 => 220,  519 => 219,  515 => 218,  511 => 217,  506 => 215,  500 => 214,  491 => 207,  483 => 201,  479 => 200,  475 => 199,  470 => 197,  466 => 196,  461 => 194,  457 => 193,  453 => 192,  448 => 190,  444 => 189,  440 => 188,  435 => 186,  431 => 185,  427 => 184,  423 => 183,  419 => 182,  415 => 181,  411 => 180,  407 => 178,  400 => 173,  396 => 172,  392 => 171,  388 => 170,  383 => 168,  378 => 166,  374 => 165,  370 => 164,  366 => 163,  362 => 162,  358 => 161,  354 => 160,  350 => 159,  346 => 158,  342 => 157,  338 => 156,  334 => 155,  330 => 154,  322 => 148,  315 => 143,  311 => 142,  307 => 141,  302 => 140,  298 => 138,  293 => 136,  289 => 135,  284 => 133,  279 => 131,  273 => 130,  265 => 124,  259 => 120,  243 => 106,  234 => 103,  229 => 102,  225 => 101,  216 => 95,  206 => 87,  197 => 84,  192 => 83,  188 => 82,  179 => 76,  167 => 66,  164 => 64,  155 => 61,  152 => 60,  147 => 59,  138 => 56,  135 => 55,  130 => 54,  127 => 53,  121 => 47,  114 => 44,  111 => 43,  104 => 40,  99 => 36,  97 => 35,  95 => 34,  89 => 31,  87 => 30,  85 => 29,  83 => 28,  81 => 27,  76 => 24,  69 => 23,  67 => 22,  61 => 21,  57 => 19,  54 => 17,  52 => 16,  49 => 15,  45 => 1,  43 => 51,  41 => 50,  39 => 13,  37 => 12,  35 => 11,  33 => 10,  31 => 9,  29 => 3,  11 => 1,);
     }
 
     /** @deprecated since 1.27 (to be removed in 2.0). Use getSourceContext() instead */

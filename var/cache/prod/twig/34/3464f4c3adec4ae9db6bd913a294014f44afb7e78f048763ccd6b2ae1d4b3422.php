@@ -121,13 +121,13 @@ class __TwigTemplate_30300c562efa68308b6642c35fa0a62bdc24790f586107f32733a051c10
                             <tr>
                                 ";
         // line 51
-        echo "                                <th>N° bordereau</th>
-                                <th>Nom centre</th>
-                                <th>Nom IT</th>
-                                <th>Unité</th>
-                                <th>Début N° IT</th>
-                                <th>Fin N° IT</th>
-                                <th>Action</th>
+        echo "                                <th width=\"22%\">N° bordereau</th>
+                                <th width=\"15%\">Nom centre</th>
+                                <th width=\"15%\">Nom IT</th>
+                                <th width=\"7%\">Unité</th>
+                                <th width=\"10%\">N° IT</th>
+                                <th width=\"22%\">Réf. expression de besoin</th>
+                                <th width=\"9%\">Action</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -158,10 +158,18 @@ class __TwigTemplate_30300c562efa68308b6642c35fa0a62bdc24790f586107f32733a051c10
                                     <td>";
             // line 70
             echo twig_escape_filter($this->env, $this->getAttribute($context["it_in_bl"], "blDebutNumero", array()), "html", null, true);
+            echo " ";
+            if ($this->getAttribute($context["it_in_bl"], "blFinNumero", array())) {
+                echo " à ";
+                echo twig_escape_filter($this->env, $this->getAttribute($context["it_in_bl"], "blFinNumero", array()), "html", null, true);
+                echo " ";
+            }
             echo "</td>
                                     <td>";
             // line 71
-            echo twig_escape_filter($this->env, $this->getAttribute($context["it_in_bl"], "blFinNumero", array()), "html", null, true);
+            echo twig_escape_filter($this->env, $this->getAttribute($context["it_in_bl"], "refExpr", array()), "html", null, true);
+            echo " du ";
+            echo twig_escape_filter($this->env, twig_date_format_filter($this->env, $this->getAttribute($context["it_in_bl"], "dateRefExpr", array()), "d/m/Y"), "html", null, true);
             echo "</td>
                                     <td>
                                         <a class=\"btn btn-primary activation-elt\" title=\"Activer\" id=\"btn-imprime-tech-to-actived\"
@@ -170,7 +178,7 @@ class __TwigTemplate_30300c562efa68308b6642c35fa0a62bdc24790f586107f32733a051c10
             echo twig_escape_filter($this->env, $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("bordereau_actived", array("_id" => $this->getAttribute($context["it_in_bl"], "id", array()))), "html", null, true);
             echo "\">
                                             <i class=\"fa fa-check\"></i>
-                                            Activer l'imprimé
+                                            Activer
                                         </a>
                                     </td>
                                 </tr>
@@ -242,7 +250,7 @@ class __TwigTemplate_30300c562efa68308b6642c35fa0a62bdc24790f586107f32733a051c10
 
     public function getDebugInfo()
     {
-        return array (  202 => 99,  199 => 98,  190 => 91,  188 => 85,  183 => 81,  170 => 74,  164 => 71,  160 => 70,  156 => 69,  152 => 68,  148 => 67,  143 => 66,  140 => 62,  136 => 61,  124 => 51,  117 => 45,  114 => 44,  112 => 36,  100 => 25,  91 => 22,  86 => 21,  82 => 20,  79 => 19,  70 => 16,  67 => 15,  62 => 14,  53 => 11,  50 => 10,  45 => 9,  42 => 8,  35 => 3,  31 => 1,  29 => 6,  27 => 5,  11 => 1,);
+        return array (  210 => 99,  207 => 98,  198 => 91,  196 => 85,  191 => 81,  178 => 74,  170 => 71,  160 => 70,  156 => 69,  152 => 68,  148 => 67,  143 => 66,  140 => 62,  136 => 61,  124 => 51,  117 => 45,  114 => 44,  112 => 36,  100 => 25,  91 => 22,  86 => 21,  82 => 20,  79 => 19,  70 => 16,  67 => 15,  62 => 14,  53 => 11,  50 => 10,  45 => 9,  42 => 8,  35 => 3,  31 => 1,  29 => 6,  27 => 5,  11 => 1,);
     }
 
     /** @deprecated since 1.27 (to be removed in 2.0). Use getSourceContext() instead */

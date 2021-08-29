@@ -64,10 +64,10 @@ class CtBordereau extends \Ct\Service\MetierManagerBundle\Entity\CtBordereau imp
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'Ct\\Service\\MetierManagerBundle\\Entity\\CtBordereau' . "\0" . 'id', '' . "\0" . 'Ct\\Service\\MetierManagerBundle\\Entity\\CtBordereau' . "\0" . 'blNumero', '' . "\0" . 'Ct\\Service\\MetierManagerBundle\\Entity\\CtBordereau' . "\0" . 'blDebutNumero', '' . "\0" . 'Ct\\Service\\MetierManagerBundle\\Entity\\CtBordereau' . "\0" . 'blFinNumero', '' . "\0" . 'Ct\\Service\\MetierManagerBundle\\Entity\\CtBordereau' . "\0" . 'ctCentre', '' . "\0" . 'Ct\\Service\\MetierManagerBundle\\Entity\\CtBordereau' . "\0" . 'ctImprimeTech', '' . "\0" . 'Ct\\Service\\MetierManagerBundle\\Entity\\CtBordereau' . "\0" . 'ctUser', '' . "\0" . 'Ct\\Service\\MetierManagerBundle\\Entity\\CtBordereau' . "\0" . 'blCreatedAt', '' . "\0" . 'Ct\\Service\\MetierManagerBundle\\Entity\\CtBordereau' . "\0" . 'blUpdatedAt'];
+            return ['__isInitialized__', '' . "\0" . 'Ct\\Service\\MetierManagerBundle\\Entity\\CtBordereau' . "\0" . 'id', '' . "\0" . 'Ct\\Service\\MetierManagerBundle\\Entity\\CtBordereau' . "\0" . 'blNumero', '' . "\0" . 'Ct\\Service\\MetierManagerBundle\\Entity\\CtBordereau' . "\0" . 'refExpr', '' . "\0" . 'Ct\\Service\\MetierManagerBundle\\Entity\\CtBordereau' . "\0" . 'dateRefExpr', '' . "\0" . 'Ct\\Service\\MetierManagerBundle\\Entity\\CtBordereau' . "\0" . 'blDebutNumero', '' . "\0" . 'Ct\\Service\\MetierManagerBundle\\Entity\\CtBordereau' . "\0" . 'blFinNumero', '' . "\0" . 'Ct\\Service\\MetierManagerBundle\\Entity\\CtBordereau' . "\0" . 'ctCentre', '' . "\0" . 'Ct\\Service\\MetierManagerBundle\\Entity\\CtBordereau' . "\0" . 'ctImprimeTech', '' . "\0" . 'Ct\\Service\\MetierManagerBundle\\Entity\\CtBordereau' . "\0" . 'ctUser', '' . "\0" . 'Ct\\Service\\MetierManagerBundle\\Entity\\CtBordereau' . "\0" . 'blCreatedAt', '' . "\0" . 'Ct\\Service\\MetierManagerBundle\\Entity\\CtBordereau' . "\0" . 'blUpdatedAt'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'Ct\\Service\\MetierManagerBundle\\Entity\\CtBordereau' . "\0" . 'id', '' . "\0" . 'Ct\\Service\\MetierManagerBundle\\Entity\\CtBordereau' . "\0" . 'blNumero', '' . "\0" . 'Ct\\Service\\MetierManagerBundle\\Entity\\CtBordereau' . "\0" . 'blDebutNumero', '' . "\0" . 'Ct\\Service\\MetierManagerBundle\\Entity\\CtBordereau' . "\0" . 'blFinNumero', '' . "\0" . 'Ct\\Service\\MetierManagerBundle\\Entity\\CtBordereau' . "\0" . 'ctCentre', '' . "\0" . 'Ct\\Service\\MetierManagerBundle\\Entity\\CtBordereau' . "\0" . 'ctImprimeTech', '' . "\0" . 'Ct\\Service\\MetierManagerBundle\\Entity\\CtBordereau' . "\0" . 'ctUser', '' . "\0" . 'Ct\\Service\\MetierManagerBundle\\Entity\\CtBordereau' . "\0" . 'blCreatedAt', '' . "\0" . 'Ct\\Service\\MetierManagerBundle\\Entity\\CtBordereau' . "\0" . 'blUpdatedAt'];
+        return ['__isInitialized__', '' . "\0" . 'Ct\\Service\\MetierManagerBundle\\Entity\\CtBordereau' . "\0" . 'id', '' . "\0" . 'Ct\\Service\\MetierManagerBundle\\Entity\\CtBordereau' . "\0" . 'blNumero', '' . "\0" . 'Ct\\Service\\MetierManagerBundle\\Entity\\CtBordereau' . "\0" . 'refExpr', '' . "\0" . 'Ct\\Service\\MetierManagerBundle\\Entity\\CtBordereau' . "\0" . 'dateRefExpr', '' . "\0" . 'Ct\\Service\\MetierManagerBundle\\Entity\\CtBordereau' . "\0" . 'blDebutNumero', '' . "\0" . 'Ct\\Service\\MetierManagerBundle\\Entity\\CtBordereau' . "\0" . 'blFinNumero', '' . "\0" . 'Ct\\Service\\MetierManagerBundle\\Entity\\CtBordereau' . "\0" . 'ctCentre', '' . "\0" . 'Ct\\Service\\MetierManagerBundle\\Entity\\CtBordereau' . "\0" . 'ctImprimeTech', '' . "\0" . 'Ct\\Service\\MetierManagerBundle\\Entity\\CtBordereau' . "\0" . 'ctUser', '' . "\0" . 'Ct\\Service\\MetierManagerBundle\\Entity\\CtBordereau' . "\0" . 'blCreatedAt', '' . "\0" . 'Ct\\Service\\MetierManagerBundle\\Entity\\CtBordereau' . "\0" . 'blUpdatedAt'];
     }
 
     /**
@@ -186,6 +186,50 @@ class CtBordereau extends \Ct\Service\MetierManagerBundle\Entity\CtBordereau imp
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', []);
 
         return parent::getId();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setRefExpr($refExpr)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setRefExpr', [$refExpr]);
+
+        return parent::setRefExpr($refExpr);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getRefExpr()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getRefExpr', []);
+
+        return parent::getRefExpr();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setDateRefExpr($dateRefExpr)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setDateRefExpr', [$dateRefExpr]);
+
+        return parent::setDateRefExpr($dateRefExpr);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getDateRefExpr()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getDateRefExpr', []);
+
+        return parent::getDateRefExpr();
     }
 
     /**

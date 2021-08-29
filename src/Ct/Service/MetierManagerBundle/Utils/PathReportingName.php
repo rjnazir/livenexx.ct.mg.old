@@ -110,4 +110,7 @@ class PathReportingName
     const TEMPLATE_FEUILLE_IT_USED = 'template/bordereau/feuille_utilisation_it.docx';
     const GENERATE_FEUILLE_IT_USED = 'generated/bordereau/';
 
+    const TEMPLATE_FEUILLE_STOCK_IT = 'template/bordereau/feuille_stock_it.docx';
+    const GENERATE_FEUILLE_STOCK_IT = 'generated/bordereau/';
+
 }
