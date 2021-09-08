@@ -508,7 +508,8 @@ class ServiceMetierCtVisite
 
         return array(
             'download_path' => $_dest_tmp,
-            'url_path'      => $_path_pdf
+            'url_path'      => $_path_docx,
+            // 'url_path'      => $_path_pdf,
         );
 
 //        return $_path;
@@ -1012,16 +1013,18 @@ class ServiceMetierCtVisite
             $_dest_tmp_omavet = $_const_av_ded_manager->convertToPdf($_path, $_file_without_ext_omavet);
 
             return array(
-                'download_path_omavet' => $_dest_tmp_omavet,
-                'url_path_omavet'      => $_path_omavet_pdf,
-                'download_path'        => $_dest_tmp,
-                'url_path'             => $_path_pdf
+                'download_path_omavet'  => $_dest_tmp_omavet,
+                'url_path_omavet'       => $_path_omavet_pdf,
+                'download_path'         => $_dest_tmp,
+                'url_path'              => $_path_docx,
+                // 'url_path'              => $_path_pdf
             );
         }
 
         return array(
             'download_path' => $_dest_tmp,
-            'url_path'      => $_path_pdf
+            'url_path'      => $_path_docx,
+            // 'url_path'      => $_path_pdf
         );
     }
 
@@ -1280,16 +1283,18 @@ class ServiceMetierCtVisite
             $_dest_tmp_omavet = $_const_av_ded_manager->convertToPdf($_path, $_file_without_ext_omavet);
 
             return array(
-                'download_path_omavet' => $_dest_tmp_omavet,
-                'url_path_omavet'      => $_path_omavet_pdf,
-                'download_path'        => $_dest_tmp,
-                'url_path'             => $_path_pdf
+                'download_path_omavet'  => $_dest_tmp_omavet,
+                'url_path_omavet'       => $_path_omavet_pdf,
+                'download_path'         => $_dest_tmp,
+                'url_path'              => $_path_docx,
+                // 'url_path'              => $_path_pdf
             );
         }
 
         return array(
             'download_path' => $_dest_tmp,
-            'url_path'      => $_path_pdf
+            'url_path'      => $_path_docx,
+            // 'url_path'      => $_path_pdf
         );
     }
 
@@ -1415,7 +1420,8 @@ class ServiceMetierCtVisite
 
         return array(
             'download_path' => $_dest_tmp,
-            'url_path'      => $_path_pdf
+            'url_path'      => $_path_docx,
+            // 'url_path'      => $_path_pdf
         );
 
     }
@@ -1658,7 +1664,7 @@ class ServiceMetierCtVisite
 
         return array(
             'download_path' => $_dest_tmp,
-            'url_path'      => $_path_docx
+            'url_path'      => $_path_docx,
             // 'url_path'      => $_path_pdf
         );
 
@@ -1772,7 +1778,8 @@ class ServiceMetierCtVisite
 
         return array(
             'download_path' => $_dest_tmp,
-            'url_path'      => $_path_pdf
+            'url_path'      => $_path_docx,
+            // 'url_path'      => $_path_pdf
         );
     }
 

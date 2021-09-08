@@ -55,6 +55,10 @@ class CtContreVisiteController extends Controller
         $_imprime_tech_use = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
         $_imprimestech = $_imprime_tech->getAllCtImprimeTechByOrder(array('nomImprimeTech' => 'ASC'));
         $_imprimestechuse = $_imprime_tech_use->getAllCtImprimeTechNoUsedOrder();
+ 
+        $_user_connected    = $this->container->get('security.token_storage')->getToken()->getUser();
+        $_centre_id = $_user_connected->getCtCentre()->getId();
+        $_adesit = $_imprime_tech_use->getNombreITbyCentreInStock($_centre_id);
 
         if (!$_visite) {
             throw $this->createNotFoundException('Unable to find CtVisite entity.');
@@ -105,6 +109,7 @@ class CtContreVisiteController extends Controller
             'imprimes_use'                  => $_imprimes_use,
             'imprimes_tech'                 => $_imprimestech,
             'imprimes_tech_use'             => $_imprimestechuse,
+            'adesit'                        => $_adesit,
         ));
     }
 
@@ -131,18 +136,25 @@ class CtContreVisiteController extends Controller
         $_imprime_tech_use = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
         $_imprimestech = $_imprime_tech->getAllCtImprimeTechByOrder(array('nomImprimeTech' => 'ASC'));
         $_imprimestechuse = $_imprime_tech_use->getAllCtImprimeTechNoUsedOrder();
+ 
+        $_user_connected    = $this->container->get('security.token_storage')->getToken()->getUser();
+        $_centre_id = $_user_connected->getCtCentre()->getId();
+        $_adesit = $_imprime_tech_use->getNombreITbyCentreInStock($_centre_id);
 
         if ($_form->isSubmitted() && $_form->isValid()) {
             // Enregistrement visite
             $_id_carte_visite = $_contre_visite_manager->addCtContreVisite($_visite, 'new');
 
             /* ============ Misa à jour des imprimés utilisés pour cette visite ============ */
-            $_em_imprimes = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
-            $_data = $_request->request->all();
-            $_list_itu = $_data['ct_imprime_tech_use'];
-            foreach($_list_itu as $_one_uti){
-                $_imprime_tech_use = $_em_imprimes->getCtImprimeTechUseById($_one_uti);
-                $_em_imprimes->saveCtImprimeTechUse($_imprime_tech_use, 'Contre', $_visite->getId());
+            if($_adesit == true)
+            {
+                $_em_imprimes = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
+                $_data = $_request->request->all();
+                $_list_itu = $_data['ct_imprime_tech_use'];
+                foreach($_list_itu as $_one_uti){
+                    $_imprime_tech_use = $_em_imprimes->getCtImprimeTechUseById($_one_uti);
+                    $_em_imprimes->saveCtImprimeTechUse($_imprime_tech_use, 'Contre', $_visite->getId());
+                }
             }
             /* ============================================================================== */
 
@@ -159,6 +171,7 @@ class CtContreVisiteController extends Controller
             'list_numero_immatriculation'   => $_list_numero_immatriculation,
             'imprimes_tech'                 => $_imprimestech,
             'imprimes_tech_use'             => $_imprimestechuse,
+            'adesit'                        => $_adesit,
         ));
     }
 
@@ -178,6 +191,10 @@ class CtContreVisiteController extends Controller
         $_imprime_tech_use = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
         $_imprimestech = $_imprime_tech->getAllCtImprimeTechByOrder(array('nomImprimeTech' => 'ASC'));
         $_imprimestechuse = $_imprime_tech_use->getAllCtImprimeTechNoUsedOrder();
+ 
+        $_user_connected    = $this->container->get('security.token_storage')->getToken()->getUser();
+        $_centre_id = $_user_connected->getCtCentre()->getId();
+        $_adesit = $_imprime_tech_use->getNombreITbyCentreInStock($_centre_id);
 
         if (!$_visite) {
             throw $this->createNotFoundException('Unable to find CtVisite entity.');
@@ -189,14 +206,16 @@ class CtContreVisiteController extends Controller
         if ($_edit_form->isValid()) {
             $_contre_visite_manager->updateCtContreVisite($_visite);
 
-
             /* ============ Misa à jour des imprimés utilisés pour cette visite ============ */
-            $_em_imprimes = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
-            $_data = $_request->request->all();
-            $_list_itu = $_data['ct_imprime_tech_use'];
-            foreach($_list_itu as $_one_uti){
-                $_imprime_tech_use = $_em_imprimes->getCtImprimeTechUseById($_one_uti);
-                $_em_imprimes->saveCtImprimeTechUse($_imprime_tech_use, 'Contre', $_visite->getId());
+            if($_adesit == true)
+            {
+                $_em_imprimes = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
+                $_data = $_request->request->all();
+                $_list_itu = $_data['ct_imprime_tech_use'];
+                foreach($_list_itu as $_one_uti){
+                    $_imprime_tech_use = $_em_imprimes->getCtImprimeTechUseById($_one_uti);
+                    $_em_imprimes->saveCtImprimeTechUse($_imprime_tech_use, 'Contre', $_visite->getId());
+                }
             }
             /* ============================================================================== */
 
@@ -207,10 +226,11 @@ class CtContreVisiteController extends Controller
         }
 
         return $this->render('AdminBundle:CtContreVisite:edit.html.twig', array(
-            'visite'    => $_visite,
+            'visite' => $_visite,
             'imprimes_tech' => $_imprimestech,
             'imprimes_tech_use' => $_imprimestechuse,
-            'edit_form' => $_edit_form->createView()
+            'edit_form' => $_edit_form->createView(),
+            'adesit' => $_adesit,
         ));
     }
 

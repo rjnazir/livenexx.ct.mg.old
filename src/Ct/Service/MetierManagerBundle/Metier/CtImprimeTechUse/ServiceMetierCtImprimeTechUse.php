@@ -762,6 +762,22 @@ class ServiceMetierCtImprimeTechUse
     }
 
     /**
+     *  Récupérer si le centre a déjà des IT à jour dans le base de données
+     *  @param $_centre : Identifiant du centre à traité
+     *  @return boolean : vrai si le centre à des IT faux si dans le cas de contraite
+     */
+    public function getNombreITbyCentreInStock($_centre)
+    {
+        $_entity_itu = EntityName::CT_IMPRIME_TECH_USE;
+        $_dql = "SELECT t FROM $_entity_itu t WHERE t.ctCentre = :ct_centre_id";
+        $_query = $this->_entity_manager->createQuery($_dql);
+        $_query->setParameter('ct_centre_id', $_centre);
+        $_res = $_query->getResult();
+        count($_res) != 0 ? $_exist = true : $_exist = false;
+        return $_exist;
+    }
+
+    /**
      *  Générer feuille de stock des imprimés
      *  techniques d'un centre à une date données
      *  @param $centre : Identifiant du centre à traité

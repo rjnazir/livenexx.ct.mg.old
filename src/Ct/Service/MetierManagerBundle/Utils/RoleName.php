@@ -18,14 +18,14 @@ class RoleName
     const ROLE_RECEPTION            = 'ROLE_RECEPTION';
     const ROLE_VISITE               = 'ROLE_VISITE';
     const ROLE_STAFF                = 'ROLE_STAFF';
-    const ROLE_APPRO                = 'ROLE_APPRO';
+    const ROLE_APPROVISIONNEMENT    = 'ROLE_APPROVISIONNEMENT';
 
     // Identifiant rôle
-    const ID_ROLE_SUPERADMIN    = 1;
-    const ID_ROLE_ADMIN         = 2;
-    const ID_ROLE_VERIFICATEUR  = 3;
-    const ID_ROLE_RECEPTION     = 4;
-    const ID_ROLE_VISITE        = 5;
-    const ID_ROLE_STAFF         = 6;
-    const ID_ROLE_APPRO         = 7;
+    const ID_ROLE_SUPERADMIN        = 1;
+    const ID_ROLE_ADMIN             = 2;
+    const ID_ROLE_VERIFICATEUR      = 3;
+    const ID_ROLE_RECEPTION         = 4;
+    const ID_ROLE_VISITE            = 5;
+    const ID_ROLE_STAFF             = 6;
+    const ID_ROLE_APPROVISIONNEMENT = 7;
 }

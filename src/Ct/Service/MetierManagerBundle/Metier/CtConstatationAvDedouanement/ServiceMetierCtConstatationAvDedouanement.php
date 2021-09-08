@@ -350,7 +350,8 @@ class ServiceMetierCtConstatationAvDedouanement
 
             return array(
                 'download_path' => $_dest_final,
-                'url_path'      => $_path_pdf
+                'url_path'      => $_path_docx,
+                // 'url_path'      => $_path_pdf
             );
 
         }
@@ -579,7 +580,8 @@ class ServiceMetierCtConstatationAvDedouanement
 
         return array(
             'download_path' => $_dest_tmp,
-            'url_path'      => $_path_pdf
+            'url_path'      => $_path_docx,
+            // 'url_path'      => $_path_pdf
         );
     }
 
@@ -647,8 +649,9 @@ class ServiceMetierCtConstatationAvDedouanement
         $_dest_tmp         = $_path . $_filename . '.docx';
         $_file_without_ext = $_filename;
 
-        $_url_scheme = $this->_container->get('request_stack')->getCurrentRequest()->server->get('HTTP_HOST');
-        $_path_pdf   = 'http://' . $_url_scheme . '/reporting/' . PathReportingName::GENERATE_CONSTATATION_FICHE_CONTROLE . $_filename . '.pdf';
+        $_url_scheme= $this->_container->get('request_stack')->getCurrentRequest()->server->get('HTTP_HOST');
+        $_path_docx = 'http://' . $_url_scheme . '/reporting/' . PathReportingName::GENERATE_CONSTATATION_FICHE_CONTROLE . $_filename . '.docx';
+        $_path_pdf  = 'http://' . $_url_scheme . '/reporting/' . PathReportingName::GENERATE_CONSTATATION_FICHE_CONTROLE . $_filename . '.pdf';
 
         // Formater la date anglais en français
         $_date_parsed = \DateTime::createFromFormat('Y-m-d', $_date)->format('d/m/Y');
@@ -698,7 +701,8 @@ class ServiceMetierCtConstatationAvDedouanement
 
         return array(
             'download_path' => $_dest_tmp,
-            'url_path'      => $_path_pdf
+            'url_path'      => $_path_docx,
+            // 'url_path'      => $_path_pdf
         );
     }
 }

@@ -167,13 +167,13 @@
                         {{ form_row(edit_form.ctVisiteExtra) }}
                     </div>
                 </div>
-            
+                
+                {% if adesit == true %}            
                 {# Informations des imprimés utilisés #}
                 <div class="box box-warning">
                     <div class="box-header">
                         <h3 class="box-title">Informations imprimés techniques utilisés</h3>
                     </div>
-
                     <div class="row">
                         <div class="box-body">
                             <div class="form-group" style="margin: 0 8px 0 8px; padding:  0 8px 0 8px;">
@@ -201,6 +201,7 @@
                         </div>
                     </div>
                 </div>
+                {% endif %}
             </div>
         </div>
     

@@ -163,7 +163,8 @@
                     {#</div>#}
                 </div>
             </div>
-
+            
+            {% if adesit == true %}
             <div class="kl-cav">
                 <div class="col-md-12">
                     {# Informations des imprimés utilisés #}
@@ -201,6 +202,7 @@
                     </div>
                 </div>
             </div>
+            {% endif %}
         </div>
         <div class="box-footer">
             <input type="submit" class="btn btn-primary" value="Enregistrer" name="new_motif"/>

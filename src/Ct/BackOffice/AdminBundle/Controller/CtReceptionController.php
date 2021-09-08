@@ -62,6 +62,10 @@ class CtReceptionController extends Controller
         $_imprime_tech_use = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
         $_imprimestech = $_imprime_tech->getAllCtImprimeTechByOrder(array('nomImprimeTech' => 'ASC'));
         $_imprimestechuse = $_imprime_tech_use->getAllCtImprimeTechNoUsedOrder();
+ 
+        $_user_connected    = $this->container->get('security.token_storage')->getToken()->getUser();
+        $_centre_id = $_user_connected->getCtCentre()->getId();
+        $_adesit = $_imprime_tech_use->getNombreITbyCentreInStock($_centre_id);
 
         $_success_reception_id = $this->get('session')->getFlashBag()->get('success_reception_id');
 
@@ -101,7 +105,8 @@ class CtReceptionController extends Controller
             'imprimes_use' => $_imprimes_use,
             'imprimes_tech' => $_imprimestech,
             'imprimes_tech_use' => $_imprimestechuse,
-            'edit_form'  => $_edit_form->createView()
+            'edit_form'  => $_edit_form->createView(),
+            'adesit' => $_adesit,
         ));
     }
 
@@ -367,6 +372,10 @@ class CtReceptionController extends Controller
         $_imprime_tech_use = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
         $_imprimestech = $_imprime_tech->getAllCtImprimeTechByOrder(array('nomImprimeTech' => 'ASC'));
         $_imprimestechuse = $_imprime_tech_use->getAllCtImprimeTechNoUsedOrder();
+ 
+        $_user_connected    = $this->container->get('security.token_storage')->getToken()->getUser();
+        $_centre_id = $_user_connected->getCtCentre()->getId();
+        $_adesit = $_imprime_tech_use->getNombreITbyCentreInStock($_centre_id);
 
         // Afficher choix type
         if ($type === 0) { // Show choice type reception
@@ -403,12 +412,15 @@ class CtReceptionController extends Controller
                         $_reception_manager->setFlash('success', "Réception ajoutée");
 
                         /* ============ Misa à jour des imprimés utilisés pour cette visite ============ */
-                        $_em_imprimes = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
-                        $_data = $_request->request->all();
-                        $_list_itu = $_data['ct_imprime_tech_use'];
-                        foreach($_list_itu as $_one_uti){
-                            $_imprime_tech_use = $_em_imprimes->getCtImprimeTechUseById($_one_uti);
-                            $_em_imprimes->saveCtImprimeTechUse($_imprime_tech_use, 'Réception', $_reception->getId());
+                        if($_adesit == true)
+                        {
+                            $_em_imprimes = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
+                            $_data = $_request->request->all();
+                            $_list_itu = $_data['ct_imprime_tech_use'];
+                            foreach($_list_itu as $_one_uti){
+                                $_imprime_tech_use = $_em_imprimes->getCtImprimeTechUseById($_one_uti);
+                                $_em_imprimes->saveCtImprimeTechUse($_imprime_tech_use, 'Réception', $_reception->getId());
+                            }
                         }
                         /* ============================================================================== */
 
@@ -437,6 +449,7 @@ class CtReceptionController extends Controller
                     'imprimes_tech' => $_imprimestech,
                     'imprimes_tech_use' => $_imprimestechuse,
                     'imprimes_use' => $_imprimes_use,
+                    'adesit' => $_adesit,
                 ));
             } elseif ($type == 'type') {
                 $_type_rec = $_reception_type_manager->getTypeReception($type);
@@ -447,11 +460,11 @@ class CtReceptionController extends Controller
                 $_form->remove('rcpImmatriculation');
 
                 // Recuperer nombre de vehicule a saisir
-                if (array_key_exists('ct_nb_total_vehicule', $_req_data) &&
-                    count($_req_data['ct_nb_total_vehicule'])) {
+                if (array_key_exists('ct_nb_total_vehicule', $_req_data)
+                    && count($_req_data['ct_nb_total_vehicule'])) {
                     $_nb_total_vehicule = $_req_data['ct_nb_total_vehicule'];
-                } else if (array_key_exists('nb-total-vehicule', $_req_data) &&
-                    count($_req_data['nb-total-vehicule'])) {
+                } else if (array_key_exists('nb-total-vehicule', $_req_data)
+                    && count($_req_data['nb-total-vehicule'])) {
                     $_nb_total_vehicule = $_req_data['nb-total-vehicule'];
                 } else {
                     return $this->redirectToRoute('reception_new');
@@ -463,8 +476,7 @@ class CtReceptionController extends Controller
                 }
 
                 // Test pour continuer saisie reception type
-                if (isset($_nb_total_vehicule) && isset($_num_saisie) &&
-                    count($_nb_total_vehicule) > 0 && count($_num_saisie) > 0) {
+                if (isset($_nb_total_vehicule) && isset($_num_saisie) && count($_nb_total_vehicule) > 0 && count($_num_saisie) > 0) {
                     if ($_num_saisie < $_nb_total_vehicule) {// STOP saisie
                         $_is_stop = false;
                     } else {
@@ -506,12 +518,15 @@ class CtReceptionController extends Controller
 
                         if ($_is_stop) {
                             /* ============ Misa à jour des imprimés utilisés pour cette visite ============ */
-                            $_em_imprimes = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
-                            $_data = $_request->request->all();
-                            $_list_itu = $_data['ct_imprime_tech_use'];
-                            foreach($_list_itu as $_one_uti){
-                                $_imprime_tech_use = $_em_imprimes->getCtImprimeTechUseById($_one_uti);
-                                $_em_imprimes->saveCtImprimeTechUse($_imprime_tech_use, 'Réception', $_reception->getId());
+                            if($_adesit == true)
+                            {
+                                $_em_imprimes = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
+                                $_data = $_request->request->all();
+                                $_list_itu = $_data['ct_imprime_tech_use'];
+                                foreach($_list_itu as $_one_uti){
+                                    $_imprime_tech_use = $_em_imprimes->getCtImprimeTechUseById($_one_uti);
+                                    $_em_imprimes->saveCtImprimeTechUse($_imprime_tech_use, 'Réception', $_reception->getId());
+                                }
                             }
                             /* ============================================================================== */
 
@@ -532,10 +547,11 @@ class CtReceptionController extends Controller
                             'nb_vehicule' => $_nb_total_vehicule,
                             'is_focus' => 1,
                             'reception' => $_reception,
-                            'form'       => $_form->createView(),
+                            'form' => $_form->createView(),
                             'imprimes_tech' => $_imprimestech,
                             'imprimes_tech_use' => $_imprimestechuse,
                             'imprimes_use' => $_imprimes_use,
+                            'adesit' => $_adesit,
                         ));
                     }
 
@@ -557,6 +573,7 @@ class CtReceptionController extends Controller
                     'imprimes_tech' => $_imprimestech,
                     'imprimes_tech_use' => $_imprimestechuse,
                     'imprimes_use' => $_imprimes_use,
+                    'adesit' => $_adesit,
                 ));
                 return $this->redirectToRoute('reception_new');
             }
@@ -581,6 +598,10 @@ class CtReceptionController extends Controller
         $_imprime_tech_use = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
         $_imprimestech = $_imprime_tech->getAllCtImprimeTechByOrder(array('nomImprimeTech' => 'ASC'));
         $_imprimestechuse = $_imprime_tech_use->getAllCtImprimeTechNoUsedOrder();
+ 
+        $_user_connected    = $this->container->get('security.token_storage')->getToken()->getUser();
+        $_centre_id = $_user_connected->getCtCentre()->getId();
+        $_adesit = $_imprime_tech_use->getNombreITbyCentreInStock($_centre_id);
 
         if (!$_reception) {
             throw $this->createNotFoundException('Unable to find reception entity.');
@@ -595,12 +616,15 @@ class CtReceptionController extends Controller
             $_reception_manager->setFlash('success', "Type réception modifiée");
 
             /* ============ Misa à jour des imprimés utilisés pour cette visite ============ */
-            $_em_imprimes = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
-            $_data = $_request->request->all();
-            $_list_itu = $_data['ct_imprime_tech_use'];
-            foreach($_list_itu as $_one_uti){
-                $_imprime_tech_use = $_em_imprimes->getCtImprimeTechUseById($_one_uti);
-                $_em_imprimes->saveCtImprimeTechUse($_imprime_tech_use, 'Réception', $_reception->getId());
+            if($_adesit == true)
+            {
+                $_em_imprimes = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
+                $_data = $_request->request->all();
+                $_list_itu = $_data['ct_imprime_tech_use'];
+                foreach($_list_itu as $_one_uti){
+                    $_imprime_tech_use = $_em_imprimes->getCtImprimeTechUseById($_one_uti);
+                    $_em_imprimes->saveCtImprimeTechUse($_imprime_tech_use, 'Réception', $_reception->getId());
+                }
             }
             /* ============================================================================== */
 
@@ -621,7 +645,8 @@ class CtReceptionController extends Controller
             'imprimes_tech' => $_imprimestech,
             'imprimes_tech_use' => $_imprimestechuse,
             'imprimes_use' => $_imprimes_use,
-            'edit_form'  => $_edit_form->createView()
+            'edit_form' => $_edit_form->createView(),
+            'adesit' => $_adesit,
         ));
     }
 
