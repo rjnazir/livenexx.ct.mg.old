@@ -330,7 +330,8 @@ class ServiceMetierCtReception
                     FROM $_entity_r r
                     LEFT JOIN r.ctVehicule v
                     WHERE v.vhcNumSerie LIKE ?1
-                    GROUP BY v";
+                    GROUP BY v
+                    ORDER BY r.id DESC";
         $_query  = $this->_entity_manager->createQuery($_dql);
         $_query->setParameter(1, $_num_serie . '%');
         $_query->setMaxResults(10);
@@ -348,7 +349,8 @@ class ServiceMetierCtReception
         $_entity_r = EntityName::CT_RECEPTION;
         $_dql    = "SELECT r
                     FROM $_entity_r r
-                    WHERE r.rcpImmatriculation LIKE ?1";
+                    WHERE r.rcpImmatriculation LIKE ?1
+                    ORDER BY r.id DESC";
         $_query  = $this->_entity_manager->createQuery($_dql);
         $_query->setParameter(1, $_immatricule . '%');
         $_query->setMaxResults(10);
@@ -809,7 +811,7 @@ class ServiceMetierCtReception
 
             return array(
                 'download_path' => $_dest_final,
-                'url_path'      => $_path_pdf
+                'url_path'      => $_path_docx
             );
 
         }
@@ -898,8 +900,10 @@ class ServiceMetierCtReception
 
             if ($_droit) {
                 $_droit_f = number_format($_droit, 0, ',', ' ');
-                if ($_is_administratif) $_template->setValue('motif_recep', "0");
-                else $_template->setValue('motif_recep', $_droit_f);
+                // if ($_is_administratif) $_template->setValue('motif_recep', "0");
+                // else $_template->setValue('motif_recep', $_droit_f);
+                if ($_is_administratif) $_template->setValue('motif', "0");
+                else $_template->setValue('motif', $_droit_f);
             }
 
             // Recuperer type PV
@@ -988,7 +992,7 @@ class ServiceMetierCtReception
 
             return array(
                 'download_path' => $_dest_tmp,
-                'url_path'      => $_path_pdf
+                'url_path'      => $_path_docx
             );
 
         }
@@ -1342,7 +1346,7 @@ class ServiceMetierCtReception
         $_dql    = "SELECT r FROM $_entity r
                     LEFT JOIN r.ctVehicule v
                     WHERE $_where_type
-                    ORDER BY r.id ASC";
+                    ORDER BY r.id DESC";
 
         $_query = $this->_entity_manager->createQuery($_dql);
         $_query->setParameter('numero', $_numero);

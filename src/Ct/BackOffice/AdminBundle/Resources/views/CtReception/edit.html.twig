@@ -170,23 +170,23 @@
                                     </select>
                                 </div>
                             </div>
-
-                            <div class="box-footer">
-                                <div class="box-footer">
-                                    <input type="submit" class="btn btn-primary" value="Modifier" name="update_type_reception"/>
-                                    <a href="{{ path('reception_index') }}"
-                                    class="btn btn-default pull-left btn-mini-rectif" >
-                                        Retour à la liste
-                                    </a>
-                                    <a href="{{ path('reception_generer_pv', { 'id': reception.id }) }}"
-                                    class="btn btn-warning" target="_blank">
-                                        Générer PV
-                                    </a>
-                                </div>
-                            </div>
                         </div>
                     </div>
                     {% endif %}
+
+                    <div class="box-footer">
+                        <div class="box-footer">
+                            <input type="submit" class="btn btn-primary" value="Modifier" name="update_type_reception"/>
+                            <a href="{{ path('reception_index') }}"
+                            class="btn btn-default pull-left btn-mini-rectif" >
+                                Retour à la liste
+                            </a>
+                            <a href="{{ path('reception_generer_pv', { 'id': reception.id }) }}"
+                            class="btn btn-warning" target="_blank">
+                                Générer PV
+                            </a>
+                        </div>
+                    </div>
                 </div>
                 {{ form_end(edit_form) }}
             </div>

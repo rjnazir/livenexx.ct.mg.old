@@ -7,7 +7,7 @@
     array (
       0 => '3.3.x-dev',
     ),
-    'reference' => '0e4387579d53099a89e9424fdb5f71191088db73',
+    'reference' => 'b67497b6c4b5348472a30b1b8d5fd5ab08688897',
     'name' => 'symfony/controle-technique',
   ),
   'versions' => 
@@ -387,7 +387,7 @@
       array (
         0 => '3.3.x-dev',
       ),
-      'reference' => '0e4387579d53099a89e9424fdb5f71191088db73',
+      'reference' => 'b67497b6c4b5348472a30b1b8d5fd5ab08688897',
     ),
     'symfony/css-selector' => 
     array (
