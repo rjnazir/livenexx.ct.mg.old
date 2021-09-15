@@ -93,7 +93,7 @@ class CtBordereauController extends Controller
 
         $_edit_form = $this->createEditForm($_bordereau);
 
-        return $this->render('AdminBundle:Ctbordereau:edit.html.twig', array(
+        return $this->render('AdminBundle:CtBordereau:edit.html.twig', array(
             'bordereau' => $_bordereau,
             'edit_form'  => $_edit_form->createView()
         ));

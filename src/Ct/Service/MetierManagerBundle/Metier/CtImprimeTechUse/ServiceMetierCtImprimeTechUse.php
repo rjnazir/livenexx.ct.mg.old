@@ -622,8 +622,8 @@ class ServiceMetierCtImprimeTechUse
 
         return array(
             'download_path' => $_dest_tmp,
-            'url_path'      => $_path_docx,
-            // 'url_path'      => $_path_pdf
+            // 'url_path'      => $_path_docx,
+            'url_path'      => $_path_pdf
         );
     }
 
@@ -750,7 +750,7 @@ class ServiceMetierCtImprimeTechUse
             $result[$j]->imprimeTech = $_type_it->getNomImprimeTech();
             $_typeit = $_type_it->getId();
             $result[$j]->initial = $this->getCompteITwithCondition($_centre, $_dateuse, 0, $_typeit, '<');
-            $result[$j]->input = $this->getCompteITwithCondition($_centre, $_dateuse, 0, $_typeit, '>');
+            $result[$j]->input = $this->getCompteITwithCondition($_centre, $_dateuse, NULL, $_typeit, '>');
             $result[$j]->output = $this->getCompteITwithCondition($_centre, $_dateuse, 1, $_typeit, '>');
             $result[$j]->instock = $this->getCompteITwithCondition($_centre, $_dateuse, 0, $_typeit, NULL);
             $result[$j]->ndebut = $this->getMinOrMaxNumImprimeTech($_centre, 0, $_typeit, 'ASC');
@@ -858,8 +858,8 @@ class ServiceMetierCtImprimeTechUse
 
         return array(
             'download_path' => $_dest_tmp,
-            'url_path'      => $_path_docx,
-            // 'url_path'      => $_path_pdf
+            // 'url_path'      => $_path_docx,
+            'url_path'      => $_path_pdf
         );
     }
 }
