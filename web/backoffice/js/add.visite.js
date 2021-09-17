@@ -170,6 +170,7 @@ function ajaxFillValueFormCarteGrise(_data_value, _type) {
                     // $('#ct_service_metiermanagerbundle_visite_ctCarteGrise_cgPrenom').val(_carte_grise.cg_prenom_proprietaire);
                     $('#ct_service_metiermanagerbundle_visite_ctCarteGrise_cgProfession').val(_carte_grise.cg_profession_proprietaire);
                     $('#ct_service_metiermanagerbundle_visite_ctCarteGrise_cgAdresse').val(_carte_grise.cg_adresse_proprietaire);
+                    $('#ct_service_metiermanagerbundle_visite_ctCarteGrise_cgPhone').val(_carte_grise.cg_phone);
                     $('#ct_service_metiermanagerbundle_visite_ctCarteGrise_cgCommune').val(_carte_grise.cg_commune_proprietaire);
                     $('#ct_service_metiermanagerbundle_visite_ctCarteGrise_cgPuissanceAdmin').val(_carte_grise.cg_puissance_administrative);
                     $('#ct_service_metiermanagerbundle_visite_ctCarteGrise_cgNbrAssis').val(_carte_grise.cg_nbr_assis);
