@@ -287,20 +287,20 @@
                                             </select>
                                         </div>
                                     </div>
-
-                                    <div class="box-footer">
-                                        <input type="hidden" name="num_saisie" id="num_saisie" value="{% if num_saisie is defined %}{{ num_saisie }}{% endif %}">
-                                        <input type="hidden" name="nb-total-vehicule" id="id-nb-total-vehicule" value="{% if nb_vehicule is defined %}{{ nb_vehicule }}{% endif %}">
-                                        <input type="hidden" id="id-is-focus" value=" {{ is_focus }}" name=""/>
-                                        {% if is_stop is defined and is_stop == false %}
-                                            <input type="submit" class="btn btn-warning" value="Suivant" name="new_type_reception"/>
-                                        {% else %}
-                                            <input type="submit" class="btn btn-primary" value="Enregistrer" name="new_type_reception"/>
-                                        {% endif %}
-                                    </div>
                                 </div>
                             </div>
                             {% endif %}
+
+                            <div class="box-footer">
+                                <input type="hidden" name="num_saisie" id="num_saisie" value="{% if num_saisie is defined %}{{ num_saisie }}{% endif %}">
+                                <input type="hidden" name="nb-total-vehicule" id="id-nb-total-vehicule" value="{% if nb_vehicule is defined %}{{ nb_vehicule }}{% endif %}">
+                                <input type="hidden" id="id-is-focus" value=" {{ is_focus }}" name=""/>
+                                {% if is_stop is defined and is_stop == false %}
+                                    <input type="submit" class="btn btn-warning" value="Suivant" name="new_type_reception"/>
+                                {% else %}
+                                    <input type="submit" class="btn btn-primary" value="Enregistrer" name="new_type_reception"/>
+                                {% endif %}
+                            </div>
                         </div>
                         {{ form_end(form) }}
                     </div>
