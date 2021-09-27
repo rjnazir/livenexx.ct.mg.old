@@ -508,8 +508,8 @@ class ServiceMetierCtVisite
 
         return array(
             'download_path' => $_dest_tmp,
-            'url_path'      => $_path_docx,
-            // 'url_path'      => $_path_pdf,
+            // 'url_path'      => $_path_docx,
+            'url_path'      => $_path_pdf,
         );
 
 //        return $_path;
@@ -1016,15 +1016,15 @@ class ServiceMetierCtVisite
                 'download_path_omavet'  => $_dest_tmp_omavet,
                 'url_path_omavet'       => $_path_omavet_pdf,
                 'download_path'         => $_dest_tmp,
-                'url_path'              => $_path_docx,
-                // 'url_path'              => $_path_pdf
+                //'url_path'              => $_path_docx,
+                'url_path'              => $_path_pdf
             );
         }
 
         return array(
             'download_path' => $_dest_tmp,
-            'url_path'      => $_path_docx,
-            // 'url_path'      => $_path_pdf
+            // 'url_path'      => $_path_docx,
+            'url_path'      => $_path_pdf
         );
     }
 
@@ -1286,15 +1286,15 @@ class ServiceMetierCtVisite
                 'download_path_omavet'  => $_dest_tmp_omavet,
                 'url_path_omavet'       => $_path_omavet_pdf,
                 'download_path'         => $_dest_tmp,
-                'url_path'              => $_path_docx,
-                // 'url_path'              => $_path_pdf
+                // 'url_path'              => $_path_docx,
+                'url_path'              => $_path_pdf
             );
         }
 
         return array(
             'download_path' => $_dest_tmp,
-            'url_path'      => $_path_docx,
-            // 'url_path'      => $_path_pdf
+            // 'url_path'      => $_path_docx,
+            'url_path'      => $_path_pdf
         );
     }
 
@@ -1420,8 +1420,8 @@ class ServiceMetierCtVisite
 
         return array(
             'download_path' => $_dest_tmp,
-            'url_path'      => $_path_docx,
-            // 'url_path'      => $_path_pdf
+            // 'url_path'      => $_path_docx,
+            'url_path'      => $_path_pdf
         );
 
     }
@@ -1664,8 +1664,8 @@ class ServiceMetierCtVisite
 
         return array(
             'download_path' => $_dest_tmp,
-            'url_path'      => $_path_docx,
-            // 'url_path'      => $_path_pdf
+            // 'url_path'      => $_path_docx,
+            'url_path'      => $_path_pdf
         );
 
 
@@ -1778,8 +1778,8 @@ class ServiceMetierCtVisite
 
         return array(
             'download_path' => $_dest_tmp,
-            'url_path'      => $_path_docx,
-            // 'url_path'      => $_path_pdf
+            // 'url_path'      => $_path_docx,
+            'url_path'      => $_path_pdf
         );
     }
 
