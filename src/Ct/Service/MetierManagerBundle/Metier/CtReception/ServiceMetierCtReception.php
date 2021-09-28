@@ -247,7 +247,7 @@ class ServiceMetierCtReception
             $_id_reception = $_reception->getId();
 
             $_centre_reception = $_reception->getCtCentre();
-            $_province = $_centre_reception->getCtProvince();
+            $_province = $_centre_reception->getCtProvince()->getPrvNom();
 
             $_code_centre = $_centre_reception->getCtrCode();
             $_code_province = $_province->getPrvCode();
@@ -297,7 +297,7 @@ class ServiceMetierCtReception
 
 
             $_centre_reception = $_reception->getCtCentre();
-            $_province = $_centre_reception->getCtProvince();
+            $_province = $_centre_reception->getCtProvince()->getPrvNom();
 
             $_code_centre = $_centre_reception->getCtrCode();
             $_code_province = $_province->getPrvCode();
@@ -492,6 +492,7 @@ class ServiceMetierCtReception
                 $_poids_vide        = $_reception->getCtVehicule()->getVhcPoidsVide();
 
                 $_centre            = $_reception->getCtCentre()->getCtrNom();
+                $_province          = $_reception->getCtCentre()->getCtrNom()->getPrvNom();
                 $_user_nom          = $_reception->getRcpProprietaire();
                 $_genre             = $_reception->getCtVehicule()->getCtGenre()->getGrLibelle();
                 $_marque            = $_reception->getCtVehicule()->getCtMarque()->getMrqLibelle();
@@ -589,6 +590,7 @@ class ServiceMetierCtReception
                 }
 
                 $_template->setValue('centre', $_centre);
+                $_template->setValue('province', $_province);
                 $_template->setValue('user_nom', htmlspecialchars($_user_nom));
                 $_template->setValue('genre', $_genre);
                 $_template->setValue('marque', $_marque);
@@ -631,6 +633,7 @@ class ServiceMetierCtReception
                     $_poids_vide        = $_reception->getCtVehicule()->getVhcPoidsVide();
 
                     $_centre            = $_reception->getCtCentre()->getCtrNom();
+                    $_province          = $_reception->getCtCentre()->getCtrNom()->getPrvNom();
                     $_user_nom          = $_reception->getRcpProprietaire();
                     $_genre             = $_reception->getCtVehicule()->getCtGenre()->getGrLibelle();
                     $_marque            = $_reception->getCtVehicule()->getCtMarque()->getMrqLibelle();
@@ -727,6 +730,7 @@ class ServiceMetierCtReception
                     }
 
                     $_template->setValue('centre', $_centre);
+                    $_template->setValue('province', $_province);
                     $_template->setValue('user_nom', $_user_nom);
                     $_template->setValue('genre', $_genre);
                     $_template->setValue('marque', $_marque);
@@ -811,6 +815,7 @@ class ServiceMetierCtReception
 
             return array(
                 'download_path' => $_dest_final,
+                // 'url_path'      => $_path_docx
                 'url_path'      => $_path_pdf
             );
 
@@ -960,6 +965,7 @@ class ServiceMetierCtReception
 
             $_template->setValue('addr', htmlspecialchars($_arr_of_rec['rcp_adresse']));
             $_template->setValue('centre', $_arr_of_rec['rcp_centre']->getCtrNom());
+            $_template->setValue('province', $_arr_of_rec['rcp_centre']->getCtrNom()->getPrvNom());
             $_template->setValue('mise_en_circ', $_arr_of_rec['rcp_mise_service']->format('d/m/Y'));
             $_template->setValue('user_nom', htmlspecialchars($_arr_of_rec['rcp_proprietaire']));
 
@@ -992,6 +998,7 @@ class ServiceMetierCtReception
 
             return array(
                 'download_path' => $_dest_tmp,
+                // 'url_path'      => $_path_docx
                 'url_path'      => $_path_pdf
             );
 
@@ -1035,7 +1042,7 @@ class ServiceMetierCtReception
         $_receptions            = $this->getAllCtReceptionByDateAndType($_date, $_type, $_centre->getId());
         $_code_centre           = $_centre->getCtrCode();
         $_nom_centre            = $_centre->getCtrNom();
-        $_province              = $_centre->getCtProvince();
+        $_province              = $_centre->getCtProvince()->getPrvNom();
         $_code_province         = $_province->getPrvCode();
         $_nb_reception          = count($_receptions);
 
@@ -1188,6 +1195,7 @@ class ServiceMetierCtReception
 
         return array(
             'download_path' => $_dest_tmp,
+            // 'url_path'      => $_path_docx
             'url_path'      => $_path_pdf
         );
     }
@@ -1205,7 +1213,7 @@ class ServiceMetierCtReception
         $_receptions            = $this->getAllCtReceptionByDateAndType($_date, $_type, $_centre->getId());
         $_code_centre           = $_centre->getCtrCode();
         $_nom_centre            = $_centre->getCtrNom();
-        $_province              = $_centre->getCtProvince();
+        $_province              = $_centre->getCtProvince()->getPrvNom();
         $_code_province         = $_province->getPrvCode();
         $_nom_province          = $_province->getPrvNom();
         $_nb_reception          = count($_receptions);
@@ -1267,6 +1275,7 @@ class ServiceMetierCtReception
 
         return array(
             'download_path' => $_dest_tmp,
+            // 'url_path'      => $_path_docx
             'url_path'      => $_path_pdf
         );
     }

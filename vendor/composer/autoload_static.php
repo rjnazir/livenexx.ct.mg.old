@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit350ffffd75ee922245a11b6d20bb1ea8
+class ComposerStaticInit1cd7de03da7aa784a63df72e59b3ec44
 {
     public static $files = array (
         '92c8763cd6170fce6fcfe7e26b4e8c10' => __DIR__ . '/..' . '/symfony/phpunit-bridge/bootstrap.php',
@@ -305,6 +305,7 @@ class ComposerStaticInit350ffffd75ee922245a11b6d20bb1ea8
         'ArithmeticError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/ArithmeticError.php',
         'AssertionError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/AssertionError.php',
         'Collator' => __DIR__ . '/..' . '/symfony/symfony/src/Symfony/Component/Intl/Resources/stubs/Collator.php',
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'DivisionByZeroError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/DivisionByZeroError.php',
         'Error' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/Error.php',
         'IntlDateFormatter' => __DIR__ . '/..' . '/symfony/symfony/src/Symfony/Component/Intl/Resources/stubs/IntlDateFormatter.php',
@@ -321,11 +322,11 @@ class ComposerStaticInit350ffffd75ee922245a11b6d20bb1ea8
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit350ffffd75ee922245a11b6d20bb1ea8::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit350ffffd75ee922245a11b6d20bb1ea8::$prefixDirsPsr4;
-            $loader->fallbackDirsPsr4 = ComposerStaticInit350ffffd75ee922245a11b6d20bb1ea8::$fallbackDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit350ffffd75ee922245a11b6d20bb1ea8::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit350ffffd75ee922245a11b6d20bb1ea8::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit1cd7de03da7aa784a63df72e59b3ec44::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit1cd7de03da7aa784a63df72e59b3ec44::$prefixDirsPsr4;
+            $loader->fallbackDirsPsr4 = ComposerStaticInit1cd7de03da7aa784a63df72e59b3ec44::$fallbackDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit1cd7de03da7aa784a63df72e59b3ec44::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit1cd7de03da7aa784a63df72e59b3ec44::$classMap;
 
         }, null, ClassLoader::class);
     }
