@@ -250,7 +250,7 @@ class ServiceMetierCtReception
             $_province = $_centre_reception->getCtProvince()->getPrvNom();
 
             $_code_centre = $_centre_reception->getCtrCode();
-            $_code_province = $_province->getPrvCode();
+            $_code_province = $_centre_reception->getCtProvince()->getPrvCode();
             $_type_recep = "RECEP";
             $_current_year = date('Y');
 
@@ -300,7 +300,7 @@ class ServiceMetierCtReception
             $_province = $_centre_reception->getCtProvince()->getPrvNom();
 
             $_code_centre = $_centre_reception->getCtrCode();
-            $_code_province = $_province->getPrvCode();
+            $_code_province = $_centre_reception->getCtProvince()->getPrvCode();
             $_type_recep = "RECEP";
             $_current_year = date('Y');
 
@@ -633,7 +633,8 @@ class ServiceMetierCtReception
                     $_poids_vide        = $_reception->getCtVehicule()->getVhcPoidsVide();
 
                     $_centre            = $_reception->getCtCentre()->getCtrNom();
-                    $_province          = $_reception->getCtCentre()->getCtrNom()->getPrvNom();
+                    // $_province          = $_reception->getCtCentre()->getCtrNom()->getPrvNom();
+                    $_province          = $_reception->getCtCentre()->getCtProvince()->getPrvNom();
                     $_user_nom          = $_reception->getRcpProprietaire();
                     $_genre             = $_reception->getCtVehicule()->getCtGenre()->getGrLibelle();
                     $_marque            = $_reception->getCtVehicule()->getCtMarque()->getMrqLibelle();

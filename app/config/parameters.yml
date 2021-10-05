@@ -10,6 +10,6 @@ parameters:
     mailer_user: null
     mailer_password: null
     secret: ThisTokenIsNotSoSecretChangeIt
-    libreoffice_linux_path: '"C:\\Program Files\\LibreOffice\\program\\soffice.exe" --headless -env:UserInstallation=file:///tmp --convert-to pdf'
+    libreoffice_linux_path: '/usr/bin/libreoffice --headless -env:UserInstallation=file:///tmp --convert-to pdf'
     libreoffice_mac_path: '/Applications/LibreOffice.app/Contents/MacOS/soffice  --headless --convert-to pdf'
     lo_path: '%libreoffice_linux_path%'
