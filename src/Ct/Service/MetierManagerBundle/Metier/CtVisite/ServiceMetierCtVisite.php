@@ -553,7 +553,7 @@ class ServiceMetierCtVisite
                     GROUP BY vh.vhcNumSerie";
 
         $_query = $this->_entity_manager->createQuery($_dql);
-        $_query->setParameter('debut', new \DateTIME('-2 month'));
+        $_query->setParameter('debut', new \DateTIME('-3 month'));
 
         return $_query->getResult();
     }
@@ -597,7 +597,7 @@ class ServiceMetierCtVisite
                     GROUP BY cg.cgImmatriculation";
 
         $_query = $this->_entity_manager->createQuery($_dql);
-        $_query->setParameter('debut', new \DateTIME('-2 month'));
+        $_query->setParameter('debut', new \DateTIME('-3 month'));
 
         return $_query->getResult();
     }

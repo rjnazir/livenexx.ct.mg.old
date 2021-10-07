@@ -492,7 +492,7 @@ class ServiceMetierCtReception
                 $_poids_vide        = $_reception->getCtVehicule()->getVhcPoidsVide();
 
                 $_centre            = $_reception->getCtCentre()->getCtrNom();
-                $_province          = $_reception->getCtCentre()->getCtrNom()->getPrvNom();
+                $_province          = $_reception->getCtCentre()->getCtProvince()->getPrvNom();
                 $_user_nom          = $_reception->getRcpProprietaire();
                 $_genre             = $_reception->getCtVehicule()->getCtGenre()->getGrLibelle();
                 $_marque            = $_reception->getCtVehicule()->getCtMarque()->getMrqLibelle();
@@ -966,7 +966,7 @@ class ServiceMetierCtReception
 
             $_template->setValue('addr', htmlspecialchars($_arr_of_rec['rcp_adresse']));
             $_template->setValue('centre', $_arr_of_rec['rcp_centre']->getCtrNom());
-            $_template->setValue('province', $_arr_of_rec['rcp_centre']->getCtrNom()->getPrvNom());
+            $_template->setValue('province', $_arr_of_rec['rcp_centre']->getCtProvince()->getPrvNom());
             $_template->setValue('mise_en_circ', $_arr_of_rec['rcp_mise_service']->format('d/m/Y'));
             $_template->setValue('user_nom', htmlspecialchars($_arr_of_rec['rcp_proprietaire']));
 
@@ -1044,7 +1044,7 @@ class ServiceMetierCtReception
         $_code_centre           = $_centre->getCtrCode();
         $_nom_centre            = $_centre->getCtrNom();
         $_province              = $_centre->getCtProvince()->getPrvNom();
-        $_code_province         = $_province->getPrvCode();
+        $_code_province         = $_centre->getCtProvince()->getPrvCode();
         $_nb_reception          = count($_receptions);
 
         $_pv_directory          = $this->_container->getParameter('reporting_template_directory');
@@ -1215,8 +1215,8 @@ class ServiceMetierCtReception
         $_code_centre           = $_centre->getCtrCode();
         $_nom_centre            = $_centre->getCtrNom();
         $_province              = $_centre->getCtProvince()->getPrvNom();
-        $_code_province         = $_province->getPrvCode();
-        $_nom_province          = $_province->getPrvNom();
+        $_code_province         = $_centre->getCtProvince()->getPrvCode();
+        $_nom_province          = $_centre->getCtProvince()->getPrvNom();
         $_nb_reception          = count($_receptions);
 
         $_pv_directory          = $this->_container->getParameter('reporting_template_directory');

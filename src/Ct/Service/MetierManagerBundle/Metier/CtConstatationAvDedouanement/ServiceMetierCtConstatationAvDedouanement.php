@@ -96,7 +96,7 @@ class ServiceMetierCtConstatationAvDedouanement
             $_province = $_centre_reception->getCtProvince()->getPrvNom();
 
             $_code_centre = $_centre_reception->getCtrCode();
-            $_code_province = $_province->getPrvCode();
+            $_code_province = $_centre_reception->getCtProvince()->getPrvCode();
             $_type_const = "CONST";
             $_current_year = date('Y');
 
