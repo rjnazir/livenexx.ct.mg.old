@@ -207,7 +207,7 @@ class ServiceMetierCtBordereau
     {
         $center = array();
         switch($ctrNom){
-            case "ALAROBIA" || preg_grep('/DOMICILE/', $ctrNom) : $centre = array('LE COLONEL, DIRECTEUR DES OPERATIONS TECHNIQUES','ALAROBIA','DIRECTION DES OPERATIONS TECHNIQUES'); break;
+            case "ALAROBIA" || preg_grep('/DOMICILE/', $ctrNom) : $centre = array('LE COLONEL, DIRECTEUR DES OPERATIONS ROUTIERES','ALAROBIA','DIRECTION DES OPERATIONS ROUTIERES'); break;
 
             case "ALASORA"          : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'ALASORA', 'CENTRE DE LA SECURITE ROUTIERE'); break;
             case "ANTSIRABE"        : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'ANTSIRABE', 'CENTRE DE LA SECURITE ROUTIERE'); break;
