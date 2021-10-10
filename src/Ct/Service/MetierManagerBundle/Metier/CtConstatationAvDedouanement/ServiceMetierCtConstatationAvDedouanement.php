@@ -93,10 +93,10 @@ class ServiceMetierCtConstatationAvDedouanement
             $_id_const_av_ded = $_const_av_ded->getId();
 
             $_centre_reception = $_const_av_ded->getCtCentre();
-            $_province = $_centre_reception->getCtProvince();
+            $_province = $_centre_reception->getCtProvince()->getPrvNom();
 
             $_code_centre = $_centre_reception->getCtrCode();
-            $_code_province = $_province->getPrvCode();
+            $_code_province = $_centre_reception->getCtProvince()->getPrvCode();
             $_type_const = "CONST";
             $_current_year = date('Y');
 
@@ -154,6 +154,7 @@ class ServiceMetierCtConstatationAvDedouanement
         if (isset($_constatation) && count($_constatation)) {
             $_num_pv                = $_constatation->getCadNumero();
             $_centre                = $_constatation->getCtCentre()->getCtrNom();
+            $_province              = $_constatation->getCtCentre()->getCtProvince()->getPrvNom();
             $_date_created          = $_constatation->getCadCreated()->format('d-m-Y');
             $_verificateur          = $_constatation->getCtVerificateur()->getUsrName();
             $_immatriculation       = $_constatation->getCadImmatriculation();
@@ -192,6 +193,7 @@ class ServiceMetierCtConstatationAvDedouanement
             $_path_pdf                  = 'http://' . $_url_scheme . '/reporting/' . PathReportingName::GENERATE_CONSTATATION . $_filename . '.pdf';
 
             $_template->setValue('centre', htmlspecialchars($_centre));
+            $_template->setValue('province', htmlspecialchars($_province));
             $_template->setValue('date_created', $_date_created);
             $_template->setValue('num_pv', htmlspecialchars($_num_pv));
             $_template->setValue('nom_verif', htmlspecialchars($_verificateur));
@@ -350,7 +352,7 @@ class ServiceMetierCtConstatationAvDedouanement
 
             return array(
                 'download_path' => $_dest_final,
-                // 'url_path'      => $_path_docx,
+                // 'url_path'      => $_path_docx
                 'url_path'      => $_path_pdf
             );
 
@@ -580,7 +582,7 @@ class ServiceMetierCtConstatationAvDedouanement
 
         return array(
             'download_path' => $_dest_tmp,
-            // 'url_path'      => $_path_docx,
+            // 'url_path'      => $_path_docx
             'url_path'      => $_path_pdf
         );
     }
@@ -631,7 +633,7 @@ class ServiceMetierCtConstatationAvDedouanement
         $_centre           = $_user_connected->getCtCentre();
         $_code_centre      = $_centre->getCtrCode();
         $_nom_centre       = $_centre->getCtrNom();
-        $_province         = $_centre->getCtProvince();
+        $_province         = $_centre->getCtProvince()->getPrvNom();
         $_code_province    = $_province->getPrvCode();
         $_nom_province     = $_province->getPrvNom();
         $_nbr_constatation = count($_constatations);
@@ -701,7 +703,7 @@ class ServiceMetierCtConstatationAvDedouanement
 
         return array(
             'download_path' => $_dest_tmp,
-            // 'url_path'      => $_path_docx,
+            // 'url_path'      => $_path_docx
             'url_path'      => $_path_pdf
         );
     }

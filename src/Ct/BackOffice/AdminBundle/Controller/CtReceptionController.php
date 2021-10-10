@@ -461,10 +461,12 @@ class CtReceptionController extends Controller
 
                 // Recuperer nombre de vehicule a saisir
                 if (array_key_exists('ct_nb_total_vehicule', $_req_data)
-                    && count($_req_data['ct_nb_total_vehicule'])) {
+                    // && count($_req_data['ct_nb_total_vehicule'])) {
+                    && ($_req_data['ct_nb_total_vehicule']) > 0) {
                     $_nb_total_vehicule = $_req_data['ct_nb_total_vehicule'];
                 } else if (array_key_exists('nb-total-vehicule', $_req_data)
-                    && count($_req_data['nb-total-vehicule'])) {
+                    // && count($_req_data['nb-total-vehicule'])) {
+                    && ($_req_data['nb-total-vehicule']) > 0) {
                     $_nb_total_vehicule = $_req_data['nb-total-vehicule'];
                 } else {
                     return $this->redirectToRoute('reception_new');
@@ -476,7 +478,8 @@ class CtReceptionController extends Controller
                 }
 
                 // Test pour continuer saisie reception type
-                if (isset($_nb_total_vehicule) && isset($_num_saisie) && count($_nb_total_vehicule) > 0 && count($_num_saisie) > 0) {
+                // if (isset($_nb_total_vehicule) && isset($_num_saisie) && count($_nb_total_vehicule) > 0 && count($_num_saisie) > 0) {
+                if (isset($_nb_total_vehicule) && isset($_num_saisie) && ($_nb_total_vehicule) > 0 && ($_num_saisie) > 0) {
                     if ($_num_saisie < $_nb_total_vehicule) {// STOP saisie
                         $_is_stop = false;
                     } else {

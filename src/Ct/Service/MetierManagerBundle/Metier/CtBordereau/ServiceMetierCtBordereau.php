@@ -207,7 +207,7 @@ class ServiceMetierCtBordereau
     {
         $center = array();
         switch($ctrNom){
-            case "ALAROBIA"         : $centre = array('LE COLONEL, DIRECTEUR DES OPERATIONS TECHNIQUES','ALAROBIA','DIRECTION DES OPERATIONS TECHNIQUES'); break;
+            case "ALAROBIA" || preg_grep('/DOMICILE/', $ctrNom) : $centre = array('LE COLONEL, DIRECTEUR DES OPERATIONS TECHNIQUES','ALAROBIA','DIRECTION DES OPERATIONS TECHNIQUES'); break;
 
             case "ALASORA"          : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'ALASORA', 'CENTRE DE LA SECURITE ROUTIERE'); break;
             case "ANTSIRABE"        : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'ANTSIRABE', 'CENTRE DE LA SECURITE ROUTIERE'); break;
@@ -337,7 +337,7 @@ class ServiceMetierCtBordereau
 
         return array(
             'download_path' => $_dest_tmp,
-            'url_path'      => $_path_docx,
+            'url_path'      => $_path_docx
             // 'url_path'      => $_path_pdf,
         );
     }

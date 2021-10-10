@@ -508,8 +508,8 @@ class ServiceMetierCtVisite
 
         return array(
             'download_path' => $_dest_tmp,
-            // 'url_path'      => $_path_docx,
-            'url_path'      => $_path_pdf,
+            // 'url_path' => $_path_docx
+            'url_path' => $_path_pdf
         );
 
 //        return $_path;
@@ -553,7 +553,7 @@ class ServiceMetierCtVisite
                     GROUP BY vh.vhcNumSerie";
 
         $_query = $this->_entity_manager->createQuery($_dql);
-        $_query->setParameter('debut', new \DateTIME('-2 month'));
+        $_query->setParameter('debut', new \DateTIME('-3 month'));
 
         return $_query->getResult();
     }
@@ -597,7 +597,7 @@ class ServiceMetierCtVisite
                     GROUP BY cg.cgImmatriculation";
 
         $_query = $this->_entity_manager->createQuery($_dql);
-        $_query->setParameter('debut', new \DateTIME('-2 month'));
+        $_query->setParameter('debut', new \DateTIME('-3 month'));
 
         return $_query->getResult();
     }
@@ -854,6 +854,7 @@ class ServiceMetierCtVisite
         // Récupération informations
         // Centre et province
         $_nom_centre    = $_centre->getCtrNom();
+        $_libelle_centre = (($_centre->getCtrNom() === 'ALAROBIA') || (preg_match('/DOMICILE/', $_centre->getCtrNom()))) ? 'DIRECTION DES OPERATIONS TECHNIQUES' : 'CENTRE DE SECURITE ROUTIERE';
         $_code_centre   = $_centre->getCtrCode();
         $_nom_province  = $_centre->getCtProvince()->getPrvNom();
         $_code_province = $_centre->getCtProvince()->getPrvCode();
@@ -897,6 +898,7 @@ class ServiceMetierCtVisite
         // Centre et province
         $_template->setValue('province', $_nom_province);
         $_template->setValue('centre', $_nom_centre);
+        $_template->setValue('libelle', $_libelle_centre);
 
         if ($_is_omavet) {
             $_template_omavet = $_php_word->loadTemplate($_template_omavet_src);
@@ -1013,18 +1015,18 @@ class ServiceMetierCtVisite
             $_dest_tmp_omavet = $_const_av_ded_manager->convertToPdf($_path, $_file_without_ext_omavet);
 
             return array(
-                'download_path_omavet'  => $_dest_tmp_omavet,
-                'url_path_omavet'       => $_path_omavet_pdf,
-                'download_path'         => $_dest_tmp,
-                //'url_path'              => $_path_docx,
-                'url_path'              => $_path_pdf
+                'download_path_omavet' => $_dest_tmp_omavet,
+                'url_path_omavet' => $_path_omavet_pdf,
+                'download_path' => $_dest_tmp,
+                // 'url_path' => $_path_docx
+                'url_path' => $_path_pdf
             );
         }
 
         return array(
             'download_path' => $_dest_tmp,
-            // 'url_path'      => $_path_docx,
-            'url_path'      => $_path_pdf
+            // 'url_path' => $_path_docx
+            'url_path' => $_path_pdf
         );
     }
 
@@ -1052,6 +1054,7 @@ class ServiceMetierCtVisite
         // Récupération informations
         // Centre et province
         $_nom_centre    = $_centre->getCtrNom();
+        $_libelle_centre = (($_centre->getCtrNom() === 'ALAROBIA') || (preg_match('/DOMICILE/', $_centre->getCtrNom()))) ? 'DIRECTION DES OPERATIONS TECHNIQUES' : 'CENTRE DE SECURITE ROUTIERE';
         $_code_centre   = $_centre->getCtrCode();
         $_nom_province  = $_centre->getCtProvince()->getPrvNom();
         $_code_province = $_centre->getCtProvince()->getPrvCode();
@@ -1095,6 +1098,7 @@ class ServiceMetierCtVisite
         // Centre et province
         $_template->setValue('province', $_nom_province);
         $_template->setValue('centre', $_nom_centre);
+        $_template->setValue('libelle', $_libelle_centre);
 
         if ($_is_omavet) {
             $_template_omavet = $_php_word->loadTemplate($_template_omavet_src);
@@ -1283,18 +1287,18 @@ class ServiceMetierCtVisite
             $_dest_tmp_omavet = $_const_av_ded_manager->convertToPdf($_path, $_file_without_ext_omavet);
 
             return array(
-                'download_path_omavet'  => $_dest_tmp_omavet,
-                'url_path_omavet'       => $_path_omavet_pdf,
-                'download_path'         => $_dest_tmp,
-                // 'url_path'              => $_path_docx,
-                'url_path'              => $_path_pdf
+                'download_path_omavet' => $_dest_tmp_omavet,
+                'url_path_omavet' => $_path_omavet_pdf,
+                'download_path' => $_dest_tmp,
+                // 'url_path' => $_path_docx
+                'url_path' => $_path_pdf
             );
         }
 
         return array(
             'download_path' => $_dest_tmp,
-            // 'url_path'      => $_path_docx,
-            'url_path'      => $_path_pdf
+            // 'url_path' => $_path_docx
+            'url_path' => $_path_pdf
         );
     }
 
@@ -1320,6 +1324,7 @@ class ServiceMetierCtVisite
         // Récupération informations
         // Centre et province
         $_nom_centre    = $_centre->getCtrNom();
+        $_libelle_centre = (($_centre->getCtrNom() === 'ALAROBIA') || (preg_match('/DOMICILE/', $_centre->getCtrNom()))) ? 'DIRECTION DES OPERATIONS TECHNIQUES' : 'CENTRE DE SECURITE ROUTIERE';
         $_code_centre   = $_centre->getCtrCode();
         $_nom_province  = $_centre->getCtProvince()->getPrvNom();
         $_code_province = $_centre->getCtProvince()->getPrvCode();
@@ -1345,6 +1350,7 @@ class ServiceMetierCtVisite
         // Centre et province
         $_template->setValue('province', $_nom_province);
         $_template->setValue('centre', $_nom_centre);
+        $_template->setValue('libelle', $_libelle_centre);
 
         if ($_id_verif > 0) {
             $_liste_verificateurs = $_verif_manager->getVerificateurById($_id_verif);
@@ -1420,8 +1426,8 @@ class ServiceMetierCtVisite
 
         return array(
             'download_path' => $_dest_tmp,
-            // 'url_path'      => $_path_docx,
-            'url_path'      => $_path_pdf
+            // 'url_path' => $_path_docx
+            'url_path' => $_path_pdf
         );
 
     }
@@ -1434,22 +1440,23 @@ class ServiceMetierCtVisite
      */
     public function generatePVVisite($_visite_id)
     {
-        $_usage_tarif_manager        = $this->_container->get(ServiceName::SRV_METIER_USAGE_TARIF);
+        $_usage_tarif_manager = $this->_container->get(ServiceName::SRV_METIER_USAGE_TARIF);
         $_visite_extra_tarif_manager = $this->_container->get(ServiceName::SRV_METIER_VISITE_EXTRA_TARIF);
-        $_pv_manager                 = $this->_container->get(ServiceName::SRV_METIER_PROCES_VERBAL);
+        $_pv_manager = $this->_container->get(ServiceName::SRV_METIER_PROCES_VERBAL);
 
-        $_visite      = $this->getCtVisiteById($_visite_id);
-        $_is_apte     = $_visite->getVstIsApte();
-        $_num_pv      = $_visite->getVstNumPv();
+        $_visite = $this->getCtVisiteById($_visite_id);
+        $_is_apte = $_visite->getVstIsApte();
+        $_num_pv = $_visite->getVstNumPv();
         $_is_contre_v = $_visite->getVstIsContreVisite();
 
-        $_centre        = $_visite->getCtCentre();
-        $_operator      = $_visite->getCtUser()->getUsrName();
+        $_centre = $_visite->getCtCentre();
+        $_operator = $_visite->getCtUser()->getUsrName();
 
 
         // Récupération informations
         // Centre et province
-        $_nom_centre    = $_centre->getCtrNom();
+        $_nom_centre = $_centre->getCtrNom();
+        $_libelle_centre = (($_centre->getCtrNom() === 'ALAROBIA') || (preg_match('/DOMICILE/', $_centre->getCtrNom()))) ? 'DIRECTION DES OPERATIONS TECHNIQUES' : 'CENTRE DE SECURITE ROUTIERE';
         $_nom_province  = $_centre->getCtProvince()->getPrvNom();
 
         // Récupérer répertoire modèle Word
@@ -1577,6 +1584,7 @@ class ServiceMetierCtVisite
 
         $_template->setValue('province', htmlspecialchars($_nom_province));
         $_template->setValue('centre', htmlspecialchars($_nom_centre));
+        $_template->setValue('libelle', htmlspecialchars($_libelle_centre));
         $_template->setValue('Recu', htmlspecialchars($_recu));
         $_template->setValue('date', htmlspecialchars($_date_visite));
         $_template->setValue('nom', htmlspecialchars($_nom_prenom));
@@ -1664,8 +1672,8 @@ class ServiceMetierCtVisite
 
         return array(
             'download_path' => $_dest_tmp,
-            // 'url_path'      => $_path_docx,
-            'url_path'      => $_path_pdf
+            // 'url_path' => $_path_docx
+            'url_path' => $_path_pdf
         );
 
 
@@ -1695,6 +1703,7 @@ class ServiceMetierCtVisite
         // Récupération informations
         // Centre et province
         $_nom_centre    = $_centre->getCtrNom();
+        $_libelle_centre = (($_centre->getCtrNom() === 'ALAROBIA') || (preg_match('/DOMICILE/', $_centre->getCtrNom()))) ? 'DIRECTION DES OPERATIONS TECHNIQUES' : 'CENTRE DE SECURITE ROUTIERE';
         $_code_centre   = $_centre->getCtrCode();
         $_nom_province  = $_centre->getCtProvince()->getPrvNom();
         $_code_province = $_centre->getCtProvince()->getPrvCode();
@@ -1720,6 +1729,7 @@ class ServiceMetierCtVisite
         // Centre et province
         $_template->setValue('province', $_nom_province);
         $_template->setValue('centre', $_nom_centre);
+        $_template->setValue('libelle', $_libelle_centre);
 
         // Formattage date
         $_date_exploded = explode('-', $_date);
@@ -1778,8 +1788,8 @@ class ServiceMetierCtVisite
 
         return array(
             'download_path' => $_dest_tmp,
-            // 'url_path'      => $_path_docx,
-            'url_path'      => $_path_pdf
+            // 'url_path' => $_path_docx
+            'url_path' => $_path_pdf
         );
     }
 
