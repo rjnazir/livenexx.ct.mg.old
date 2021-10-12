@@ -184,11 +184,14 @@ class ServiceMetierCtBordereau
     public function getListInBordereau($_ct_centre_id, $_bl_numero)
     {
         $_entity_bl = EntityName::CT_BORDEREAU;
+        $_entity_it = EntityName::CT_IMPRIME_TECH;
 
         $_dql    = "SELECT t
-                    FROM $_entity_bl t 
+                    FROM    $_entity_bl t 
+                            INNER JOIN $_entity_it it WITH t.ctImprimeTech = it.id
                     WHERE   t.ctCentre = :ct_centre_id
-                        AND t.blNumero = :bl_numero";
+                        AND t.blNumero = :bl_numero
+                    ORDER BY it.nomImprimeTech ASC, t.blDebutNumero ASC";
         $_query  = $this->_entity_manager->createQuery($_dql);
         $_query->setParameter('ct_centre_id', $_ct_centre_id);
         $_query->setParameter('bl_numero', $_bl_numero);
