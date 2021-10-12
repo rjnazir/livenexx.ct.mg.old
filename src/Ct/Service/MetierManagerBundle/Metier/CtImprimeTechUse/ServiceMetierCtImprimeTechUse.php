@@ -436,7 +436,7 @@ class ServiceMetierCtImprimeTechUse
             $ncbl = $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'Carte blanche');
             $_result[$_j]->ncbl = !in_array($ncbl, array_column($_result, 'ncbl')) ? $ncbl : '-';
 
-            $nbbr = $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'Carte blanche barrée rouge');
+            $nbbr = $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'CIM 32 Bis');
             $_result[$_j]->nbbr = !in_array($nbbr, array_column($_result, 'nbbr')) ? $nbbr : '-';
 
             $ncjn = $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'Carte jaune');
@@ -739,7 +739,7 @@ class ServiceMetierCtImprimeTechUse
     {
 
         $_entity_it = EntityName::CT_IMPRIME_TECH;
-        $_dql = "SELECT DISTINCT t FROM $_entity_it t";
+        $_dql = "SELECT DISTINCT t FROM $_entity_it t ORDER BY t.nomImprimeTech ASC";
         $_query = $this->_entity_manager->createQuery($_dql);
         $_res = $_query->getResult();
         $result = [];
