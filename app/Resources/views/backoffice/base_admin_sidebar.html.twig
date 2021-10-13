@@ -63,7 +63,8 @@
                 </li>
             {% endif %}
 
-            {% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_STAFF') %}
+            {# {% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_STAFF') %} #}
+	    {% if is_granted('ROLE_SUPERADMIN') or is_granted('ROLE_STAFF') or ('ROLE_VISITE') or ('ROLE_RECEPTION')%}
                 {# Historique #}
                 <li class="treeview {% if menu_historique is defined %}{{ active }}{% endif %}">
                     <a href="#">
@@ -76,6 +77,15 @@
                     <ul class="treeview-menu">
                         <li class="{% if menu_historique_list is defined %}{{ active }}{% endif %}">
                             <a href="{{ path('historique_index') }}"><i class="fa fa-circle-o"></i> Voir</a>
+                        </li>
+                        <li class="treeview">
+                            <a href="http://dgsrmada.com:2021/ct/statistique" target="_blank">
+                                <i class="fa fa-search"></i>
+                                <span>Consultation CT</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
                         </li>
                     </ul>
                 </li>
