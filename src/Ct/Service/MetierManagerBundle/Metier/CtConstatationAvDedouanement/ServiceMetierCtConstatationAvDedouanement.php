@@ -634,8 +634,8 @@ class ServiceMetierCtConstatationAvDedouanement
         $_code_centre      = $_centre->getCtrCode();
         $_nom_centre       = $_centre->getCtrNom();
         $_province         = $_centre->getCtProvince()->getPrvNom();
-        $_code_province    = $_province->getPrvCode();
-        $_nom_province     = $_province->getPrvNom();
+        $_code_province    = $_centre->getCtProvince()->getPrvCode();
+        $_nom_province     = $_centre->getCtProvince()->getPrvNom();
         $_nbr_constatation = count($_constatations);
 
         $_pv_directory    = $this->_container->getParameter('reporting_template_directory');
