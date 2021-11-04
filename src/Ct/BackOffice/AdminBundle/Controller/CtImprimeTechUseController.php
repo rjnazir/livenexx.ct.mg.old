@@ -8,6 +8,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Ct\Service\MetierManagerBundle\Entity\CtImprimeTechUse;
+use Ct\Service\MetierManagerBundle\Utils\RoleName;
+use Symfony\Component\HttpFoundation\Response;
 
 class CtImprimeTechUseController extends Controller
 {
@@ -266,5 +268,57 @@ class CtImprimeTechUseController extends Controller
         $_link_download = $_bordereau_manager->genererFeuilleStockIT($_ct_centre_id, $_ct_situ_date);
 
         return new JsonResponse($_link_download);
+    }
+
+    public function statisticITUseAction(){
+        // Récupérer manager
+        $_province_manager = $this->get(ServiceName::SRV_METIER_PROVINCE);
+        $_centre_manager   = $this->get(ServiceName::SRV_METIER_CENTRE);
+
+        // Récupérer tout les provinces et les centres
+        $_centres   = $_centre_manager->getAllCtCentreByOrder(array('id' => 'ASC'));
+        $_provinces = $_province_manager->getAllCtProvinceByOrder(array('id' => 'ASC'));
+
+        return $this->render('AdminBundle:CtImprimeTechUse:stat.html.twig', array(
+            'centres'   => $_centres,
+            'provinces' => $_provinces
+        ));
+    }
+
+    /**
+     * Ajax génération reporting annuel
+     * @param Request $_request
+     * @return Render page
+     */
+    public function generateReportingStatisticITUseAction(Request $_request)
+    {
+        // Récupérer manager
+        $_statistique_visite_manager = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
+
+        // Récupérer l'utilisateur connecté
+        $_user_connected = $this->container->get('security.token_storage')->getToken()->getUser();
+
+        // Récupération données formulaires
+        $_data_forms            = $_request->request->all();
+        $_annee                 = $_data_forms['annee'];
+        $_type_interval         = $_data_forms['type'];
+        $_value                 = $_data_forms['value'];
+        $_id_centre             = $_data_forms['id_centre'];
+
+        // Récupérer le centre du chef de centre (si le rôle a de type chef de centre)
+        // if(is_null($_id_centre)){
+        //     $_user_centre = $_user_connected->getCtCentre();
+        //     $_id_centre   = $_user_centre->getId();
+        // }
+        if (($_user_connected->getCtRole()->getId() != RoleName::ID_ROLE_SUPERADMIN) || $_user_connected->getCtRole()->getId() != RoleName::ID_ROLE_APPROVISIONNEMENT) {
+            $_user_centre = $_user_connected->getCtCentre();
+            $_id_centre   = $_user_centre->getId();
+        }
+
+        $_res = $_statistique_visite_manager->generateReportingByInterval($_id_centre, $_annee, $_value, $_type_interval);
+        $_download_path = $_res['download_path'];
+        $_url_path      = $_res['url_path'];
+
+        return new Response($_url_path);
     }
 }

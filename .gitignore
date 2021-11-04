@@ -1,7 +1,6 @@
 /web/bundles/
 /web/media/
 /web/upload/
-/web/reporting/generated/
 /web/config.php
 /app/config/parameters.yml
 /app/phpunit.xml
@@ -19,3 +18,10 @@ composer.lock
 /var/SymfonyRequirements.php
 /bin
 /web/reporting/generated/carte_visite/1NPV.docx
+/web/reporting/generated/bordereau/
+/web/reporting/generated/reception/duplicata/
+/web/reporting/generated/reception/feuille_de_caisse/
+/web/reporting/generated/reception/fiche_controle/
+/web/reporting/generated/reception/pv/
+/web/reporting/generated/reception/statistique/
+/web/reporting/generated/constatation/

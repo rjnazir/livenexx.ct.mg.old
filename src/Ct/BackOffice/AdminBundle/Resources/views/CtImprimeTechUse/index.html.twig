@@ -43,7 +43,7 @@
                             </div>
 
                             <!-- Centre -->
-                            <div class="{% if app.user.ctRole.id != constant('Ct\\Service\\MetierManagerBundle\\Utils\\RoleName::ID_ROLE_SUPERADMIN') %}hidden{% endif %}">
+                            <div class="{% if app.user.ctRole.id != constant('Ct\\Service\\MetierManagerBundle\\Utils\\RoleName::ID_ROLE_SUPERADMIN') and app.user.ctRole.id != constant('Ct\\Service\\MetierManagerBundle\\Utils\\RoleName::ID_ROLE_APPROVISIONNEMENT') %}hidden{% endif %}">
                                 <div class="row">
                                     <div class="form-group">
                                         <label for="ct_fitu_centre">Séléctionner le centre</label>
@@ -52,17 +52,17 @@
                                             <option value="" selected="selected">
                                                 Choisir
                                             </option>
-                                            {% for province in provinces %}
-                                            <optgroup label="{{ province.prvNom }}">
+                                            {# {% for province in provinces %}
+                                            <optgroup label="{{ province.prvNom }}"> #}
                                                 {% for centre in centres %}
-                                                    {% if province.id == centre.ctProvince.id %}
+                                                    {# {% if province.id == centre.ctProvince.id %} #}
                                                         <option value="{{ centre.id }}">
                                                             {{ centre.ctrNom|upper }}
                                                         </option>
-                                                    {% endif %}
+                                                    {# {% endif %} #}
                                                 {% endfor %}
-                                            </optgroup>
-                                            {% endfor %}
+                                            {# </optgroup>
+                                            {% endfor %} #}
                                         </select>
                                     </div>
                                 </div>
@@ -103,7 +103,7 @@
                             </div>
 
                             <!-- Centre -->
-                            <div class="{% if app.user.ctRole.id != constant('Ct\\Service\\MetierManagerBundle\\Utils\\RoleName::ID_ROLE_SUPERADMIN') %}hidden{% endif %}">
+                            <div class="{% if app.user.ctRole.id != constant('Ct\\Service\\MetierManagerBundle\\Utils\\RoleName::ID_ROLE_SUPERADMIN') and app.user.ctRole.id != constant('Ct\\Service\\MetierManagerBundle\\Utils\\RoleName::ID_ROLE_APPROVISIONNEMENT') %}hidden{% endif %}">
                                 <div class="row">
                                     <div class="form-group">
                                         <label for="ct_situ_centre">Séléctionner le centre</label>
@@ -112,17 +112,17 @@
                                             <option value="" selected="selected">
                                                 Choisir
                                             </option>
-                                            {% for province in provinces %}
-                                            <optgroup label="{{ province.prvNom }}">
+                                            {# {% for province in provinces %}
+                                            <optgroup label="{{ province.prvNom }}"> #}
                                                 {% for centre in centres %}
-                                                    {% if province.id == centre.ctProvince.id %}
+                                                    {# {% if province.id == centre.ctProvince.id %} #}
                                                         <option value="{{ centre.id }}">
                                                             {{ centre.ctrNom|upper }}
                                                         </option>
-                                                    {% endif %}
+                                                    {# {% endif %} #}
                                                 {% endfor %}
-                                            </optgroup>
-                                            {% endfor %}
+                                            {# </optgroup>
+                                            {% endfor %} #}
                                         </select>
                                     </div>
                                 </div>

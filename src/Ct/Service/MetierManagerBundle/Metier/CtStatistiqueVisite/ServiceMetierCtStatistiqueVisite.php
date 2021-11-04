@@ -812,7 +812,8 @@ class ServiceMetierCtStatistiqueVisite
 
         return array(
             'download_path' => $_dest_tmp,
-            'url_path' => $_path_pdf
+            // 'url_path' => $_path_pdf
+            'url_path' => $_path_docx
         );
     }
 }
