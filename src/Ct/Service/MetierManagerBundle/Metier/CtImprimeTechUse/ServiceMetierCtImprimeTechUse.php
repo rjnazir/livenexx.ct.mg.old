@@ -76,35 +76,8 @@ class ServiceMetierCtImprimeTechUse
         $_ct_centre_id  = $_user_connected->getCtCentre();
         $_ct_centre_code = $_user_connected->getCtCentre()->getCtrCode();
 
-        // $_result = array();
-        // $_j = 0;
-        // $_scrpt00 = "SELECT DISTINCT t.id FROM $_entity_it t";
-        // $_query00 = $this->_entity_manager->createQuery($_scrpt00);
-        // $_resul00 = $_query00->getResult();
-        // foreach($_resul00 as $result_00){
-        //     $_scrpt01 = "SELECT t
-        //                  FROM   $_entity_bl t 
-        //                  WHERE  t.ctCentre IN (SELECT tt.id FROM $_entity_ctr tt WHERE tt.ctrCode = :ct_centre_code )
-        //                          AND t.ituUsed = :itu_Used
-        //                          AND t.ctImprimeTech = :ct_imprimetech_id
-        //                          ORDER BY t.ituNumero ASC";
-        //     $_query01  = $this->_entity_manager->createQuery($_scrpt01);
-        //     $_query01->setParameter('ct_centre_code', $_ct_centre_code);
-        //     $_query01->setParameter('ct_imprimetech_id', $result_00->getId());
-        //     $_query01->setParameter('itu_Used', 0);
-        //     $_query01->setMaxResults(5);
-        //     $_reslt01 = $_query01->getResult();
-        //     foreach($_reslt01 as $_res){
-        //         // if(!isset($_result)) 
-        //         $_result[$_j] = new \stdClass();
-        //         $_result[$_j]->id = $_res->getId();
-        //         $_result[$_j]->itu_numero = $_res->getItuNumero();
-        //         $_j++;
-        //     }
-        // }
-
-        $_sql = "SELECT t FROM $_entity_bl t WHERE t.ctCentre = :ct_centre_id AND t.ituUsed = :itu_Used ORDER BY t.ituNumero ASC";
-        $_sql    = "SELECT t
+        // $_sql   = "SELECT t FROM $_entity_bl t WHERE t.ctCentre = :ct_centre_id AND t.ituUsed = :itu_Used ORDER BY t.ituNumero ASC";
+        $_sql   = "SELECT t
                     FROM $_entity_bl t 
                     WHERE   t.ctCentre IN (SELECT tt.id FROM $_entity_ctr tt WHERE tt.ctrCode = :ct_centre_code )
                             AND t.ituUsed = :itu_Used
