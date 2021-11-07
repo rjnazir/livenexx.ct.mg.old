@@ -52,4 +52,13 @@ imprimes_tech_stock_generate_ajax:
     path:     /generer-feuille-stock-it-ajax
     defaults: { _controller: "AdminBundle:CtImprimeTechUse:generateFeuilleStockIT" }
     methods:  [GET, POST]
-    
+
+imprimes_tech_use_statistic:
+    path:     /stat
+    defaults: { _controller: "AdminBundle:CtImprimeTechUse:statisticITUse" }
+    methods:  GET
+
+imprimes_tech_use_statistic_generate_reporting:
+    path:     /generate-reporting-use-imprimes-tech
+    defaults: { _controller: "AdminBundle:CtImprimeTechUse:generateReportingStatisticITUse" }
+    methods:  [GET, POST]

@@ -197,6 +197,7 @@ class CtVisiteController extends Controller
             'imprimes_tech' => $_imprimestech,
             'imprimes_tech_use' => $_imprimestechuse,
             'adesit' => $_adesit,
+            'isa' => 0,
         ));
     }
 

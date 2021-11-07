@@ -113,4 +113,7 @@ class PathReportingName
     const TEMPLATE_FEUILLE_STOCK_IT = 'template/bordereau/feuille_stock_it.docx';
     const GENERATE_FEUILLE_STOCK_IT = 'generated/bordereau/';
 
+    const TEMPLATE_STATISTIQUE_UTILISATION_IT = 'template/bordereau/statistique_imprimes_techniques.docx';
+    const GENERATE_STATISTIQUE_UTILISATION_IT = 'generated/bordereau/';
+
 }

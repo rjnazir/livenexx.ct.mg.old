@@ -163,7 +163,6 @@ class ServiceMetierCtBordereau
     {
         $_entity_bl = EntityName::CT_BORDEREAU;
 
-
         $_sql    = "SELECT t
                     FROM $_entity_bl t 
                     WHERE t.blNumero = ?1";
@@ -201,6 +200,34 @@ class ServiceMetierCtBordereau
     }
 
     /**
+     *  Récupérer un bordereau par le centre de destination et son numéro
+     *  @param  $_typeit : Type d'imprimée technique à tester
+     *  @param  $_debutnum : Début numéro imprimée technique à tester
+     *  @param  $_finnum : Fin numéro imprimée technique à tester
+     *  @return $_list : Liste imprimés technique remplicant les condistions array()
+     */
+    public function getListITByTypeITInBordereau($_typeit, $_debutnum, $_finnum)
+    {
+        $_entity_bl = EntityName::CT_BORDEREAU;
+        $_entity_it = EntityName::CT_IMPRIME_TECH;
+
+        $_dql    = "SELECT t
+                    FROM    $_entity_bl t 
+                            INNER JOIN $_entity_it it WITH t.ctImprimeTech = it.id
+                    WHERE   t.ctImprimeTech = :ct_imprime_tech_di
+                        AND t.blDebutNumero = :bl_start_num
+                        AND t.blFinNumero = :bl_end_num
+                    ORDER BY it.nomImprimeTech ASC, t.blDebutNumero ASC";
+        $_query  = $this->_entity_manager->createQuery($_dql);
+        $_query->setParameter('ct_imprime_tech_di', $_typeit);
+        $_query->setParameter('bl_start_num', $_debutnum);
+        $_query->setParameter('bl_end_num', $_finnum);
+        $_ret = $_query->getResult();
+        return $_ret;
+
+    }
+
+    /**
      * Fonction permettant de mofidier l'affichage du nom du centre
      * suivant le nom de centre entré comme parametre
      * @param $ctrNom   : Nom centre à traiter
@@ -210,7 +237,9 @@ class ServiceMetierCtBordereau
     {
         $center = array();
         switch($ctrNom){
-            case "ALAROBIA" || preg_grep('/DOMICILE/', $ctrNom) : $centre = array('LE COLONEL, DIRECTEUR DES OPERATIONS ROUTIERES','ALAROBIA','DIRECTION DES OPERATIONS ROUTIERES'); break;
+            case (preg_match('/DOMICILE/i', $ctrNom) ? true : false)
+                                    : $centre = array('LE COLONEL, DIRECTEUR DES OPERATIONS ROUTIERES','VISITE A DOMICILE : '.str_replace('VISITE A DOMICILE : ', '', $ctrNom),'',''); break;
+            case "ALAROBIA"         : $centre = array('LE COLONEL,<w:br/>directeur des opérations routières','VISITE A DOMICILE : '.$ctrNom, ''); break;
 
             case "ALASORA"          : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'ALASORA', 'CENTRE DE LA SECURITE ROUTIERE'); break;
             case "ANTSIRABE"        : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'ANTSIRABE', 'CENTRE DE LA SECURITE ROUTIERE'); break;
@@ -242,8 +271,11 @@ class ServiceMetierCtBordereau
             case "SANFIL"           : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'TOLIARA', 'CENTRE DE LA SECURITE ROUTIERE'); break;
             case "TAOLAGNARO"       : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', 'TAOLAGNARO', 'CENTRE DE LA SECURITE ROUTIERE'); break;
 
-            case "CENTRE_RECEPTION_TECHNIQUE":
-                                      $centre = array('LE CHEF DE CENTRE DE LA RECEPTION TECHNIQUE', 'ALASORA', 'CENTRE DE LA RECEPTION TECHNIQUE'); break;
+            case "CENTRE_RECEPTION_TECHNIQUE"
+                                    : $centre = array('LE CHEF DE CENTRE DE RECEPTION TECHNIQUE', 'ALASORA', 'CENTRE DE RECEPTION TECHNIQUE'); break;
+            case (preg_match('/RECEPTION/i', $ctrNom) ? true : false)
+                                    : $centre = array('LE CHEF DE CENTRE DE RECEPTION TECHNIQUE', 'ALASORA<w:br/>('.str_replace('RECEPTION TECHNIQUE ', '', str_replace('_',' ',$ctrNom).')'), 'CENTRE DE RECEPTION TECHNIQUE'); break;
+
             default                 : $centre = array('LE CHEF DE CENTRE DE LA SECURITE ROUTIERE', $ctrNom, 'CENTRE DE LA SECURITE ROUTIERE', );
         }
         return $centre;
@@ -289,17 +321,27 @@ class ServiceMetierCtBordereau
 
         // Centre, lieu centre et numéro BL
         $_template->setValue('nom_centre', $_nom_centre);
-        $_template->setValue('lieu_centre', $_lieu_centre);
+        switch($_lieu_centre){
+            case (preg_match('/alasora/i', $_lieu_centre) ? true : false) :
+                    $_template->setValue('lieu_centre', 'ALASORA');break;
+            case (preg_match('/VISITE A DOMICILE/i', $_lieu_centre) ? true : false) :
+                    $_template->setValue('lieu_centre', 'ALAROBIA');break;
+            case (preg_match('/itinerante/i', $_lieu_centre) ? true : false) :
+                $_template->setValue('lieu_centre', str_replace('ITINERANTE ', '', $_lieu_centre));break;
+            default :
+                $_template->setValue('lieu_centre', $_lieu_centre);break;
+        }
         $_template->setValue('bl_numero', $numero);
 
         // Liste des imprimés techniques
         $_bordereau      = $this->getListInBordereau($centre, $numero);
         $_nbr_it         = count($_bordereau);
-        $_total          = 0;
 
-        $_template->cloneRow('i', $_nbr_it);
-        // $_template->cloneRow('nature', $_nbr_it);
-        // $_template->cloneRow('reference', $_nbr_it);
+        // $_template->cloneRow('i', $_nbr_it);
+        $_template->cloneRow('nature', $_nbr_it);
+        // $_template->cloneRow('reference', 2);
+        
+        $_total          = 0;
 
         $_i = 0;
         foreach($_bordereau as $_imprime_tech)
@@ -343,5 +385,28 @@ class ServiceMetierCtBordereau
             'url_path'      => $_path_docx
             // 'url_path'      => $_path_pdf,
         );
+    }
+
+    /**
+     * Fonction permettant de tester si le numéro de l'IT est déjà dans un autre BE
+     * @param   $_typeit : Type de l'imprimée technique à ajouter dans le BE
+     * @param   $_debut : Début des numéro des IT à ajouter dans le BE
+     * @param   $_fin : Fin des numéro des IT à ajouter dans le BE
+     * @return  $_exist : Retourne VRAI si le numéro est déjà dans le BE ou FAUX si le numéro est non existant
+     */
+    public function TestNumIT($_typeit ,$_debut, $_fin){
+        $_exist = false;
+        // $_list_it_bl = $this->getAllCtBordereau();
+        $_list_it_bl = $this->getListITByTypeITInBordereau($_typeit, $_debut, $_fin);
+        foreach($_list_it_bl as $_it_bl){
+            $start = $_it_bl->getBlDebutNumero();
+            $end = $_it_bl->getBlFinNumero();
+            $_list_it_bl = range ($start , $end, $step = 1);
+            if(in_array($_debut, $_list_it_bl) || in_array($_fin, $_list_it_bl)){
+                $_exist = true;
+            }
+        }
+
+        return $_exist;
     }
 }

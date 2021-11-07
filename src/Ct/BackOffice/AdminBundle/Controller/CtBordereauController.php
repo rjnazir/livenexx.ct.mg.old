@@ -114,10 +114,14 @@ class CtBordereauController extends Controller
         $_form->handleRequest($_request);
 
         if ($_form->isSubmitted() && $_form->isValid()) {
-            // Enregistrement bordreau
-            $_bl_manager->saveCtBordereau($_bordereau, 'new');
-            $_bl_manager->setFlash('success', "Imprimé technique ajouté dans bordereau");
-            return $this->redirect($this->generateUrl('bordereau_index'));
+            if($_bl_manager->TestNumIT($_bordereau->getCtImprimeTech(), $_bordereau->getBlDebutNumero(), $_bordereau->getBlFinNumero()) == false){
+                // Enregistrement bordreau
+                $_bl_manager->saveCtBordereau($_bordereau, 'new');
+                $_bl_manager->setFlash('success', "Imprimé technique ajouté dans bordereau");
+                return $this->redirect($this->generateUrl('bordereau_index'));
+            }else{
+                $_bl_manager->setFlash('error', "Le numéro de l'imprimée technique ".$_bordereau->getBlDebutNumero()." à ".$_bordereau->getBlFinNumero()." entré est déjà dans un autre B.E.");
+            }
         }
 
         return $this->render('AdminBundle:CtBordereau:add.html.twig', array(
@@ -145,9 +149,14 @@ class CtBordereauController extends Controller
         $_edit_form->handleRequest($_request);
 
         if ($_edit_form->isValid()) {
-            $_bl_manager->saveCtBordereau($_bordereau, 'update');
-            $_bl_manager->setFlash('success', "Imprimé technique modifié dans bordereau");
-            return $this->redirect($this->generateUrl('bordereau_index'));
+            if($_bl_manager->TestNumIT($_bordereau->getCtImprimeTech(), $_bordereau->getBlDebutNumero(), $_bordereau->getBlFinNumero()) == false){
+                // Enregistrement bordreau
+                $_bl_manager->saveCtBordereau($_bordereau, 'update');
+                $_bl_manager->setFlash('success', "Imprimé technique modifié dans bordereau");
+                return $this->redirect($this->generateUrl('bordereau_index'));
+            }else{
+                $_bl_manager->setFlash('error', "Le numéro de l'imprimée technique ".$_bordereau->getBlDebutNumero()." à ".$_bordereau->getBlFinNumero()." entré est déjà dans un autre B.E.");
+            }
         }
 
         return $this->render('AdminBundle:CtBordereau:edit.html.twig', array(

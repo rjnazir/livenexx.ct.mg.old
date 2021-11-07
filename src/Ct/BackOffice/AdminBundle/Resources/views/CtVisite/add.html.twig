@@ -462,9 +462,12 @@
                                         <optgroup label="{{ imprime_tech.nomImprimeTech|upper }}">
                                             {% for imprime_tech_use in imprimes_tech_use %}
                                                 {% if imprime_tech.id == imprime_tech_use.ctImprimeTech.id %}
+                                                {# {% set counter = ( counter | default(0) ) + 1 %}
+                                                {% if counter <= 20 %} #}
                                                 <option value="{{ imprime_tech_use.id }}">
                                                     {{ imprime_tech_use.ituNumero|upper }}
                                                 </option>
+                                                {# {% endif %} #}
                                                 {% endif %}
                                             {% endfor %}
                                         </optgroup>
