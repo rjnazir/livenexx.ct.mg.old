@@ -1517,7 +1517,7 @@ class ServiceMetierCtVisite
         $_num_violet             = $_visite->getCtCarteGrise()->getCgNumCarteViolette();
         $_violet_date            = $_visite->getCtCarteGrise()->getCgDateCarteViolette() ? $_visite->getCtCarteGrise()->getCgDateCarteViolette()->format('d/m/Y') : '-';
         $_num_vignette           = $_visite->getCtCarteGrise()->getCgNumVignette();
-        $_vignette_date          = $_visite->getCtCarteGrise()->getCgDateVignette()->format('d/m/Y');
+        $_vignette_date          = $_visite->getCtCarteGrise()->getCgDateVignette() ? $_visite->getCtCarteGrise()->getCgDateVignette()->format('d/m/Y') : '-';
         $_patente                = $_visite->getCtCarteGrise()->getCgPatente();
         $_ani                    = $_visite->getCtCarteGrise()->getCgAni();
         $_rta                    = $_visite->getCtCarteGrise()->getCgRta();
