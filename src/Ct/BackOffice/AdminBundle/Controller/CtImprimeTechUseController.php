@@ -306,14 +306,14 @@ class CtImprimeTechUseController extends Controller
         $_id_centre             = $_data_forms['id_centre'];
 
         // Récupérer le centre du chef de centre (si le rôle a de type chef de centre)
-        // if(is_null($_id_centre)){
-        //     $_user_centre = $_user_connected->getCtCentre();
-        //     $_id_centre   = $_user_centre->getId();
-        // }
-        if (($_user_connected->getCtRole()->getId() != RoleName::ID_ROLE_SUPERADMIN) || $_user_connected->getCtRole()->getId() != RoleName::ID_ROLE_APPROVISIONNEMENT) {
+        if(is_null($_id_centre)){
             $_user_centre = $_user_connected->getCtCentre();
             $_id_centre   = $_user_centre->getId();
         }
+        // if (($_user_connected->getCtRole()->getId() != RoleName::ID_ROLE_SUPERADMIN) || $_user_connected->getCtRole()->getId() != RoleName::ID_ROLE_APPROVISIONNEMENT) {
+        //    $_user_centre = $_user_connected->getCtCentre();
+        //    $_id_centre   = $_user_centre->getId();
+        // }
 
         $_res = $_statistique_visite_manager->generateReportingByInterval($_id_centre, $_annee, $_value, $_type_interval);
         $_download_path = $_res['download_path'];
