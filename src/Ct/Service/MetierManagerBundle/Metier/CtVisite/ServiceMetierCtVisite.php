@@ -854,11 +854,7 @@ class ServiceMetierCtVisite
         // Récupération informations
         // Centre et province
         $_nom_centre    = $_centre->getCtrNom();
-<<<<<<< HEAD
         $_libelle_centre = (($_centre->getCtrNom() === 'ALAROBIA') || (preg_match('/DOMICILE/', $_centre->getCtrNom()))) ? 'DIRECTION DES OPERATIONS ROUTIERES' : 'CENTRE DE SECURITE ROUTIERE';
-=======
-        $_libelle_centre = (($_centre->getCtrNom() === 'ALAROBIA') || (preg_match('/DOMICILE/', $_centre->getCtrNom()))) ? 'DIRECTION DES OPERATIONS TECHNIQUES' : 'CENTRE DE SECURITE ROUTIERE';
->>>>>>> d507c6d46782f30869e85dbf6c11dccbe4948f07
         $_code_centre   = $_centre->getCtrCode();
         $_nom_province  = $_centre->getCtProvince()->getPrvNom();
         $_code_province = $_centre->getCtProvince()->getPrvCode();
@@ -1058,11 +1054,7 @@ class ServiceMetierCtVisite
         // Récupération informations
         // Centre et province
         $_nom_centre    = $_centre->getCtrNom();
-<<<<<<< HEAD
-        $_libelle_centre = (($_centre->getCtrNom() === 'ALAROBIA') || (preg_match('/DOMICILE/', $_centre->getCtrNom()))) ? 'DIRECTION DES OPERATIONS ROUTIERES' : 'CENTRE DE SECURITE ROUTIERE';
-=======
-        $_libelle_centre = (($_centre->getCtrNom() === 'ALAROBIA') || (preg_match('/DOMICILE/', $_centre->getCtrNom()))) ? 'DIRECTION DES OPERATIONS TECHNIQUES' : 'CENTRE DE SECURITE ROUTIERE';
->>>>>>> d507c6d46782f30869e85dbf6c11dccbe4948f07
+	$_libelle_centre = (($_centre->getCtrNom() === 'ALAROBIA') || (preg_match('/DOMICILE/', $_centre->getCtrNom()))) ? 'DIRECTION DES OPERATIONS TECHNIQUES' : 'CENTRE DE SECURITE ROUTIERE';
         $_code_centre   = $_centre->getCtrCode();
         $_nom_province  = $_centre->getCtProvince()->getPrvNom();
         $_code_province = $_centre->getCtProvince()->getPrvCode();
@@ -1332,12 +1324,8 @@ class ServiceMetierCtVisite
         // Récupération informations
         // Centre et province
         $_nom_centre    = $_centre->getCtrNom();
-<<<<<<< HEAD
         $_libelle_centre = (($_centre->getCtrNom() === 'ALAROBIA') || (preg_match('/DOMICILE/', $_centre->getCtrNom()))) ? 'DIRECTION DES OPERATIONS ROUTIERES' : 'CENTRE DE SECURITE ROUTIERE';
-=======
-        $_libelle_centre = (($_centre->getCtrNom() === 'ALAROBIA') || (preg_match('/DOMICILE/', $_centre->getCtrNom()))) ? 'DIRECTION DES OPERATIONS TECHNIQUES' : 'CENTRE DE SECURITE ROUTIERE';
->>>>>>> d507c6d46782f30869e85dbf6c11dccbe4948f07
-        $_code_centre   = $_centre->getCtrCode();
+	$_code_centre   = $_centre->getCtrCode();
         $_nom_province  = $_centre->getCtProvince()->getPrvNom();
         $_code_province = $_centre->getCtProvince()->getPrvCode();
 
@@ -1468,11 +1456,7 @@ class ServiceMetierCtVisite
         // Récupération informations
         // Centre et province
         $_nom_centre = $_centre->getCtrNom();
-<<<<<<< HEAD
-        $_libelle_centre = (($_centre->getCtrNom() === 'ALAROBIA') || (preg_match('/DOMICILE/', $_centre->getCtrNom()))) ? 'DIRECTION DES OPERATIONS ROUTIERES' : 'CENTRE DE SECURITE ROUTIERE';
-=======
-        $_libelle_centre = (($_centre->getCtrNom() === 'ALAROBIA') || (preg_match('/DOMICILE/', $_centre->getCtrNom()))) ? 'DIRECTION DES OPERATIONS TECHNIQUES' : 'CENTRE DE SECURITE ROUTIERE';
->>>>>>> d507c6d46782f30869e85dbf6c11dccbe4948f07
+	$_libelle_centre = (($_centre->getCtrNom() === 'ALAROBIA') || (preg_match('/DOMICILE/', $_centre->getCtrNom()))) ? 'DIRECTION DES OPERATIONS TECHNIQUES' : 'CENTRE DE SECURITE ROUTIERE';
         $_nom_province  = $_centre->getCtProvince()->getPrvNom();
 
         // Récupérer répertoire modèle Word
@@ -1719,11 +1703,7 @@ class ServiceMetierCtVisite
         // Récupération informations
         // Centre et province
         $_nom_centre    = $_centre->getCtrNom();
-<<<<<<< HEAD
-        $_libelle_centre = (($_centre->getCtrNom() === 'ALAROBIA') || (preg_match('/DOMICILE/', $_centre->getCtrNom()))) ? 'DIRECTION DES OPERATIONS ROUTIERES' : 'CENTRE DE SECURITE ROUTIERE';
-=======
-        $_libelle_centre = (($_centre->getCtrNom() === 'ALAROBIA') || (preg_match('/DOMICILE/', $_centre->getCtrNom()))) ? 'DIRECTION DES OPERATIONS TECHNIQUES' : 'CENTRE DE SECURITE ROUTIERE';
->>>>>>> d507c6d46782f30869e85dbf6c11dccbe4948f07
+	$_libelle_centre = (($_centre->getCtrNom() === 'ALAROBIA') || (preg_match('/DOMICILE/', $_centre->getCtrNom()))) ? 'DIRECTION DES OPERATIONS TECHNIQUES' : 'CENTRE DE SECURITE ROUTIERE';
         $_code_centre   = $_centre->getCtrCode();
         $_nom_province  = $_centre->getCtProvince()->getPrvNom();
         $_code_province = $_centre->getCtProvince()->getPrvCode();
