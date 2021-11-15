@@ -42,6 +42,7 @@
                                     <div class="form-group">
                                         <label for="ct-centre">Séléctionner le centre</label>
                                         <select required id="ct-centre" name="ct-centre" class="form-control select2" style="width: 100%;" data-placeholder="Alarobia">
+                                            <option value="" disabled selected>Séléctionner le centre</option>
                                             {% for province in provinces %}
                                                 <optgroup label="{{ province.prvNom }}">
                                                     {% for centre in centres %}
