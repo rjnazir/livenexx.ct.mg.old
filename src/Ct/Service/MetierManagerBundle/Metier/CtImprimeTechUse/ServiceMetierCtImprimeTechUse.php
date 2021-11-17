@@ -348,16 +348,27 @@ class ServiceMetierCtImprimeTechUse
         $_date = implode('-',array_reverse  (explode('/', $_date)));
         $_entity_itu = EntityName::CT_IMPRIME_TECH_USE;
         $_entity_it = EntityName::CT_IMPRIME_TECH;
-        $_dql = " SELECT  itu
+        $_dql = " SELECT    itu
+                        FROM    $_entity_itu itu
+                                INNER JOIN $_entity_it it WITH itu.ctImprimeTech = it.id
+                        WHERE   (itu.ituMotifUsed = :ct_itu_motif_used
+                                AND itu.ctCentre = :ct_centre_id
+                                AND itu.updatedAt LIKE :updated_at) 
+                                OR (itu.ctCentre = :ct_centre_id
+                                AND itu.updatedAt LIKE :updated_at
+                                AND it.nomImprimeTech LIKE :type_it)
+                        ORDER BY    itu.ituNumero ASC";
+        /* $_dql = " SELECT  itu
                         FROM    $_entity_itu itu
                                 INNER JOIN $_entity_it it WITH itu.ctImprimeTech = it.id
                         WHERE       itu.ctCentre     =       :ct_centre_id
                                 AND itu.updatedAt    LIKE    :updated_at
                                 AND it.nomImprimeTech    LIKE    :type_it
-                        ORDER BY    itu.ituNumero    ASC";
+                        ORDER BY    itu.ituNumero    ASC";*/
         $_query = $this->_entity_manager->createQuery($_dql);
         $_query->setParameter('ct_centre_id', $_centre);
         $_query->setParameter('type_it', '%PV%');
+        $_query->setParameter('ct_itu_motif_used', 'Spécial'); ///<<===
         $_query->setParameter('updated_at', $_date.'%');
         $_res = $_query->getResult();
         $_result = [];
@@ -404,6 +415,19 @@ class ServiceMetierCtImprimeTechUse
                     $_result[$_j]->imm = $ctVisite->getCtCarteGrise()->getCgImmatriculation();
                     break;
                 case 'Duplicata' :
+                    $_vt_em = $this->_container->get(ServiceName::SRV_METIER_VISITE);
+                    $_rt_em = $this->_container->get(ServiceName::SRV_METIER_RECEPTION);
+                    if(!is_null($_vt_em->getCtVisiteById($_re->getCtControle())->getCtCarteGrise()->getCgImmatriculation())){
+                        $ctVisite = $_vt_em->getCtVisiteById($_re->getCtControle());
+                        $_result[$_j]->ref = $ctVisite->getVstNumPv();
+                        $_result[$_j]->imm = $ctVisite->getCtCarteGrise()->getCgImmatriculation();
+                    }else{
+                        $ctReception = $_rt_em->getCtReceptionById($_re->getCtControle());
+                        $_result[$_j]->ref = $ctReception->getRcpNumPv();
+                        $_result[$_j]->imm = $ctReception->getRcpImmatriculation();
+                    }
+                    break;
+                case 'Spécial' :
                     $_vt_em = $this->_container->get(ServiceName::SRV_METIER_VISITE);
                     $_rt_em = $this->_container->get(ServiceName::SRV_METIER_RECEPTION);
                     if(!is_null($_vt_em->getCtVisiteById($_re->getCtControle())->getCtCarteGrise()->getCgImmatriculation())){
