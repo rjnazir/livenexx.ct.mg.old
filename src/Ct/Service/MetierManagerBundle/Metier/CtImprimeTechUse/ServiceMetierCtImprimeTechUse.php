@@ -318,7 +318,34 @@ class ServiceMetierCtImprimeTechUse
      *  @param $_type_it : string
      *  @return $_num_it : string
      */
-    public function getNumITByControleAndTypeIT($_ct_controle_id, $_type_it){
+    public function getNumITByControleAndTypeIT($_ct_controle_id, $_type_it, $_date){
+        $_entity_it = EntityName::CT_IMPRIME_TECH;
+        $_entity_itu= EntityName::CT_IMPRIME_TECH_USE;
+        $_num_it = '-';
+        $_dql = " SELECT  itu
+                        FROM    $_entity_itu itu
+                                INNER JOIN $_entity_it it WITH itu.ctImprimeTech = it.id
+                        WHERE   itu.ctControle = :ct_controle_id
+                                AND it.nomImprimeTech = :type_it
+                                AND itu.updatedAt LIKE :updated_at";
+        $_query = $this->_entity_manager->createQuery($_dql);
+        $_query->setParameter('ct_controle_id', $_ct_controle_id);
+        $_query->setParameter('type_it', $_type_it);
+        $_query->setParameter('updated_at', $_date.'%');
+        $_res = $_query->getResult();
+        foreach($_res as $_res){
+            !empty($_res->getItuNumero()) ? $_num_it = $_res->getItuNumero() : $_num_it = '-';
+        }
+        return $_num_it;
+    }
+
+    /**
+     *  Récuperer le numéro d'une imprimé technique utilisé spécifié
+     *  @param $_ct_controle_id : integer
+     *  @param $_type_it : string
+     *  @return $_num_it : string
+     */
+    /* public function getNumITByControleAndTypeIT($_ct_controle_id, $_type_it){
         $_entity_it = EntityName::CT_IMPRIME_TECH;
         $_entity_itu= EntityName::CT_IMPRIME_TECH_USE;
         $_num_it = '-';
@@ -335,7 +362,7 @@ class ServiceMetierCtImprimeTechUse
             !empty($_res->getItuNumero()) ? $_num_it = $_res->getItuNumero() : $_num_it = '-';
         }
         return $_num_it;
-    }
+    }*/
 
     /**
      *  Récuperer tous les imprimés techniques utilisés par un centre dans une journée
@@ -348,7 +375,7 @@ class ServiceMetierCtImprimeTechUse
         $_date = implode('-',array_reverse  (explode('/', $_date)));
         $_entity_itu = EntityName::CT_IMPRIME_TECH_USE;
         $_entity_it = EntityName::CT_IMPRIME_TECH;
-        $_dql = " SELECT    itu
+        /* $_dql = " SEECT    itu
                         FROM    $_entity_itu itu
                                 INNER JOIN $_entity_it it WITH itu.ctImprimeTech = it.id
                         WHERE   (itu.ituMotifUsed = :ct_itu_motif_used
@@ -357,18 +384,18 @@ class ServiceMetierCtImprimeTechUse
                                 OR (itu.ctCentre = :ct_centre_id
                                 AND itu.updatedAt LIKE :updated_at
                                 AND it.nomImprimeTech LIKE :type_it)
-                        ORDER BY    itu.ituNumero ASC";
-        /* $_dql = " SELECT  itu
+                        ORDER BY    itu.ituNumero ASC";*/
+        $_dql = " SELECT  itu
                         FROM    $_entity_itu itu
                                 INNER JOIN $_entity_it it WITH itu.ctImprimeTech = it.id
                         WHERE       itu.ctCentre     =       :ct_centre_id
                                 AND itu.updatedAt    LIKE    :updated_at
                                 AND it.nomImprimeTech    LIKE    :type_it
-                        ORDER BY    itu.ituNumero    ASC";*/
+                        ORDER BY    itu.ituNumero    ASC";
         $_query = $this->_entity_manager->createQuery($_dql);
         $_query->setParameter('ct_centre_id', $_centre);
         $_query->setParameter('type_it', '%PV%');
-        $_query->setParameter('ct_itu_motif_used', 'Spécial'); ///<<===
+        //$_query->setParameter('ct_itu_motif_used', 'Spécial'); ///<<===
         $_query->setParameter('updated_at', $_date.'%');
         $_res = $_query->getResult();
         $_result = [];
@@ -476,8 +503,41 @@ class ServiceMetierCtImprimeTechUse
                     $_result[$_j]->imm = '-';
                     break;
             }
+//====>>>
+            $ncrt = $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'Carnet d\'entretien', $_date);
+            $_result[$_j]->ncrt = !in_array($ncrt, array_column($_result, 'ncrt')) ? $ncrt : '-';
 
-            $ncrt = $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'Carnet d\'entretien');
+            $ncbl = $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'Carte blanche', $_date);
+            $_result[$_j]->ncbl = !in_array($ncbl, array_column($_result, 'ncbl')) ? $ncbl : '-';
+
+            $nbbr = $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'CIM 32 Bis', $_date);
+            $_result[$_j]->nbbr = !in_array($nbbr, array_column($_result, 'nbbr')) ? $nbbr : '-';
+
+            $ncjn = $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'Carte jaune', $_date);
+            $_result[$_j]->ncjn = !in_array($ncjn, array_column($_result, 'ncjn')) ? $ncjn : '-';
+
+            $njbr = $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'Carte jaune barrée rouge', $_date);
+            $_result[$_j]->njbr = !in_array($njbr, array_column($_result, 'njbr')) ? $njbr : '-';
+
+            $ncrg = $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'Carte rouge', $_date);
+            $_result[$_j]->ncrg = !in_array($ncrg, array_column($_result, 'ncrg')) ? $ncrg : '-';
+
+            $ncae = $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'Carte auto-école', $_date);
+            $_result[$_j]->ncae = !in_array($ncae, array_column($_result, 'ncae')) ? $ncae : '-';
+
+            $plch = $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'Plaque chassis', $_date);
+            $_result[$_j]->plch = !in_array($plch, array_column($_result, 'plch')) ? $plch : '-';
+
+            $ncim31 = $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'CIM 31', $_date);
+            $_result[$_j]->ncim31 = !in_array($ncim31, array_column($_result, 'ncim31')) ? $ncim31 : '-';
+
+            $ncim31b = $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'CIM 31 Bis', $_date);
+            $_result[$_j]->ncim31b = !in_array($ncim31b, array_column($_result, 'ncim31b')) ? $ncim31b : '-';
+            
+            $ncim32 = $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'CIM 32', $_date);
+            $_result[$_j]->ncim32 = !in_array($ncim32, array_column($_result, 'ncim32')) ? $ncim32 : '-';
+//====>>>
+            /* $ncrt = $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'Carnet d\'entretien');
             $_result[$_j]->ncrt = !in_array($ncrt, array_column($_result, 'ncrt')) ? $ncrt : '-';
 
             $ncbl = $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'Carte blanche');
@@ -508,7 +568,7 @@ class ServiceMetierCtImprimeTechUse
             $_result[$_j]->ncim31b = !in_array($ncim31b, array_column($_result, 'ncim31b')) ? $ncim31b : '-';
             
             $ncim32 = $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'CIM 32');
-            $_result[$_j]->ncim32 = !in_array($ncim32, array_column($_result, 'ncim32')) ? $ncim32 : '-';
+            $_result[$_j]->ncim32 = !in_array($ncim32, array_column($_result, 'ncim32')) ? $ncim32 : '-';*/
 
             $_result[$_j]->npvo = preg_match('/PVO/', $_re->getCtImprimeTech()->getNomImprimeTech()) ? $_re->getItuNumero() : '-';
             $_result[$_j]->npvm = preg_match('/PVM/', $_re->getCtImprimeTech()->getNomImprimeTech()) ? $_re->getItuNumero() : '-';
