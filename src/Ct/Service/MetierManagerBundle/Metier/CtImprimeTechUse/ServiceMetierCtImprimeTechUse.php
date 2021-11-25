@@ -1411,4 +1411,32 @@ class ServiceMetierCtImprimeTechUse
         if($_nombre != 0) $_trouve = true;
         return $_trouve;
     }
+
+    /**
+     *  Fonction permettant de tester si le numéro de l'IT existe déjà dans la liste des IT
+     *  @param $idbe    : Identifiant du bordereau d'envoi
+     *  @param $idctr   : Identifiant du centre destinataire
+     *  @param $idit    : Identifiant du type IT
+     *  @param $num     : Numéro de l'IT à tester
+     *  @return $exist  : Booléen VRAI si le $num est trouvé, FAUX dans le cas contraire
+     */
+    public function FindIfNumExistInList($idbe, $idctr, $idit, $num){
+        $exist  = false;
+        $_entity_itu = EntityName::CT_IMPRIME_TECH_USE;
+        $_dql   = "SELECT   t
+                        FROM    $_entity_itu t
+                        WHERE   t.ctBordereau = :idbe
+                                AND t.ctCentre = :idctr
+                                AND t.ctImprimeTech = :idit
+                                AND t.ituNumero = :num";
+        $_query  = $this->_entity_manager->createQuery($_dql);
+        $_query->setParameter('idbe', $idbe);
+        $_query->setParameter('idctr', $idctr);
+        $_query->setParameter('idit', $idit);
+        $_query->setParameter('num', $num);
+        $_ret = $_query->getResult();
+        $_nombre = count($_ret);
+        if($_nombre != 0) $exist = true;
+        return $exist;
+    }
 }
