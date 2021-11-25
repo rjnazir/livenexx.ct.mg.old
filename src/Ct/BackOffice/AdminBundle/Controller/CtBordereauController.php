@@ -73,7 +73,9 @@ class CtBordereauController extends Controller
         $_start = $_it_in_bl->getBlDebutNumero();
         $_ending = $_it_in_bl->getBlFinNumero();
         for($i = $_start; $i <= $_ending; $i++){
-            $_itu_manager->save_CtImprimeTechUse($_ct_bordereau_id, $_ct_centre_id, $_ct_imprime_tech_id, $i);
+            if($_itu_manager->FindIfNumExistInList($_ct_bordereau_id, $_ct_centre_id, $_ct_imprime_tech_id, $i) == false){
+                $_itu_manager->save_CtImprimeTechUse($_ct_bordereau_id, $_ct_centre_id, $_ct_imprime_tech_id, $i);
+            }
         }
         $_bl_manager->setFlash('success', 'Les '.$_nomImrpimeTech.' N° '.$_start.' à '.$_ending.' sont activés pour votre centre.');
 
