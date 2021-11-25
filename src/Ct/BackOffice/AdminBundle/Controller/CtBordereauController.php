@@ -79,7 +79,7 @@ class CtBordereauController extends Controller
         }
         $_bl_manager->setFlash('success', 'Les '.$_nomImrpimeTech.' N° '.$_start.' à '.$_ending.' sont activés pour votre centre.');
 
-        return $this->redirectToRoute('bordereau_activation');        
+        return $this->redirectToRoute('bordereau_activation');
     }
 
     /**
