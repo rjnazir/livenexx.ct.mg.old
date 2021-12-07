@@ -572,9 +572,9 @@ class ServiceMetierCtImprimeTechUse
             $ncim32 = $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'CIM 32');
             $_result[$_j]->ncim32 = !in_array($ncim32, array_column($_result, 'ncim32')) ? $ncim32 : '-';*/
 
-            $_result[$_j]->npvo = preg_match('/PVO/', $_re->getCtImprimeTech()->getNomImprimeTech()) ? $_re->getItuNumero() : '-';
-            $_result[$_j]->npvm = preg_match('/PVM/', $_re->getCtImprimeTech()->getNomImprimeTech()) ? $_re->getItuNumero() : '-';
-            $_result[$_j]->npcm = preg_match('/PVMC/', $_re->getCtImprimeTech()->getNomImprimeTech()) ? $_re->getItuNumero() : '-';
+            $_result[$_j]->npvo = preg_match('/\bPVO\b/', $_re->getCtImprimeTech()->getNomImprimeTech()) ? $_re->getItuNumero() : '-';
+            $_result[$_j]->npvm = preg_match('/\bPVM\b/', $_re->getCtImprimeTech()->getNomImprimeTech()) ? $_re->getItuNumero() : '-';
+            $_result[$_j]->npcm = preg_match('/\bPVMC\b/', $_re->getCtImprimeTech()->getNomImprimeTech()) ? $_re->getItuNumero() : '-';
 
             $_result[$_j]->used = $_used;
 
