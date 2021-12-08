@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Ct\Service\MetierManagerBundle\Entity\CtImprimeTechUse;
+use Ct\Service\MetierManagerBundle\Utils\EntityName;
 use Ct\Service\MetierManagerBundle\Utils\RoleName;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -74,6 +75,10 @@ class CtImprimeTechUseController extends Controller
     {
         // Récupérer manager
         $_em_itu = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
+        // Entity manager
+        $_entity_visite = $this->get(ServiceName::SRV_METIER_VISITE);
+        $_entity_recept = $this->get(ServiceName::SRV_METIER_RECEPTION);
+        $_entity_consta = $this->get(ServiceName::SRV_METIER_CONST_AV_DED);
 
         if (!$_em_itu) {
             throw $this->createNotFoundException('Unable to find ImprimeTechUse entity.');
@@ -83,9 +88,20 @@ class CtImprimeTechUseController extends Controller
         $_edit_form->handleRequest($_request);
 
         if ($_edit_form->isValid()) {
-            $_em_itu->saveCtImprimeTechUse($_imprime_tech_use, 'update', NULL);
-            $_em_itu->setFlash('success', "Utilisation de l'imprimé technique modifié avec succès.");
-            return $this->redirect($this->generateUrl('imprime_tech_use_index'));
+            if(($_imprime_tech_use->getItuMotifUsed()=="Mutation") OR ($_imprime_tech_use->getItuMotifUsed()=="Duplicata") OR ($_imprime_tech_use->getItuMotifUsed()=="Spécial")){
+                if((!$_entity_visite->getCtVisiteById($_imprime_tech_use->getCtControle())) AND (!$_entity_recept->getCtReceptionById($_imprime_tech_use->getCtControle())) AND (!$_entity_consta->getCtConstatationAvDedouanementById($_imprime_tech_use->getCtControle()))){
+                    $_em_itu->setFlash('error', "Le N° d'enregistrement ".$_imprime_tech_use->getCtControle()." est introuvable dans la liste des visites ou réception.");
+                    return $this->redirect($this->generateUrl('imprime_tech_use_edit', array('id'=> $_imprime_tech_use->getId())));
+                }else{
+                    $_em_itu->saveCtImprimeTechUse($_imprime_tech_use, 'update', NULL);
+                    $_em_itu->setFlash('success', "Utilisation de l'imprimé technique modifié avec succès.");
+                    return $this->redirect($this->generateUrl('imprime_tech_use_index'));
+                }
+            }else{
+                $_em_itu->saveCtImprimeTechUse($_imprime_tech_use, 'update', NULL);
+                $_em_itu->setFlash('success', "Utilisation de l'imprimé technique modifié avec succès.");
+                return $this->redirect($this->generateUrl('imprime_tech_use_index'));
+            }
         }
 
         return $this->render('AdminBundle:CtImprimeTechUse:edit.html.twig', array(
