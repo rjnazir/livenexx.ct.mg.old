@@ -80,11 +80,11 @@
                                             {% for list_province in list_provinces %}
                                                 <optgroup label="{{ list_province.prvNom | upper }}">
                                                     {% for list_centre in list_centres %}
-                                                        {% if list_province.id == list_centre.ctProvince.id %}
+                                                        {# {% if list_province.id == list_centre.ctProvince.id %} #}
                                                         <option value="{{ list_centre.id }}">
                                                             {{ list_centre.ctrNom | upper }}
                                                         </option>
-                                                        {% endif %}
+                                                        {# {% endif %} #}
                                                     {% endfor %}
                                                 </optgroup>
                                             {% endfor %}
