@@ -8,7 +8,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Ct\Service\MetierManagerBundle\Entity\CtImprimeTechUse;
-use Ct\Service\MetierManagerBundle\Utils\EntityName;
 use Ct\Service\MetierManagerBundle\Utils\RoleName;
 use Symfony\Component\HttpFoundation\Response;
 

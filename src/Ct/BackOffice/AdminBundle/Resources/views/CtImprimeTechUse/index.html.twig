@@ -55,11 +55,11 @@
                                             {% for province in provinces %}
                                             <optgroup label="{{ province.prvNom }}">
                                                 {% for centre in centres %}
-                                                    {# {% if province.id == centre.ctProvince.id %} #}
+                                                    {% if province.id == centre.ctProvince.id %}
                                                         <option value="{{ centre.id }}">
                                                             {{ centre.ctrNom|upper }}
                                                         </option>
-                                                    {# {% endif %} #}
+                                                    {% endif %}
                                                 {% endfor %}
                                             </optgroup>
                                             {% endfor %}
@@ -115,11 +115,11 @@
                                             {% for province in provinces %}
                                             <optgroup label="{{ province.prvNom }}">
                                                 {% for centre in centres %}
-                                                    {# {% if province.id == centre.ctProvince.id %} #}
+                                                    {% if province.id == centre.ctProvince.id %}
                                                         <option value="{{ centre.id }}">
                                                             {{ centre.ctrNom|upper }}
                                                         </option>
-                                                    {# {% endif %} #}
+                                                    {% endif %}
                                                 {% endfor %}
                                             </optgroup>
                                             {% endfor %}
