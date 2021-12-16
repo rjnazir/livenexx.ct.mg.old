@@ -454,6 +454,7 @@ class ServiceMetierCtReception
     public function generatePVReception($_num_group)
     {
         $_receptions = $this->getCtReceptionByNumGroup($_num_group);
+        
         $_dest_final = null;
         $_taux_tva = $this->_container->getParameter('taxe');
         if (isset($_receptions) && (count($_receptions) > 0)) {
@@ -474,146 +475,345 @@ class ServiceMetierCtReception
 
             $_file_without_ext    = $_filename;
 
-            if (count($_receptions) === 1) { // RECEPTION ISOLE
+            $_type_reception = $this->getTypeReceptionByNumgroup($_num_group);
+
+            if ($_type_reception === "Isole") { // RECEPTION ISOLE
+            // if (count($_receptions) === 1) { // RECEPTION ISOLE
                 $_source_pv         = $_pv_directory . PathReportingName::TEMPLATE_RECEPTION_ISOLE;
-                $_phpWord           = new PhpWord();
-                $_template          = $_phpWord->loadTemplate($_source_pv);
-                $_reception         = $_receptions[0];
+                if(count($_receptions) <= 1){
 
-                $_num_pv            = $_reception->getRcpNumPv();
-                //$_filename          =  str_replace('/', '_', $_reception->getRcpNumPv());
+                    $_phpWord           = new PhpWord();
+                    $_template          = $_phpWord->loadTemplate($_source_pv);
+                    $_reception         = $_receptions[0];
 
-                //$_dest_tmp          = $_pv_directory . PathReportingName::GENERATE_RECEPTION . $_filename . '.docx';
-                $_motif             = $_reception->getCtMotif();
-                $_reception_type    = $_reception->getCtTypeReception()->getTprcpLibelle();
-                $_droit             = null;
+                    $_num_pv            = $_reception->getRcpNumPv();
+                    //$_filename          =  str_replace('/', '_', $_reception->getRcpNumPv());
 
-                $_charge_utile      = $_reception->getCtVehicule()->getVhcChargeUtile();
-                $_poids_vide        = $_reception->getCtVehicule()->getVhcPoidsVide();
+                    //$_dest_tmp          = $_pv_directory . PathReportingName::GENERATE_RECEPTION . $_filename . '.docx';
+                    $_motif             = $_reception->getCtMotif();
+                    $_reception_type    = $_reception->getCtTypeReception()->getTprcpLibelle();
+                    $_droit             = null;
 
-                $_centre            = $_reception->getCtCentre()->getCtrNom();
-                $_province          = $_reception->getCtCentre()->getCtProvince()->getPrvNom();
-                $_user_nom          = $_reception->getRcpProprietaire();
-                $_genre             = $_reception->getCtVehicule()->getCtGenre()->getGrLibelle();
-                $_marque            = $_reception->getCtVehicule()->getCtMarque()->getMrqLibelle();
-                $_type              = $_reception->getCtVehicule()->getVhcType();
-                $_moteur            = $_reception->getCtVehicule()->getVhcNumMoteur();
-                $_puissance         = $_reception->getCtVehicule()->getVhcPuissance();
-                $_poid_vide         = $_reception->getCtVehicule()->getVhcPoidsVide();
-                $_cu                = $_reception->getCtVehicule()->getVhcChargeUtile();
-                $_type_serie        = $_reception->getCtVehicule()->getVhcNumSerie();
-                $_source            = $_reception->getCtSourceEnergie()->getSreLibelle();
-                $_cylindre          = $_reception->getCtVehicule()->getVhcCylindre();
-                $_motif_recep       = $_reception->getCtMotif()->getMtfLibelle();
-                $_date_mise_en_circ = $_reception->getRcpMiseService() ? $_reception->getRcpMiseService()->format('d/m/Y') : '-';
-                $_mise_en_circ      = $_date_mise_en_circ == '01/01/2011' ? '-' : $_date_mise_en_circ;
-                $_immatriculation   = $_reception->getRcpImmatriculation();
-                $_caross            = $_reception->getCtCarosserie()->getCrsLibelle();
-                $_assise            = $_reception->getRcpNbrAssis();
-                $_addr              = $_reception->getRcpAdresse();
-                $_date              = $_reception->getRcpCreated();
-                $_utilisation       = $_reception->getCtUtilisation();
-                $_util_libelle      = $_utilisation->getUtLibelle();
-                $_is_administratif  = (stripos($_util_libelle, "administratif") !== false) ? true: false;
-                
-                // Calcul Poids Total en Charge
-                if (is_numeric($_charge_utile) && is_numeric($_poids_vide)) {
-                    $_ptac          = $_charge_utile + $_poids_vide;
-                } else {
-                    $_ptac          = 0;
-                }
+                    $_charge_utile      = $_reception->getCtVehicule()->getVhcChargeUtile();
+                    $_poids_vide        = $_reception->getCtVehicule()->getVhcPoidsVide();
 
-                if ($_motif->getMtfIsCalculable()) { // Calcul droit en fonction de poids                    
-                    $_ptac_tonne        = $_ptac / 1000; // Convertir en tonne
-                    $_categorie_genre   = $_reception->getCtVehicule()->getCtGenre()->getCtGenreCategorie();
-                    $_droit             = $_ptac_manager->getDroitByCategorieGenreEtPtac($_categorie_genre, $_ptac_tonne, 'reception');
-
-                } else {
-                    $_droit             = $_motif_tarif_manager->getCtMotifTarifByMotif($_motif);
-                }
-
-                if ($_droit) {
-                    $_droit_f = number_format($_droit, 0, ',', ' ');
-                    if ($_is_administratif) $_template->setValue('motif', "0");
-                    else $_template->setValue('motif', $_droit_f);
-                }
-                
-                // Recuperer type PV
-                $_str_pv_type = null;
-                if (strpos($_reception_type, 'ype') !== false) { // Par type
-                    // Valeurs figés (il faut penser à modifier)
-                    $_str_pv_type = 'RT_TYPE';
-                } elseif (strpos($_reception_type, 'sol') !== false) { // Isole
-                    $_str_pv_type = 'RT_ISOLE';
-                }
-
-                // Recuperer tarif PV 
-                $_pv = null;
-                if (isset($_str_pv_type)) {
-                    $_pv = $_pv_manager->getCtProcesVerbalByType($_str_pv_type);
-                }
-                
-                // Total hors taxe et TVA
-                $_tht = null;
-                if (isset($_droit) && isset($_pv)) {
-                    $_m_libelle = strtolower($_motif->getMtfLibelle());
-                    if (strpos($_m_libelle, 'pesage tous') !== false) { // Faut pas figer la valeur
-                        $_pv = 0;
-                        $_tva = 0;
-                        $_tht = $_droit + $_pv;
+                    $_centre            = $_reception->getCtCentre()->getCtrNom();
+                    $_province          = $_reception->getCtCentre()->getCtProvince()->getPrvNom();
+                    $_user_nom          = $_reception->getRcpProprietaire();
+                    $_genre             = $_reception->getCtVehicule()->getCtGenre()->getGrLibelle();
+                    $_marque            = $_reception->getCtVehicule()->getCtMarque()->getMrqLibelle();
+                    $_type              = $_reception->getCtVehicule()->getVhcType();
+                    $_moteur            = $_reception->getCtVehicule()->getVhcNumMoteur();
+                    $_puissance         = $_reception->getCtVehicule()->getVhcPuissance();
+                    $_poid_vide         = $_reception->getCtVehicule()->getVhcPoidsVide();
+                    $_cu                = $_reception->getCtVehicule()->getVhcChargeUtile();
+                    $_type_serie        = $_reception->getCtVehicule()->getVhcNumSerie();
+                    $_source            = $_reception->getCtSourceEnergie()->getSreLibelle();
+                    $_cylindre          = $_reception->getCtVehicule()->getVhcCylindre();
+                    $_motif_recep       = $_reception->getCtMotif()->getMtfLibelle();
+                    $_date_mise_en_circ = $_reception->getRcpMiseService() ? $_reception->getRcpMiseService()->format('d/m/Y') : '-';
+                    $_mise_en_circ      = $_date_mise_en_circ == '01/01/2011' ? '-' : $_date_mise_en_circ;
+                    $_immatriculation   = $_reception->getRcpImmatriculation();
+                    $_caross            = $_reception->getCtCarosserie()->getCrsLibelle();
+                    $_assise            = $_reception->getRcpNbrAssis();
+                    $_addr              = $_reception->getRcpAdresse();
+                    $_date              = $_reception->getRcpCreated();
+                    $_utilisation       = $_reception->getCtUtilisation();
+                    $_util_libelle      = $_utilisation->getUtLibelle();
+                    $_is_administratif  = (stripos($_util_libelle, "administratif") !== false) ? true: false;
+                    
+                    // Calcul Poids Total en Charge
+                    if (is_numeric($_charge_utile) && is_numeric($_poids_vide)) {
+                        $_ptac          = $_charge_utile + $_poids_vide;
                     } else {
-                        //$_tva       = $_droit * $_taux_tva;
-                        $_tht = $_pv + $_droit;
-                        $_tva = $_tht * $_taux_tva;
+                        $_ptac          = 0;
                     }
-                    $_timbre = 0; // Je sais pas la valeur
-                    $_montant = $_tht + $_tva + $_timbre;
-                    $_tht_f = number_format($_tht, 0, ',', ' ');
-                    $_pv_f = number_format($_pv, 0, ',', ' ');
-                    $_tva_f = number_format($_tva, 0, ',', ' ');
-                    $_timbre_f = number_format($_timbre, 0, ',', ' ');
-                    $_montant_f = number_format($_montant, 0, ',', ' ');
 
-                    if ($_is_administratif) {
-                        $_template->setValue('tht', 0);
-                        $_template->setValue('tva', 0);
-                        $_template->setValue('timbres', 0);
-                        $_template->setValue('montant', 0);
-                        $_template->setValue('prix_pv', 0);
+                    if ($_motif->getMtfIsCalculable()) { // Calcul droit en fonction de poids                    
+                        $_ptac_tonne        = $_ptac / 1000; // Convertir en tonne
+                        $_categorie_genre   = $_reception->getCtVehicule()->getCtGenre()->getCtGenreCategorie();
+                        $_droit             = $_ptac_manager->getDroitByCategorieGenreEtPtac($_categorie_genre, $_ptac_tonne, 'reception');
+
                     } else {
-                        $_template->setValue('tht', $_tht_f);
-                        $_template->setValue('tva', $_tva_f);
-                        $_template->setValue('timbres', $_timbre_f);
-                        $_template->setValue('montant', $_montant_f);
-                        $_template->setValue('prix_pv', $_pv_f);
+                        $_droit             = $_motif_tarif_manager->getCtMotifTarifByMotif($_motif);
                     }
+
+                    if ($_droit) {
+                        $_droit_f = number_format($_droit, 0, ',', ' ');
+                        if ($_is_administratif) $_template->setValue('motif', "0");
+                        else $_template->setValue('motif', $_droit_f);
+                    }
+                    
+                    // Recuperer type PV
+                    $_str_pv_type = null;
+                    if (strpos($_reception_type, 'ype') !== false) { // Par type
+                        // Valeurs figés (il faut penser à modifier)
+                        $_str_pv_type = 'RT_TYPE';
+                    } elseif (strpos($_reception_type, 'sol') !== false) { // Isole
+                        $_str_pv_type = 'RT_ISOLE';
+                    }
+
+                    // Recuperer tarif PV 
+                    $_pv = null;
+                    if (isset($_str_pv_type)) {
+                        $_pv = $_pv_manager->getCtProcesVerbalByType($_str_pv_type);
+                    }
+                    
+                    // Total hors taxe et TVA
+                    $_tht = null;
+                    if (isset($_droit) && isset($_pv)) {
+                        $_m_libelle = strtolower($_motif->getMtfLibelle());
+                        if (strpos($_m_libelle, 'pesage tous') !== false) { // Faut pas figer la valeur
+                            $_pv = 0;
+                            $_tva = 0;
+                            $_tht = $_droit + $_pv;
+                        } else {
+                            //$_tva       = $_droit * $_taux_tva;
+                            $_tht = $_pv + $_droit;
+                            $_tva = $_tht * $_taux_tva;
+                        }
+                        $_timbre = 0; // Je sais pas la valeur
+                        $_montant = $_tht + $_tva + $_timbre;
+                        $_tht_f = number_format($_tht, 0, ',', ' ');
+                        $_pv_f = number_format($_pv, 0, ',', ' ');
+                        $_tva_f = number_format($_tva, 0, ',', ' ');
+                        $_timbre_f = number_format($_timbre, 0, ',', ' ');
+                        $_montant_f = number_format($_montant, 0, ',', ' ');
+
+                        if ($_is_administratif) {
+                            $_template->setValue('tht', 0);
+                            $_template->setValue('tva', 0);
+                            $_template->setValue('timbres', 0);
+                            $_template->setValue('montant', 0);
+                            $_template->setValue('prix_pv', 0);
+                        } else {
+                            $_template->setValue('tht', $_tht_f);
+                            $_template->setValue('tva', $_tva_f);
+                            $_template->setValue('timbres', $_timbre_f);
+                            $_template->setValue('montant', $_montant_f);
+                            $_template->setValue('prix_pv', $_pv_f);
+                        }
+                    }
+
+                    $_template->setValue('centre', $_centre);
+                    $_template->setValue('province', $_province);
+                    $_template->setValue('user_nom', htmlspecialchars($_user_nom));
+                    $_template->setValue('genre', $_genre);
+                    $_template->setValue('marque', $_marque);
+                    $_template->setValue('type', $_type);
+                    $_template->setValue('moteur', $_moteur);
+                    $_template->setValue('puissance', $_puissance);
+                    $_template->setValue('poid_vide', $_poid_vide);
+                    $_template->setValue('cu', $_cu);
+                    $_template->setValue('type_serie', $_type_serie);
+                    $_template->setValue('source', $_source);
+                    $_template->setValue('cylindre', $_cylindre);
+                    $_template->setValue('motif_recep', $_motif_recep);
+                    $_template->setValue('mise_en_circ', $_mise_en_circ);
+                    $_template->setValue('immatriculation', $_immatriculation);
+                    $_template->setValue('caross', $_caross);
+                    $_template->setValue('assise', $_assise);
+                    $_template->setValue('addr', $_addr);
+                    $_template->setValue('ptc', $_ptac);
+                    $_template->setValue('ptr', $_ptac);
+                    $_template->setValue('num_pv', $_num_pv);
+                    $_template->setValue('date', $_date->format('d/m/Y'));
+
+                    $_template->saveAs($_dest_final);
+                }else{
+                    $_list_of_files     = array();
+                    foreach ($_receptions as $_reception) {
+                        $_phpWord           = new PhpWord();
+                        $_template          = $_phpWord->loadTemplate($_source_pv);
+    
+                        $_num_pv            = $_reception->getRcpNumPv();
+                        $_filename          =  str_replace('/', '_', $_reception->getRcpNumPv());
+    
+                        $_dest_tmp          = $_pv_directory . PathReportingName::GENERATE_RECEPTION . $_filename . '.docx';
+                        $_motif             = $_reception->getCtMotif();
+                        $_reception_type    = $_reception->getCtTypeReception()->getTprcpLibelle();
+                        $_droit             = null;
+    
+                        $_charge_utile      = $_reception->getCtVehicule()->getVhcChargeUtile();
+                        $_poids_vide        = $_reception->getCtVehicule()->getVhcPoidsVide();
+    
+                        $_centre            = $_reception->getCtCentre()->getCtrNom();
+                        // $_province          = $_reception->getCtCentre()->getCtrNom()->getPrvNom();
+                        $_province          = $_reception->getCtCentre()->getCtProvince()->getPrvNom();
+                        $_user_nom          = $_reception->getRcpProprietaire();
+                        $_genre             = $_reception->getCtVehicule()->getCtGenre()->getGrLibelle();
+                        $_marque            = $_reception->getCtVehicule()->getCtMarque()->getMrqLibelle();
+                        $_type              = $_reception->getCtVehicule()->getVhcType();
+                        $_moteur            = $_reception->getCtVehicule()->getVhcNumMoteur();
+                        $_puissance         = $_reception->getCtVehicule()->getVhcPuissance();
+                        $_poid_vide         = $_reception->getCtVehicule()->getVhcPoidsVide();
+                        $_cu                = $_reception->getCtVehicule()->getVhcChargeUtile();
+                        $_type_serie        = $_reception->getCtVehicule()->getVhcNumSerie();
+                        $_source            = $_reception->getCtSourceEnergie()->getSreLibelle();
+                        $_cylindre          = $_reception->getCtVehicule()->getVhcCylindre();
+                        $_motif_recep       = $_reception->getCtMotif()->getMtfLibelle();
+                        $_mise_en_circ      = $_reception->getRcpMiseService() ? $_reception->getRcpMiseService()->format('d/m/Y') : '';
+                        $_immatriculation   = $_reception->getRcpImmatriculation();
+                        $_caross            = $_reception->getCtCarosserie()->getCrsLibelle();
+                        $_assise            = $_reception->getRcpNbrAssis();
+                        $_addr              = $_reception->getRcpAdresse();
+                        $_date              = $_reception->getRcpCreated();
+                        $_utilisation       = $_reception->getCtUtilisation();
+                        $_util_libelle      = $_utilisation->getUtLibelle();
+                        $_is_administratif  = (stripos($_util_libelle, "administratif") !== false) ? true: false;
+    
+                        // Calcul Poids Total en Charge
+                        if (is_numeric($_charge_utile) && is_numeric($_poids_vide)) {
+                            $_ptac          = $_charge_utile + $_poids_vide;
+                        } else {
+                            $_ptac          = 0;
+                        }
+    
+                        if ($_motif->getMtfIsCalculable()) { // Calcul droit en fonction de poids
+                            $_ptac_tonne        = $_ptac / 1000; // Convertir en tonne
+                            $_categorie_genre   = $_reception->getCtVehicule()->getCtGenre()->getCtGenreCategorie();
+                            $_droit             = $_ptac_manager->getDroitByCategorieGenreEtPtac($_categorie_genre, $_ptac_tonne, 'reception');
+                        } else {
+                            $_droit             = $_motif_tarif_manager->getCtMotifTarifByMotif($_motif);
+                        }
+    
+                        if ($_droit) {
+                            $_droit_f = number_format($_droit, 0, ',', ' ');
+                            if ($_is_administratif) $_template->setValue('motif', "0");
+                            else $_template->setValue('motif', $_droit_f);
+                        }
+    
+                        // Recuperer type PV
+                        $_str_pv_type = null;
+                        if (strpos($_reception_type, 'ype') !== false) { // Par type
+                            // Valeurs figés (il faut penser à modifier)
+                            $_str_pv_type = 'RT_TYPE';
+                        } elseif (strpos($_reception_type, 'sol') !== false) { // Isole
+                            $_str_pv_type = 'RT_ISOLE';
+                        }
+    
+                        // Recuperer tarif PV
+                        $_pv = null;
+                        if (isset($_str_pv_type)) {
+                            $_pv = $_pv_manager->getCtProcesVerbalByType($_str_pv_type);
+                        }
+    
+                        // Total hors taxe et TVA
+                        $_tht = null;
+                        if (isset($_droit) && isset($_pv)) {
+                            $_m_libelle = strtolower($_motif->getMtfLibelle());
+                            if (strpos($_m_libelle, 'pesage tous') !== false) { // Faut pas figer la valeur
+                                $_pv        = 0;
+                                $_tva       = 0;
+                                $_tht       = $_droit + $_pv;
+                            } else {
+                                //$_tva       = $_droit * $_taux_tva;
+                                $_tht       = $_pv + $_droit;
+                                $_tva       = $_tht * $_taux_tva;
+                            }
+                            $_timbre  = 0; // Je sais pas la valeur
+                            $_montant = $_tht + $_tva + $_timbre;
+    
+                            $_tht_f = number_format($_tht, 0, ',', ' ');
+                            $_pv_f = number_format($_pv, 0, ',', ' ');
+                            $_tva_f = number_format($_tva, 0, ',', ' ');
+                            $_timbre_f = number_format($_timbre, 0, ',', ' ');
+                            $_montant_f = number_format($_montant, 0, ',', ' ');
+    
+                            if ($_is_administratif) {
+                                $_template->setValue('tht', 0);
+                                $_template->setValue('tva', 0);
+                                $_template->setValue('timbres', 0);
+                                $_template->setValue('montant', 0);
+                                $_template->setValue('prix_pv', 0);
+                            } else {
+                                $_template->setValue('tht', $_tht_f);
+                                $_template->setValue('tva', $_tva_f);
+                                $_template->setValue('timbres', $_timbre_f);
+                                $_template->setValue('montant', $_montant_f);
+                                $_template->setValue('prix_pv', $_pv_f);
+                            }
+                        }
+    
+                        $_template->setValue('centre', $_centre);
+                        $_template->setValue('province', $_province);
+                        $_template->setValue('user_nom', $_user_nom);
+                        $_template->setValue('genre', $_genre);
+                        $_template->setValue('marque', $_marque);
+                        $_template->setValue('type', $_type);
+                        $_template->setValue('moteur', $_moteur);
+                        $_template->setValue('puissance', $_puissance);
+                        $_template->setValue('poid_vide', $_poid_vide);
+                        $_template->setValue('cu', $_cu);
+                        $_template->setValue('type_serie', $_type_serie);
+                        $_template->setValue('source', $_source);
+                        $_template->setValue('cylindre', $_cylindre);
+                        $_template->setValue('motif_recep', $_motif_recep);
+                        $_template->setValue('mise_en_circ', $_mise_en_circ);
+                        $_template->setValue('immatriculation', $_immatriculation);
+                        $_template->setValue('caross', $_caross);
+                        $_template->setValue('assise', $_assise);
+                        $_template->setValue('addr', $_addr);
+                        $_template->setValue('ptc', $_ptac);
+                        $_template->setValue('ptr', $_ptac);
+                        $_template->setValue('num_pv', $_num_pv);
+                        $_template->setValue('date', $_date->format('d/m/Y'));
+                        $_template->saveAs($_dest_tmp);
+                        $_list_of_files[] = $_dest_tmp;
+                    }
+                    // Combiner les fichiers en un seul document
+                    $_zip = new \clsTbsZip();
+                    $content1 = null;
+                    if (count($_list_of_files) > 0) {
+                        $_file_1 = $_list_of_files[0];
+                        $_zip->Open($_file_1);
+                        $content1 = $_zip->FileRead('word/document.xml');
+                        $_zip->Close();
+                        $p = strpos($content1, '<w:body');
+                        if ($p===false) exit("Tag <w:body> not found in document 1.");
+                        $p = strpos($content1, '>', $p);
+                        $content1 = substr($content1, $p+1);
+                        $p = strpos($content1, '</w:body>');
+                        if ($p===false) exit("Tag </w:body> not found in document 1.");
+                        $content1 = substr($content1, 0, $p);
+    
+                        // Supprimer fichier temporaire
+                        if (file_exists($_file_1)) {
+                            unlink($_file_1);
+                        }
+    
+                        for ($_index = 1; $_index < count($_list_of_files) - 1; $_index++) {
+                            $_file_2 = $_list_of_files[$_index];
+                            $_zip->Open($_file_2);
+                            $content2 = $_zip->FileRead('word/document.xml');
+                            $p = strpos($content2, '<w:body>');
+                            if ($p===false) exit("Tag <w:body> not found in document 2.");
+                            $p = strpos($content2, '>', $p);
+                            $content2 = substr($content2, $p+1);
+                            $p = strpos($content2, '</w:body>');
+                            if ($p===false) exit("Tag </w:body> not found in document 2.");
+                            $content2 = substr($content2, 0, $p);
+                            $content2 = substr_replace($content2, $content1, $p, 0);
+                            $content1 = $content2;
+                            if (file_exists($_file_2)) {
+                                unlink($_file_2);
+                            }
+                        }
+    
+                        $_file_2 = $_list_of_files[count($_list_of_files) - 1];
+                        $_zip->Open($_file_2);
+                        $content2 = $_zip->FileRead('word/document.xml');
+                        $p = strpos($content2, '</w:body>');
+                        if ($p===false) exit("Tag </w:body> not found in document 2.");
+                        $content2 = substr_replace($content2, $content1, $p, 0);
+                        $_zip->FileReplace('word/document.xml', $content2, TBSZIP_STRING);
+                        $_zip->Flush(TBSZIP_FILE, $_dest_final);
+                        if (file_exists($_file_2)) {
+                            unlink($_file_2);
+                        }
+                    }
+    
                 }
-
-                $_template->setValue('centre', $_centre);
-                $_template->setValue('province', $_province);
-                $_template->setValue('user_nom', htmlspecialchars($_user_nom));
-                $_template->setValue('genre', $_genre);
-                $_template->setValue('marque', $_marque);
-                $_template->setValue('type', $_type);
-                $_template->setValue('moteur', $_moteur);
-                $_template->setValue('puissance', $_puissance);
-                $_template->setValue('poid_vide', $_poid_vide);
-                $_template->setValue('cu', $_cu);
-                $_template->setValue('type_serie', $_type_serie);
-                $_template->setValue('source', $_source);
-                $_template->setValue('cylindre', $_cylindre);
-                $_template->setValue('motif_recep', $_motif_recep);
-                $_template->setValue('mise_en_circ', $_mise_en_circ);
-                $_template->setValue('immatriculation', $_immatriculation);
-                $_template->setValue('caross', $_caross);
-                $_template->setValue('assise', $_assise);
-                $_template->setValue('addr', $_addr);
-                $_template->setValue('ptc', $_ptac);
-                $_template->setValue('ptr', $_ptac);
-                $_template->setValue('num_pv', $_num_pv);
-                $_template->setValue('date', $_date->format('d/m/Y'));
-
-                $_template->saveAs($_dest_final);
             } else { // PAR TYPE
                 $_source_pv         = $_pv_directory . PathReportingName::TEMPLATE_RECEPTION_TYPE;
                 $_list_of_files     = array();
@@ -1362,5 +1562,21 @@ class ServiceMetierCtReception
         $_query->setParameter('numero', $_numero);
 
         return $_query->getResult();
+    }
+
+    /**
+     * 
+     */
+    public function getTypeReceptionByNumgroup($_num_group){
+        $_entity_m = EntityName::CT_RECEPTION;
+        $_dql    = "SELECT t
+                    FROM $_entity_m t 
+                    WHERE t.rcpNumGroup = ?1";
+        $_query  = $this->_entity_manager->createQuery($_dql);
+        $_query->setParameter(1, $_num_group);
+        $_query->setMaxResults(1);
+        $_res = $_query->getResult();
+        foreach($_res as $_res) { $_type_reception = $_res->getCtTypeReception()->getTprcpLibelle(); }
+        return $_type_reception;
     }
 }
