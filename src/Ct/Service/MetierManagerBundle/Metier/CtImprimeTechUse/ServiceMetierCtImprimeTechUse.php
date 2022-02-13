@@ -440,25 +440,26 @@ class ServiceMetierCtImprimeTechUse
                     $_result[$_j]->npcm     = !in_array($this->getNumITByControleAndTypeIT($_re->getCtControle(), 'PVMC', $_date), array_column($_result, 'npcm')) ? $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'PVMC', $_date) : '-';
                     break;
                 case 'Réception' :
+                    $_print = $_re->getCtImprimeTech()->getNomImprimeTech();
                     $_rt_em = $this->_container->get(ServiceName::SRV_METIER_RECEPTION);
                     $ctReception = $_rt_em->getCtReceptionById($_re->getCtControle());
                     $_result[$_j]->ref = $ctReception->getRcpNumPv();
                     $_result[$_j]->imm = $ctReception->getRcpImmatriculation();
                     $_result[$_j]->used     = $_used;
-                    $_result[$_j]->ncrt     = !in_array($this->getNumITByControleAndTypeIT($_re->getCtControle(), 'Carnet d\'entretien', $_date), array_column($_result, 'ncrt')) ? $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'Carnet d\'entretien', $_date) : '-';
-                    $_result[$_j]->ncbl     = !in_array($this->getNumITByControleAndTypeIT($_re->getCtControle(), 'Carte blanche', $_date), array_column($_result, 'ncbl')) ? $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'Carte blanche', $_date) : '-';
-                    $_result[$_j]->nbbr     = !in_array($this->getNumITByControleAndTypeIT($_re->getCtControle(), 'CIM 32 Bis', $_date), array_column($_result, 'nbbr')) ? $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'CIM 32 Bis', $_date) : '-';
-                    $_result[$_j]->ncjn     = !in_array($this->getNumITByControleAndTypeIT($_re->getCtControle(), 'Carte jaune', $_date), array_column($_result, 'ncjn')) ? $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'Carte jaune', $_date) : '-';
-                    $_result[$_j]->njbr     = !in_array($this->getNumITByControleAndTypeIT($_re->getCtControle(), 'Carte jaune barrée rouge', $_date), array_column($_result, 'njbr')) ? $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'Carte jaune barrée rouge', $_date) : '-';
-                    $_result[$_j]->ncrg     = !in_array($this->getNumITByControleAndTypeIT($_re->getCtControle(), 'Carte rouge', $_date), array_column($_result, 'ncrg')) ? $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'Carte rouge', $_date) : '-';
-                    $_result[$_j]->ncae     = !in_array($this->getNumITByControleAndTypeIT($_re->getCtControle(), 'Carte auto-école', $_date), array_column($_result, 'ncae')) ? $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'Carte auto-école', $_date) : '-';
+                    $_result[$_j]->ncrt     = (($_print == 'Carnet d\'entretien') AND ($_re->getItuNumero())) ? $_re->getItuNumero() : '-';
+                    $_result[$_j]->ncbl     = (($_print == 'Carte blanche') AND ($_re->getItuNumero())) ? $_re->getItuNumero() : '-';
+                    $_result[$_j]->nbbr     = (($_print == 'CIM 32 Bis') AND ($_re->getItuNumero())) ? $_re->getItuNumero() : '-';
+                    $_result[$_j]->ncjn     = (($_print == 'Carte jaune') AND ($_re->getItuNumero())) ? $_re->getItuNumero() : '-';!in_array($this->getNumITByControleAndTypeIT($_re->getCtControle(), 'Carte jaune', $_date), array_column($_result, 'ncjn')) ? $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'Carte jaune', $_date) : '-';
+                    $_result[$_j]->njbr     = (($_print == 'Carte jaune barrée rouge') AND ($_re->getItuNumero())) ? $_re->getItuNumero() : '-';!in_array($this->getNumITByControleAndTypeIT($_re->getCtControle(), 'Carte jaune barrée rouge', $_date), array_column($_result, 'njbr')) ? $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'Carte jaune barrée rouge', $_date) : '-';
+                    $_result[$_j]->ncrg     = (($_print == 'Carte rouge') AND ($_re->getItuNumero())) ? $_re->getItuNumero() : '-';!in_array($this->getNumITByControleAndTypeIT($_re->getCtControle(), 'Carte rouge', $_date), array_column($_result, 'ncrg')) ? $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'Carte rouge', $_date) : '-';
+                    $_result[$_j]->ncae     = (($_print == 'Carte auto-école') AND ($_re->getItuNumero())) ? $_re->getItuNumero() : '-';!in_array($this->getNumITByControleAndTypeIT($_re->getCtControle(), 'Carte auto-école', $_date), array_column($_result, 'ncae')) ? $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'Carte auto-école', $_date) : '-';
                     $_result[$_j]->plch     = !in_array($this->getNumITByControleAndTypeIT($_re->getCtControle(), 'Plaque chassis', $_date), array_column($_result, 'plch')) ? $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'Plaque chassis', $_date) : '-';
-                    $_result[$_j]->ncim31   = !in_array($this->getNumITByControleAndTypeIT($_re->getCtControle(), 'CIM 31', $_date), array_column($_result, 'ncim31')) ? $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'CIM 31', $_date) : '-';
-                    $_result[$_j]->ncim31b  = !in_array($this->getNumITByControleAndTypeIT($_re->getCtControle(), 'CIM 31 Bis', $_date), array_column($_result, 'ncim31b')) ? $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'CIM 31 Bis', $_date) : '-';
-                    $_result[$_j]->ncim32   = !in_array($this->getNumITByControleAndTypeIT($_re->getCtControle(), 'CIM 32', $_date), array_column($_result, 'ncim32')) ? $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'CIM 32', $_date) : '-';
-                    $_result[$_j]->npvo     = !in_array($this->getNumITByControleAndTypeIT($_re->getCtControle(), 'PVO', $_date), array_column($_result, 'npvo')) ? $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'PVO', $_date) : '-';
-                    $_result[$_j]->npvm     = !in_array($this->getNumITByControleAndTypeIT($_re->getCtControle(), 'PVM', $_date), array_column($_result, 'npvm')) ? $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'PVM', $_date) : '-';
-                    $_result[$_j]->npcm     = !in_array($this->getNumITByControleAndTypeIT($_re->getCtControle(), 'PVMC', $_date), array_column($_result, 'npcm')) ? $this->getNumITByControleAndTypeIT($_re->getCtControle(), 'PVMC', $_date) : '-';
+                    $_result[$_j]->ncim31   = (($_print == 'CIM 31') AND ($_re->getItuNumero())) ? $_re->getItuNumero() : '-';
+                    $_result[$_j]->ncim31b  = (($_print == 'CIM 31 Bis') AND ($_re->getItuNumero())) ? $_re->getItuNumero() : '-';
+                    $_result[$_j]->ncim32   = (($_print == 'CIM 32') AND ($_re->getItuNumero())) ? $_re->getItuNumero() : '-';
+                    $_result[$_j]->npvo     = (($_print == 'PVO') AND ($_re->getItuNumero())) ? $_re->getItuNumero() : '-';
+                    $_result[$_j]->npvm     = (($_print == 'PVM') AND ($_re->getItuNumero())) ? $_re->getItuNumero() : '-';
+                    $_result[$_j]->npcm     = (($_print == 'PVMC') AND ($_re->getItuNumero())) ? $_re->getItuNumero() : '-';
                     break;
                 case 'Constatation' :
                     $_cad_em = $this->_container->get(ServiceName::SRV_METIER_CONST_AV_DED);
@@ -1469,5 +1470,20 @@ class ServiceMetierCtImprimeTechUse
         $_nombre = count($_ret);
         if($_nombre != 0) $exist = true;
         return $exist;
+    }
+
+    /**
+     *  Fonction permet de tester si le numéro d'IT est déja dans la liste des IT utilisé
+     *  @param $_itu_numero : Numero de l'IT à tester
+     *  @param $_array      : Tableau des munéros d'IT utilisés
+     *  @return $_trouve    : Booléen VRAI si le numéro est trouvé, FAUX dans le cas contraire
+     */
+    public function findNumeroImprimeTechUsedInArray($_itu_numero, $_array){
+        $_trouve = false;
+        $cle_array = array_keys($_array);
+        foreach($cle_array as $_column){
+            if(in_array($_itu_numero, array_column($_array, $_column))) $_trouve = true; break;
+        }
+        return $_trouve;
     }
 }
