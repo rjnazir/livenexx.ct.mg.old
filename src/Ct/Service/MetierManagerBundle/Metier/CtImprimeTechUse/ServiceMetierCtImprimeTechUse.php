@@ -2,6 +2,7 @@
 
 namespace Ct\Service\MetierManagerBundle\Metier\CtImprimeTechUse;
 
+use ArrayObject;
 use Doctrine\ORM\EntityManager;
 use Ct\Service\MetierManagerBundle\Utils\EntityName;
 use Symfony\Component\DependencyInjection\Container;
@@ -10,6 +11,8 @@ use DateTime;
 use Ct\Service\UserBundle\Entity\User;
 use Ct\Service\MetierManagerBundle\Utils\ServiceName;
 use Ct\Service\MetierManagerBundle\Utils\PathReportingName;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\DBAL\Types\ObjectType;
 use PhpOffice\PhpWord\PhpWord;
 
 class ServiceMetierCtImprimeTechUse
@@ -75,19 +78,36 @@ class ServiceMetierCtImprimeTechUse
         $_user_connected= $this->_container->get('security.token_storage')->getToken()->getUser();
         $_ct_centre_id  = $_user_connected->getCtCentre();
         $_ct_centre_code = $_user_connected->getCtCentre()->getCtrCode();
+        
+        // $_sql    = "SELECT t FROM $_entity_bl t WHERE t.ctCentre IN (SELECT tt.id FROM $_entity_ctr tt WHERE tt.ctrCode = :ct_centre_code ) AND t.ituUsed = :itu_Used ORDER BY t.ituNumero ASC";
+        // $_query  = $this->_entity_manager->createQuery($_sql);
+        // $_query->setParameter('ct_centre_code', $_ct_centre_code);
+        // $_query->setParameter('itu_Used', 0);
+        // $_result = $_query->getResult();
 
-        // $_sql   = "SELECT t FROM $_entity_bl t WHERE t.ctCentre = :ct_centre_id AND t.ituUsed = :itu_Used ORDER BY t.ituNumero ASC";
-        $_sql   = "SELECT t
-                    FROM $_entity_bl t 
-                    WHERE   t.ctCentre IN (SELECT tt.id FROM $_entity_ctr tt WHERE tt.ctrCode = :ct_centre_code )
-                            AND t.ituUsed = :itu_Used
-                            ORDER BY t.ituNumero ASC";
-        $_query  = $this->_entity_manager->createQuery($_sql);
-        // $_query->setParameter('ct_centre_id', $_ct_centre_id);
-        $_query->setParameter('ct_centre_code', $_ct_centre_code);
-        $_query->setParameter('itu_Used', 0);
-        // $_query->setMaxResults(1000);
-        $_result = $_query->getResult();
+        $_result = new ArrayObject();
+        $_sq0 = "SELECT t FROM $_entity_it t";
+        $_qr0 = $this->_entity_manager->createQuery($_sq0);
+        $_re0 = $_qr0->getResult();
+        foreach($_re0 as $_tp0){
+            $_sq1 = "SELECT t
+                        FROM    $_entity_bl t
+                        WHERE   t.ctCentre IN (SELECT tt.id FROM $_entity_ctr tt WHERE tt.ctrCode = :ct_centre_code )
+                                AND t.ituUsed = :itu_Used
+                                AND t.ctImprimeTech = :ct_imprime_tech
+                                AND t.ituUsed = :itu_Used
+                        ORDER BY t.ituNumero ASC";
+            $_query  = $this->_entity_manager->createQuery($_sq1);
+            $_query->setParameter('ct_centre_code', $_ct_centre_code);
+            $_query->setParameter('ct_imprime_tech', $_tp0->getId());
+            $_query->setParameter('itu_Used', 0);
+            if(preg_match('/PV/', $_tp0->getNomImprimeTech())){
+                $_query->setMaxResults(500);
+            }else{
+                $_query->setMaxResults(100);
+            }
+            $_result = new ArrayObject(array_merge((array) $_result, (array) $_query->getResult()));
+        }
 
         return $_result;
     }
