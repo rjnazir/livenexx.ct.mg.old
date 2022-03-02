@@ -79,36 +79,37 @@ class ServiceMetierCtImprimeTechUse
         $_ct_centre_id  = $_user_connected->getCtCentre();
         $_ct_centre_code = $_user_connected->getCtCentre()->getCtrCode();
         
-        // $_sql    = "SELECT t FROM $_entity_bl t WHERE t.ctCentre IN (SELECT tt.id FROM $_entity_ctr tt WHERE tt.ctrCode = :ct_centre_code ) AND t.ituUsed = :itu_Used ORDER BY t.ituNumero ASC";
-        // $_query  = $this->_entity_manager->createQuery($_sql);
-        // $_query->setParameter('ct_centre_code', $_ct_centre_code);
-        // $_query->setParameter('itu_Used', 0);
-        // $_result = $_query->getResult();
-
-        $_result = new ArrayObject();
-        $_sq0 = "SELECT t FROM $_entity_it t";
-        $_qr0 = $this->_entity_manager->createQuery($_sq0);
-        $_re0 = $_qr0->getResult();
-        foreach($_re0 as $_tp0){
-            $_sq1 = "SELECT t
-                        FROM    $_entity_bl t
-                        WHERE   t.ctCentre IN (SELECT tt.id FROM $_entity_ctr tt WHERE tt.ctrCode = :ct_centre_code )
-                                AND t.ituUsed = :itu_Used
-                                AND t.ctImprimeTech = :ct_imprime_tech
-                                AND t.ituUsed = :itu_Used
-                        ORDER BY t.ituNumero ASC";
-            $_query  = $this->_entity_manager->createQuery($_sq1);
+        if($_ct_centre_id != 6){
+            $_sql    = "SELECT t FROM $_entity_bl t WHERE t.ctCentre IN (SELECT tt.id FROM $_entity_ctr tt WHERE tt.ctrCode = :ct_centre_code ) AND t.ituUsed = :itu_Used ORDER BY t.ituNumero ASC";
+            $_query  = $this->_entity_manager->createQuery($_sql);
             $_query->setParameter('ct_centre_code', $_ct_centre_code);
-            $_query->setParameter('ct_imprime_tech', $_tp0->getId());
             $_query->setParameter('itu_Used', 0);
-            if(preg_match('/PV/', $_tp0->getNomImprimeTech())){
-                $_query->setMaxResults(500);
-            }else{
-                $_query->setMaxResults(100);
+            $_result = $_query->getResult();
+        }else{
+            $_result = new ArrayObject();
+            $_sq0 = "SELECT t FROM $_entity_it t";
+            $_qr0 = $this->_entity_manager->createQuery($_sq0);
+            $_re0 = $_qr0->getResult();
+            foreach($_re0 as $_tp0){
+                $_sq1 = "SELECT t
+                            FROM    $_entity_bl t
+                            WHERE   t.ctCentre IN (SELECT tt.id FROM $_entity_ctr tt WHERE tt.ctrCode = :ct_centre_code )
+                                    AND t.ituUsed = :itu_Used
+                                    AND t.ctImprimeTech = :ct_imprime_tech
+                                    AND t.ituUsed = :itu_Used
+                            ORDER BY t.ituNumero ASC";
+                $_query  = $this->_entity_manager->createQuery($_sq1);
+                $_query->setParameter('ct_centre_code', $_ct_centre_code);
+                $_query->setParameter('ct_imprime_tech', $_tp0->getId());
+                $_query->setParameter('itu_Used', 0);
+                if(preg_match('/PV/', $_tp0->getNomImprimeTech())){
+                    $_query->setMaxResults(500);
+                }else{
+                    $_query->setMaxResults(100);
+                }
+                $_result = new ArrayObject(array_merge((array) $_result, (array) $_query->getResult()));
             }
-            $_result = new ArrayObject(array_merge((array) $_result, (array) $_query->getResult()));
         }
-
         return $_result;
     }
 
@@ -1027,13 +1028,13 @@ class ServiceMetierCtImprimeTechUse
 
     /**
      *  Récupération des stock des imprimés techniques existant
-     *  @param $_centre : ID centre detenteur
-     *  @param $_type_it : Type d'imprimé technique à compter
-     *  @param $_annee : Année de consommation des imprimés techniques
-     *  @param $_value : Mois ou trimestre ou semestre de consommation des imprimés techniques
-     *  @param $_interval : Intervalle de consommation des imprimés techniques
-     *  @param $_motif : Motif d'utilisation de l'imprimée technique
-     *  @return $_result : Nombre des imprimés techniques consommées
+     *  @param $_centre     : ID centre detenteur
+     *  @param $_type_it    : Type d'imprimé technique à compter
+     *  @param $_annee      : Année de consommation des imprimés techniques
+     *  @param $_value      : Mois ou trimestre ou semestre de consommation des imprimés techniques
+     *  @param $_interval   : Intervalle de consommation des imprimés techniques
+     *  @param $_motif      : Motif d'utilisation de l'imprimée technique
+     *  @return $_result    : Nombre des imprimés techniques consommées
      */
     public function getConsommationByImprimeTech($_centre, $_type_it, $_annee, $_value, $_interval, $_motif)
     {
@@ -1207,7 +1208,7 @@ class ServiceMetierCtImprimeTechUse
             case (preg_match('/VISITE A DOMICILE/i', $_lieu_centre) ? true : false) :
                 $_template->setValue('lieu', 'ALAROBIA<w:br/>-----------------------');break;
             case (preg_match('/itinerante/i', $_lieu_centre) ? true : false) :
-                $_template->setValue('lieu', str_replace('ITINERANTE ', '', $_lieu_centre)).'<w:br/>-----------------------';break;
+                $_template->setValue('lieu', str_replace('ITINERANTE ', '', $_lieu_centre).'<w:br/>-----------------------');break;
             default :
                 $_template->setValue('lieu', $_lieu_centre.'<w:br/>-----------------------');break;
         }

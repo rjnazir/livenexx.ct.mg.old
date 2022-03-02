@@ -49,16 +49,16 @@ class CtContreVisiteController extends Controller
     {
         // Récupérer manager
         $_contre_visite_manager = $this->get(ServiceName::SRV_METIER_VISITE);
-        
-        // Récupérer tout les imprimés techniques
-        $_imprime_tech = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH);
-        $_imprime_tech_use = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
-        $_imprimestech = $_imprime_tech->getAllCtImprimeTechByOrder(array('nomImprimeTech' => 'ASC'));
-        $_imprimestechuse = $_imprime_tech_use->getAllCtImprimeTechNoUsedOrder();
  
         $_user_connected    = $this->container->get('security.token_storage')->getToken()->getUser();
         $_centre_id = $_user_connected->getCtCentre()->getId();
-        $_adesit = $_imprime_tech_use->getNombreITbyCentreInStock($_centre_id);
+
+        // Récupérer tout les imprimés techniques
+        // $_imprime_tech = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH);
+        // $_imprime_tech_use = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
+        // $_imprimestech = $_imprime_tech->getAllCtImprimeTechByOrder(array('nomImprimeTech' => 'ASC'));
+        // $_imprimestechuse = $_imprime_tech_use->getAllCtImprimeTechNoUsedOrder();
+        // $_adesit = $_imprime_tech_use->getNombreITbyCentreInStock($_centre_id);
 
         if (!$_visite) {
             throw $this->createNotFoundException('Unable to find CtVisite entity.');
@@ -91,8 +91,8 @@ class CtContreVisiteController extends Controller
         }
 
         /* ====================== Récupération data imprimés techniques utilisés ====================== */
-        $_em_imprimes = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
-        $_imprimes_use = $_em_imprimes->getCtImprimeTechUseByCtControle($_visite->getId());
+        // $_em_imprimes = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
+        // $_imprimes_use = $_em_imprimes->getCtImprimeTechUseByCtControle($_visite->getId());
         /* ============================================================================================ */
 
         // Récupérer liste numéro serie et immatriculation
@@ -106,10 +106,10 @@ class CtContreVisiteController extends Controller
             'edit_form'                     => $_edit_form->createView(),
             'list_numero_serie'             => $_list_numero_serie,
             'list_numero_immatriculation'   => $_list_numero_immatriculation,
-            'imprimes_use'                  => $_imprimes_use,
-            'imprimes_tech'                 => $_imprimestech,
-            'imprimes_tech_use'             => $_imprimestechuse,
-            'adesit'                        => $_adesit,
+            // 'imprimes_use'                  => $_imprimes_use,
+            // 'imprimes_tech'                 => $_imprimestech,
+            // 'imprimes_tech_use'             => $_imprimestechuse,
+            // 'adesit'                        => $_adesit,
         ));
     }
 
@@ -130,32 +130,32 @@ class CtContreVisiteController extends Controller
         // Récupérer liste numéro serie et immatriculation
         $_list_numero_serie           = $_contre_visite_manager->getAllNumeroSerieContreVisite();
         $_list_numero_immatriculation = $_contre_visite_manager->getAllNumeroImmatriculationContreVisite();
-        
-        // Récupérer tout les imprimés techniques
-        $_imprime_tech = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH);
-        $_imprime_tech_use = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
-        $_imprimestech = $_imprime_tech->getAllCtImprimeTechByOrder(array('nomImprimeTech' => 'ASC'));
-        $_imprimestechuse = $_imprime_tech_use->getAllCtImprimeTechNoUsedOrder();
  
         $_user_connected    = $this->container->get('security.token_storage')->getToken()->getUser();
         $_centre_id = $_user_connected->getCtCentre()->getId();
-        $_adesit = $_imprime_tech_use->getNombreITbyCentreInStock($_centre_id);
+
+        // Récupérer tout les imprimés techniques
+        // $_imprime_tech = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH);
+        // $_imprime_tech_use = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
+        // $_imprimestech = $_imprime_tech->getAllCtImprimeTechByOrder(array('nomImprimeTech' => 'ASC'));
+        // $_imprimestechuse = $_imprime_tech_use->getAllCtImprimeTechNoUsedOrder();
+        // $_adesit = $_imprime_tech_use->getNombreITbyCentreInStock($_centre_id);
 
         if ($_form->isSubmitted() && $_form->isValid()) {
             // Enregistrement visite
             $_id_carte_visite = $_contre_visite_manager->addCtContreVisite($_visite, 'new');
 
             /* ============ Misa à jour des imprimés utilisés pour cette visite ============ */
-            if($_adesit == true)
-            {
-                $_em_imprimes = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
-                $_data = $_request->request->all();
-                $_list_itu = $_data['ct_imprime_tech_use'];
-                foreach($_list_itu as $_one_uti){
-                    $_imprime_tech_use = $_em_imprimes->getCtImprimeTechUseById($_one_uti);
-                    $_em_imprimes->saveCtImprimeTechUse($_imprime_tech_use, 'Contre', $_visite->getId());
-                }
-            }
+            // if($_adesit == true)
+            // {
+            //     $_em_imprimes = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
+            //     $_data = $_request->request->all();
+            //     $_list_itu = $_data['ct_imprime_tech_use'];
+            //     foreach($_list_itu as $_one_uti){
+            //         $_imprime_tech_use = $_em_imprimes->getCtImprimeTechUseById($_one_uti);
+            //         $_em_imprimes->saveCtImprimeTechUse($_imprime_tech_use, 'Contre', $_visite->getId());
+            //     }
+            // }
             /* ============================================================================== */
 
             $_contre_visite_manager->setFlash('success', "Contre visite ajouté");
@@ -169,9 +169,9 @@ class CtContreVisiteController extends Controller
             'form'                          => $_form->createView(),
             'list_numero_serie'             => $_list_numero_serie,
             'list_numero_immatriculation'   => $_list_numero_immatriculation,
-            'imprimes_tech'                 => $_imprimestech,
-            'imprimes_tech_use'             => $_imprimestechuse,
-            'adesit'                        => $_adesit,
+            // 'imprimes_tech'                 => $_imprimestech,
+            // 'imprimes_tech_use'             => $_imprimestechuse,
+            // 'adesit'                        => $_adesit,
         ));
     }
 
@@ -185,16 +185,16 @@ class CtContreVisiteController extends Controller
     {
         // Récupérer manager
         $_contre_visite_manager = $this->get(ServiceName::SRV_METIER_VISITE);
-
-        // Récupérer tout les imprimés techniques
-        $_imprime_tech = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH);
-        $_imprime_tech_use = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
-        $_imprimestech = $_imprime_tech->getAllCtImprimeTechByOrder(array('nomImprimeTech' => 'ASC'));
-        $_imprimestechuse = $_imprime_tech_use->getAllCtImprimeTechNoUsedOrder();
  
         $_user_connected    = $this->container->get('security.token_storage')->getToken()->getUser();
         $_centre_id = $_user_connected->getCtCentre()->getId();
-        $_adesit = $_imprime_tech_use->getNombreITbyCentreInStock($_centre_id);
+        
+        // Récupérer tout les imprimés techniques
+        // $_imprime_tech = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH);
+        // $_imprime_tech_use = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
+        // $_imprimestech = $_imprime_tech->getAllCtImprimeTechByOrder(array('nomImprimeTech' => 'ASC'));
+        // $_imprimestechuse = $_imprime_tech_use->getAllCtImprimeTechNoUsedOrder();
+        // $_adesit = $_imprime_tech_use->getNombreITbyCentreInStock($_centre_id);
 
         if (!$_visite) {
             throw $this->createNotFoundException('Unable to find CtVisite entity.');
@@ -207,16 +207,16 @@ class CtContreVisiteController extends Controller
             $_contre_visite_manager->updateCtContreVisite($_visite);
 
             /* ============ Misa à jour des imprimés utilisés pour cette visite ============ */
-            if($_adesit == true)
-            {
-                $_em_imprimes = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
-                $_data = $_request->request->all();
-                $_list_itu = $_data['ct_imprime_tech_use'];
-                foreach($_list_itu as $_one_uti){
-                    $_imprime_tech_use = $_em_imprimes->getCtImprimeTechUseById($_one_uti);
-                    $_em_imprimes->saveCtImprimeTechUse($_imprime_tech_use, 'Contre', $_visite->getId());
-                }
-            }
+            // if($_adesit == true)
+            // {
+            //     $_em_imprimes = $this->get(ServiceName::SRV_METIER_IMPRIME_TECH_USE);
+            //     $_data = $_request->request->all();
+            //     $_list_itu = $_data['ct_imprime_tech_use'];
+            //     foreach($_list_itu as $_one_uti){
+            //         $_imprime_tech_use = $_em_imprimes->getCtImprimeTechUseById($_one_uti);
+            //         $_em_imprimes->saveCtImprimeTechUse($_imprime_tech_use, 'Contre', $_visite->getId());
+            //     }
+            // }
             /* ============================================================================== */
 
             $_contre_visite_manager->setFlash('success', "Contre visite modifié");
@@ -227,10 +227,10 @@ class CtContreVisiteController extends Controller
 
         return $this->render('AdminBundle:CtContreVisite:edit.html.twig', array(
             'visite' => $_visite,
-            'imprimes_tech' => $_imprimestech,
-            'imprimes_tech_use' => $_imprimestechuse,
+            // 'imprimes_tech' => $_imprimestech,
+            // 'imprimes_tech_use' => $_imprimestechuse,
+            // 'adesit' => $_adesit,
             'edit_form' => $_edit_form->createView(),
-            'adesit' => $_adesit,
         ));
     }
 

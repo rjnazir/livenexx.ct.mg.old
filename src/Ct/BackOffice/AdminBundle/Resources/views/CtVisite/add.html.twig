@@ -445,8 +445,8 @@
                             {{ form_row(form.ctVisiteExtra) }}
                         </div>
                     </div>
-                    {% if adesit == true %}
-                    {# Informations des imprimés utilisés #}
+                    {# {% if adesit == true %}
+                    <!-- Informations des imprimés utilisés -->
                     <div class="box box-warning">
                         <div class="box-header">
                             <h3 class="box-title">Informations imprimés techniques utilisés</h3>
@@ -462,12 +462,12 @@
                                         <optgroup label="{{ imprime_tech.nomImprimeTech|upper }}">
                                             {% for imprime_tech_use in imprimes_tech_use %}
                                                 {% if imprime_tech.id == imprime_tech_use.ctImprimeTech.id %}
-                                                {# {% set counter = ( counter | default(0) ) + 1 %}
-                                                {% if counter <= 20 %} #}
+                                                {% set counter = ( counter | default(0) ) + 1 %}
+                                                {% if counter <= 20 %}
                                                 <option value="{{ imprime_tech_use.id }}">
                                                     {{ imprime_tech_use.ituNumero|upper }}
                                                 </option>
-                                                {# {% endif %} #}
+                                                {% endif %}
                                                 {% endif %}
                                             {% endfor %}
                                         </optgroup>
@@ -477,7 +477,7 @@
                             </div>
                         </div>
                     </div>
-                    {% endif %}
+                    {% endif %} #}
                 </div>
             </div>
 
