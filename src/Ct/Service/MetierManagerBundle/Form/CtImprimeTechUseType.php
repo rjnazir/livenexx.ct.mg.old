@@ -74,7 +74,7 @@ class CtImprimeTechUseType extends AbstractType
                 'placeholder'   => '- Séléctionner Imprimé Technique -'
             ))
             ->add('ctControle', IntegerType::class, array(
-                'label'     => 'N° d\'enregistrement',
+                'label'     => 'N° contrôle / N° d\'enregistrement',
                 'required'  => true
             ))
             ->add('ituNumero', IntegerType::class, array(
