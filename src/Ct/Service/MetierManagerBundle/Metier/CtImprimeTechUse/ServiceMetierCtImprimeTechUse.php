@@ -889,20 +889,23 @@ class ServiceMetierCtImprimeTechUse
                 case 'BEFORE' : 
                     if(is_null($_used)){
                         $_dql = "SELECT t FROM $_entity_itu t INNER JOIN $_entity_it tt WITH t.ctImprimeTech = tt.id
-                                WHERE t.ctCentre = :ct_centre_id AND t.ctImprimeTech = :ct_imprimetech_id AND t.createdAt < :ct_create_at";
+                                WHERE t.ctCentre = :ct_centre_id AND t.ctImprimeTech = :ct_imprimetech_id AND t.createdAt < :ct_create_at
+                                OR t.updatedAt LIKE :update_now";
                         $_query = $this->_entity_manager->createQuery($_dql);
                         $_query->setParameter('ct_centre_id', $_centre);
                         $_query->setParameter('ct_imprimetech_id', $_typeit);
                         $_query->setParameter('ct_create_at', $_dateuse);
+                        $_query->setParameter('update_now', now('Y-m-d').'%');
                     }else{
                         $_dql = "SELECT t FROM $_entity_itu t INNER JOIN $_entity_it tt WITH t.ctImprimeTech = tt.id
                                 WHERE t.ctCentre = :ct_centre_id AND t.ctImprimeTech = :ct_imprimetech_id AND t.ituUsed = :ct_used_it
-                                AND t.createdAt < :ct_create_at";
+                                AND t.createdAt < :ct_create_at OR t.updatedAt LIKE :update_now";
                         $_query = $this->_entity_manager->createQuery($_dql);
                         $_query->setParameter('ct_centre_id', $_centre);
                         $_query->setParameter('ct_imprimetech_id', $_typeit);
                         $_query->setParameter('ct_used_it', $_used);
                         $_query->setParameter('ct_create_at', $_dateuse);
+                        $_query->setParameter('update_now', now('Y-m-d').'%');
                     }
                     break;
                 case 'IN' :
@@ -1109,8 +1112,8 @@ class ServiceMetierCtImprimeTechUse
             $_initial = $this->getCompteITwithCondition($_centre, $_dateuse, 0, $_typeit, 'BEFORE');
             $_entree = $this->getCompteITwithCondition($_centre, $_dateuse, 0, $_typeit, 'IN');
             $_sortie = $this->getCompteITwithCondition($_centre, $_dateuse, 1, $_typeit, 'OUT');
-            // $_stock    = $this->getCompteITwithCondition($_centre, $_dateuse, 0, $_typeit, NULL);
-            $_stock = ($_initial + $_entree) - $_sortie;
+            $_stock    = $this->getCompteITwithCondition($_centre, $_dateuse, 0, $_typeit, NULL);
+            // $_stock = ($_initial + $_entree) - $_sortie;
             $result[$j]->initial    = $_initial;
             $result[$j]->input      = $_entree;
             $result[$j]->output     = $_sortie;

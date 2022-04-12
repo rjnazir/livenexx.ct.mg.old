@@ -744,7 +744,12 @@ class ServiceMetierCtVisite
             // PV
             // Si à domicile
             if (stripos($_type_visite->getTpvLibelle(), 'domicile') !== false) {
-                $_proces_verbal = $_pv_manager->getRepository()->findByPvType('VT_DOM');
+                // Si inapte
+                $_proces_verbal = $_pv_manager->getRepository()->findByPvType('VT_DOM_INAPTE');
+
+                // Si apte
+                if ($_visite->getVstIsApte() == 1)
+                    $_proces_verbal = $_pv_manager->getRepository()->findByPvType('VT_DOM');
             } elseif (stripos($_type_visite->getTpvLibelle(), 'site') !== false) {
                 // Si inapte
                 $_proces_verbal = $_pv_manager->getRepository()->findByPvType('VT_INAPTE');
@@ -1456,7 +1461,7 @@ class ServiceMetierCtVisite
         // Récupération informations
         // Centre et province
         $_nom_centre = $_centre->getCtrNom();
-	$_libelle_centre = (($_centre->getCtrNom() === 'ALAROBIA') || (preg_match('/DOMICILE/', $_centre->getCtrNom()))) ? 'DIRECTION DES OPERATIONS TECHNIQUES' : 'CENTRE DE SECURITE ROUTIERE';
+	    $_libelle_centre = (($_centre->getCtrNom() === 'ALAROBIA') || (preg_match('/DOMICILE/', $_centre->getCtrNom()))) ? 'DIRECTION DES OPERATIONS TECHNIQUES' : 'CENTRE DE SECURITE ROUTIERE';
         $_nom_province  = $_centre->getCtProvince()->getPrvNom();
 
         // Récupérer répertoire modèle Word
@@ -1542,7 +1547,14 @@ class ServiceMetierCtVisite
         // PV
         // Si à domicile
         if (stripos($_type_visite->getTpvLibelle(), 'domicile') !== false) {
-            $_proces_verbal = $_pv_manager->getRepository()->findByPvType('VT_DOM');
+            // Si apte
+            if($_visite->getVstIsApte() == 1){
+                $_proces_verbal = $_pv_manager->getRepository()->findByPvType('VT_DOM');
+            }
+            // Si inapte
+            else{
+                $_proces_verbal = $_pv_manager->getRepository()->findByPvType('VT_DOM_INAPTE');
+            }
         } elseif (stripos($_type_visite->getTpvLibelle(), 'site') !== false) {
             // Si apte
             if ($_visite->getVstIsApte() == 1) {
