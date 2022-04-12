@@ -156,6 +156,36 @@ class ServiceMetierCtVisite
     }
 
     /**
+     * Liste visite par verificateur
+     * @param integer $_centre_id
+     * @param integer $_verificateur_id
+     * @param \DateTime $_date
+     * @return array
+     */
+    public function getCtVisiteByVerificateurWithCentre($_centre_id, $_verificateur_id, $_date = 0)
+    {
+        $_and_stmt = "";
+        if ($_date != 0) {
+            $_and_stmt = "AND v.vstCreated LIKE :date ";
+        }
+        $_entity_v  = EntityName::CT_VISITE;
+        $_dql       = "SELECT v
+                      FROM $_entity_v v
+                      LEFT JOIN v.ctVerificateur verif
+                      WHERE verif.id = ?1
+                      AND v.ctCentre = ?2
+                      $_and_stmt
+                      ORDER BY v.vstCreated DESC";
+        $_query     = $this->_entity_manager->createQuery($_dql);
+        $_query->setParameter(1, $_verificateur_id);
+        $_query->setParameter(2, $_centre_id);
+        if ($_date != 0) {
+            $_query->setParameter('date', '%'.$_date.'%');
+        }
+        return $_query->getResult();
+    }
+
+    /**
      * Vérifier si la voiture a déjà fait un visite dans la même journée
      * @param string $_immatriculation
      * @return boolean
@@ -1365,7 +1395,8 @@ class ServiceMetierCtVisite
 
         $_verificateur = $_liste_verificateurs[0];
 
-        $_array_of_visites  = $this->getCtVisiteByVerificateur($_verificateur->getId(), $_date);
+        // $_array_of_visites  = $this->getCtVisiteByVerificateur($_verificateur->getId(), $_date);
+        $_array_of_visites  = $this->getCtVisiteByVerificateurWithCentre($_centre->getId(), $_verificateur->getId(), $_date);
         $_nb_apte = 0;
         $_nb_inapte = 0;
 
